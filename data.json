@@ -36,6 +36,14 @@
       "episodes": []
     }
   ],
+  "soundtracks": [
+    {
+      "title": "Beyond the Threshold",
+      "artist": "xmrboymanx",
+      "type": "Webtoon OST",
+      "audiomack_url": "https://audiomack.com/xmrboymanx/song/beyond-the-threshold"
+    }
+  ],
   "webtoon_arcs": [
     {
       "arc_title": "Arc 1: Genesis",
