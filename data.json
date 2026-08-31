@@ -1,11 +1,37 @@
 {
   "site_title": "BEYOND THE VOID | Official Portal",
   "meta_description": "The Official Archive for Beyond the Void Webtoons, Animation Series, and Digital Lore.",
+  "hero_video": "Ac4YmgbzmtE",
+  "current_title": "Episode 2: The Vessel",
+  "current_subtitle": "Season 1: Genesis",
   "social_links": {
     "webtoon": "https://www.webtoons.com/en/canvas/beyond-the-void-genesis/list?title_no=1124299",
     "tiktok": "https://www.tiktok.com",
     "youtube": "https://www.youtube.com"
   },
+  "video_cinema": [
+    {
+      "id": "ep2",
+      "title": "Episode 2: The Vessel",
+      "season": "Genesis",
+      "youtube_id": "Ac4YmgbzmtE",
+      "duration": "10:00"
+    },
+    {
+      "id": "ep3",
+      "title": "Episode 3: The Broken Vow",
+      "season": "Genesis",
+      "youtube_id": "wrNGqS3irv0",
+      "duration": "10:00"
+    },
+    {
+      "id": "ep4",
+      "title": "Episode 4: Chains of the Void",
+      "season": "Genesis",
+      "youtube_id": "z4YLe9MigSc",
+      "duration": "10:00"
+    }
+  ],
   "seasons": [
     {
       "id": "genesis",
@@ -13,32 +39,6 @@
       "status": "Completed",
       "description": "The awakening of forbidden entities and the shattering of the mortal boundary.",
       "full_arc_url": "https://www.webtoons.com/en/canvas/beyond-the-void-genesis/list?title_no=1124299",
-      "episodes": [
-        {
-          "episode_number": 1,
-          "title": "Episode 1: The Awakening",
-          "youtube_id": "YOUR_EPISODE_1_ID",
-          "duration": "10:00"
-        },
-        {
-          "episode_number": 2,
-          "title": "Episode 2: The Vessel",
-          "youtube_id": "Ac4YmgbzmtE",
-          "duration": "10:00"
-        },
-        {
-          "episode_number": 3,
-          "title": "Episode 3: The Broken Vow",
-          "youtube_id": "wrNGqS3irv0",
-          "duration": "10:00"
-        },
-        {
-          "episode_number": 4,
-          "title": "Episode 4: Chains of the Void",
-          "youtube_id": "z4YLe9MigSc",
-          "duration": "10:00"
-        }
-      ],
       "chapters": [
         {"number": 1, "title": "Chapter 1: Genesis", "url": "https://www.webtoons.com/en/canvas/beyond-the-void-genesis/list?title_no=1124299"},
         {"number": 2, "title": "Chapter 2", "url": "https://www.webtoons.com/en/canvas/beyond-the-void-genesis/list?title_no=1124299"},
