@@ -94,11 +94,23 @@
     },
     {
       "arc_title": "Arc 2: Exanimis",
-      "chapters": []
+      "chapters": [
+        {
+          "chapter_num": "Read Arc",
+          "title": "Beyond the Void: Exanimis",
+          "url": "https://www.webtoons.com/en/canvas/beyond-the-void-exanimis/list?title_no=1142009"
+        }
+      ]
     },
     {
       "arc_title": "Arc 3: Arthos",
-      "chapters": []
+      "chapters": [
+        {
+          "chapter_num": "Read Arc",
+          "title": "Beyond the Void: Arthos",
+          "url": "https://www.webtoons.com/en/canvas/beyond-the-void-arthos/list?title_no=1167067"
+        }
+      ]
     }
   ],
   "vault_art": []
