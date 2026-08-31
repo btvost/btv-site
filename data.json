@@ -24,6 +24,7 @@
   "webtoon_arcs": [
     {
       "arc_title": "Arc 1: Genesis",
+      "arc_url": "https://www.webtoons.com/en/canvas/beyond-the-void-genesis/list?title_no=1124299",
       "chapters": [
         {
           "chapter_num": "Ch. 01",
@@ -94,6 +95,7 @@
     },
     {
       "arc_title": "Arc 2: Exanimis",
+      "arc_url": "https://www.webtoons.com/en/canvas/beyond-the-void-exanimis/list?title_no=1142009",
       "chapters": [
         {
           "chapter_num": "Ch. 01",
@@ -169,10 +171,11 @@
     },
     {
       "arc_title": "Arc 3: Arthos",
+      "arc_url": "https://www.webtoons.com/en/canvas/beyond-the-void-arthos/list?title_no=1167067",
       "chapters": [
         {
-          "chapter_num": "Read Arc",
-          "title": "Beyond the Void: Arthos",
+          "chapter_num": "Full Arc",
+          "title": "Read on Webtoon",
           "url": "https://www.webtoons.com/en/canvas/beyond-the-void-arthos/list?title_no=1167067"
         }
       ]
