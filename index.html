@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BEYOND THE VOID</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* تنسيق الفولدرات التفاعلية */
+    .folder-btn {
+      width: 100%;
+      background: #14141f;
+      color: #fff;
+      border: 1px solid #28283d;
+      padding: 14px 18px;
+      text-align: left;
+      font-size: 1rem;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: 0.3s;
+    }
+    .folder-btn:hover {
+      border-color: var(--crimson-glow);
+      box-shadow: 0 0 10px rgba(255, 30, 66, 0.2);
+    }
+    .folder-content {
+      display: none;
+      background: #0d0d14;
+      border: 1px solid #1f1f2e;
+      border-top: none;
+      border-radius: 0 0 8px 8px;
+      padding: 10px;
+    }
+    .folder-item {
+      padding: 10px;
+      border-bottom: 1px solid #1a1a26;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      color: var(--text-main);
+      text-decoration: none;
+    }
+    .folder-item:hover {
+      color: var(--crimson-glow);
+      background: #141420;
+    }
+    .folder-item:last-child { border-bottom: none; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo-container">
+      <img src="logo.png" alt="BTV Logo">
+    </div>
+    <h1 id="site-title">BEYOND THE VOID</h1>
+    <p class="tagline" id="site-tagline">Dark Fantasy Universe</p>
+  </header>
+
+  <div class="section-title">🎬 Video Cinema (9:16)</div>
+  <div class="cinema-wrapper">
+    <div class="video-frame-container" id="video-container">
+      </div>
+  </div>
+
+  <div class="section-title">📁 Animation Episodes (Seasons)</div>
+  <div style="width: 100%; max-width: 800px;" id="seasons-container"></div>
+
+  <div class="section-title">📖 Webtoon Story (Arcs & Parts)</div>
+  <div style="width: 100%; max-width: 800px;" id="webtoon-container"></div>
+
+  <div class="section-title">🏛️ The Vault (Unreleased Art)</div>
+  <div class="vault-grid" id="vault-list"></div>
+
+  <script>
+    function changeVideo(youtubeId) {
+      document.getElementById('video-container').innerHTML = `
+        <iframe 
+          src="https://www.youtube.com/embed/${youtubeId}?autoplay=1&rel=0&modestbranding=1" 
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+          allowfullscreen>
+        </iframe>
+      `;
+      window.scrollTo({ top: 180, behavior: 'smooth' });
+    }
+
+    function toggleFolder(id) {
+      const el = document.getElementById(id);
+      el.style.display = el.style.display === 'block' ? 'none' : 'block';
+    }
+
+    fetch('data.json')
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById('site-title').innerText = data.project;
+        document.getElementById('site-tagline').innerText = data.tagline;
+
+        // تشغيل أول حلقة تلقائياً
+        if (data.seasons[0]?.episodes[0]) {
+          changeVideo(data.seasons[0].episodes[0].youtube_id);
+        }
+
+        // بناء فولدرات السيزنات والحلقات
+        const seasonsContainer = document.getElementById('seasons-container');
+        data.seasons.forEach((s, idx) => {
+          let epsHtml = s.episodes.map(ep => `
+            <div class="folder-item" onclick="changeVideo('${ep.youtube_id}')">
+              <span>▶ ${ep.title}</span>
+              <span style="font-size: 0.8rem; color: #888;">${ep.duration} ↗</span>
+            </div>
+          `).join('');
+
+          seasonsContainer.innerHTML += `
+            <div>
+              <button class="folder-btn" onclick="toggleFolder('season-${idx}')">
+                <span>📁 ${s.season_title}</span>
+                <span>▼</span>
+              </button>
+              <div class="folder-content" id="season-${idx}">${epsHtml}</div>
+            </div>
+          `;
+        });
+
+        // بناء فولدرات الويب تون
+        const webtoonContainer = document.getElementById('webtoon-container');
+        data.webtoon_arcs.forEach((arc, idx) => {
+          let chsHtml = arc.chapters.map(ch => `
+            <a href="${ch.url}" target="_blank" class="folder-item">
+              <span>📖 ${ch.chapter_num}: ${ch.title}</span>
+              <span style="font-size: 0.8rem; color: var(--crimson-glow);">Read ↗</span>
+            </a>
+          `).join('');
+
+          webtoonContainer.innerHTML += `
+            <div>
+              <button class="folder-btn" onclick="toggleFolder('arc-${idx}')">
+                <span>📚 ${arc.arc_title}</span>
+                <span>▼</span>
+              </button>
+              <div class="folder-content" id="arc-${idx}">${chsHtml}</div>
+            </div>
+          `;
+        });
+
+        // بناء المتحف
+        const vaultContainer = document.getElementById('vault-list');
+        data.vault_art.forEach(art => {
+          vaultContainer.innerHTML += `
+            <div class="vault-item">
+              <img src="${art.image_url}" alt="${art.title}">
+            </div>
+          `;
+        });
+      });
+  </script>
+</body>
+</html>

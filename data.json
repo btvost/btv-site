@@ -1,0 +1,105 @@
+{
+  "project": "BEYOND THE VOID",
+  "tagline": "Official Portal | Dark Fantasy Universe",
+  "seasons": [
+    {
+      "season_title": "Season 1: GENESIS",
+      "episodes": [
+        {
+          "title": "Episode 1: Genesis",
+          "youtube_id": "N7ulOF673vI",
+          "duration": "10:00"
+        }
+      ]
+    },
+    {
+      "season_title": "Season 2: EXANIMIS",
+      "episodes": []
+    },
+    {
+      "season_title": "Season 3: ARTHOS",
+      "episodes": []
+    }
+  ],
+  "webtoon_arcs": [
+    {
+      "arc_title": "Arc 1: Genesis",
+      "chapters": [
+        {
+          "chapter_num": "Ch. 01",
+          "title": "Genesis (Part 1): Scan the pulse",
+          "url": "https://www.webtoons.com/en/canvas/beyond-the-void-genesis/genesis-part-1-scan-the-pulse-the-void-is-listening/viewer?title_no=1124299&episode_no=1"
+        },
+        {
+          "chapter_num": "Ch. 02",
+          "title": "Genesis (Part 2): The Blood Ritual",
+          "url": "https://www.webtoons.com/en/canvas/beyond-the-void-genesis/genesis-part-2-the-sky-tears-the-blood-ritual/viewer?title_no=1124299&episode_no=2"
+        },
+        {
+          "chapter_num": "Ch. 03",
+          "title": "Genesis (Part 3): Shattered Skies",
+          "url": "https://www.webtoons.com/en/canvas/beyond-the-void-genesis/genesis-part-3-the-descent-shattered-skies/viewer?title_no=1124299&episode_no=3"
+        },
+        {
+          "chapter_num": "Ch. 04",
+          "title": "The Overseer (Prologue)",
+          "url": "https://www.webtoons.com/en/canvas/beyond-the-void-genesis/genesis-004-the-overseer-prologue/viewer?title_no=1124299&episode_no=5"
+        },
+        {
+          "chapter_num": "Ch. 05",
+          "title": "The Massacre (Phase 1)",
+          "url": "https://www.webtoons.com/en/canvas/beyond-the-void-genesis/genesis-004-the-massacre-phase-1/viewer?title_no=1124299&episode_no=6"
+        },
+        {
+          "chapter_num": "Ch. 06",
+          "title": "The Fractured Peace",
+          "url": "https://www.webtoons.com/en/canvas/beyond-the-void-genesis/the-fractured-peace/viewer?title_no=1124299&episode_no=7"
+        },
+        {
+          "chapter_num": "Ch. 07",
+          "title": "The Massacre (Phase 2: The Pulse)",
+          "url": "https://www.webtoons.com/en/canvas/beyond-the-void-genesis/the-massacre-phase-2-the-pulse/viewer?title_no=1124299&episode_no=8"
+        },
+        {
+          "chapter_num": "Ch. 08",
+          "title": "The Blackout",
+          "url": "https://www.webtoons.com/en/canvas/beyond-the-void-genesis/the-blackout/viewer?title_no=1124299&episode_no=9"
+        },
+        {
+          "chapter_num": "Ch. 09",
+          "title": "The Fragment from the Ruins",
+          "url": "https://www.webtoons.com/en/canvas/beyond-the-void-genesis/the-fragment-from-the-ruins/viewer?title_no=1124299&episode_no=10"
+        },
+        {
+          "chapter_num": "Ch. 10",
+          "title": "VUL-KOR Rising",
+          "url": "https://www.webtoons.com/en/canvas/beyond-the-void-genesis/vul-kor-rising/viewer?title_no=1124299&episode_no=11"
+        },
+        {
+          "chapter_num": "Ch. 11",
+          "title": "UNBOUND",
+          "url": "https://www.webtoons.com/en/canvas/beyond-the-void-genesis/unbound/viewer?title_no=1124299&episode_no=12"
+        },
+        {
+          "chapter_num": "Ch. 12",
+          "title": "Absolute Lunatics",
+          "url": "https://www.webtoons.com/en/canvas/beyond-the-void-genesis/absolute-lunatics/viewer?title_no=1124299&episode_no=13"
+        },
+        {
+          "chapter_num": "Ch. 13",
+          "title": "FALLING UP",
+          "url": "https://www.webtoons.com/en/canvas/beyond-the-void-genesis/falling-up/viewer?title_no=1124299&episode_no=14"
+        }
+      ]
+    },
+    {
+      "arc_title": "Arc 2: Exanimis",
+      "chapters": []
+    },
+    {
+      "arc_title": "Arc 3: Arthos",
+      "chapters": []
+    }
+  ],
+  "vault_art": []
+}
