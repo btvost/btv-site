@@ -1,99 +1,197 @@
 {
-  "site_title": "BEYOND THE VOID | Official Portal",
-  "meta_description": "The Official Archive for Beyond the Void Webtoons, Animation Series, and Digital Lore.",
-  "hero_video": "Ac4YmgbzmtE",
-  "current_title": "Episode 2: The Vessel",
-  "current_subtitle": "Season 1: Genesis",
-  "social_links": {
-    "webtoon": "https://www.webtoons.com/en/canvas/beyond-the-void-genesis/list?title_no=1124299",
-    "tiktok": "https://www.tiktok.com",
-    "youtube": "https://www.youtube.com"
-  },
-  "video_cinema": [
-    {
-      "id": "ep2",
-      "title": "Episode 2: The Vessel",
-      "season": "Genesis",
-      "youtube_id": "Ac4YmgbzmtE",
-      "duration": "10:00"
-    },
-    {
-      "id": "ep3",
-      "title": "Episode 3: The Broken Vow",
-      "season": "Genesis",
-      "youtube_id": "wrNGqS3irv0",
-      "duration": "10:00"
-    },
-    {
-      "id": "ep4",
-      "title": "Episode 4: Chains of the Void",
-      "season": "Genesis",
-      "youtube_id": "z4YLe9MigSc",
-      "duration": "10:00"
-    }
-  ],
+  "project": "BEYOND THE VOID",
+  "tagline": "Official Portal | Dark Fantasy Universe",
   "seasons": [
     {
-      "id": "genesis",
-      "title": "Season 1: Genesis",
-      "status": "Completed",
-      "description": "The awakening of forbidden entities and the shattering of the mortal boundary.",
-      "full_arc_url": "https://www.webtoons.com/en/canvas/beyond-the-void-genesis/list?title_no=1124299",
-      "chapters": [
-        {"number": 1, "title": "Chapter 1: Genesis", "url": "https://www.webtoons.com/en/canvas/beyond-the-void-genesis/list?title_no=1124299"},
-        {"number": 2, "title": "Chapter 2", "url": "https://www.webtoons.com/en/canvas/beyond-the-void-genesis/list?title_no=1124299"},
-        {"number": 3, "title": "Chapter 3", "url": "https://www.webtoons.com/en/canvas/beyond-the-void-genesis/list?title_no=1124299"},
-        {"number": 4, "title": "Chapter 4", "url": "https://www.webtoons.com/en/canvas/beyond-the-void-genesis/list?title_no=1124299"},
-        {"number": 5, "title": "Chapter 5", "url": "https://www.webtoons.com/en/canvas/beyond-the-void-genesis/list?title_no=1124299"},
-        {"number": 6, "title": "Chapter 6", "url": "https://www.webtoons.com/en/canvas/beyond-the-void-genesis/list?title_no=1124299"},
-        {"number": 7, "title": "Chapter 7", "url": "https://www.webtoons.com/en/canvas/beyond-the-void-genesis/list?title_no=1124299"},
-        {"number": 8, "title": "Chapter 8", "url": "https://www.webtoons.com/en/canvas/beyond-the-void-genesis/list?title_no=1124299"},
-        {"number": 9, "title": "Chapter 9", "url": "https://www.webtoons.com/en/canvas/beyond-the-void-genesis/list?title_no=1124299"},
-        {"number": 10, "title": "Chapter 10", "url": "https://www.webtoons.com/en/canvas/beyond-the-void-genesis/list?title_no=1124299"},
-        {"number": 11, "title": "Chapter 11", "url": "https://www.webtoons.com/en/canvas/beyond-the-void-genesis/list?title_no=1124299"},
-        {"number": 12, "title": "Chapter 12", "url": "https://www.webtoons.com/en/canvas/beyond-the-void-genesis/list?title_no=1124299"},
-        {"number": 13, "title": "Chapter 13", "url": "https://www.webtoons.com/en/canvas/beyond-the-void-genesis/list?title_no=1124299"}
+      "season_title": "Season 1: GENESIS",
+      "episodes": [
+        {
+          "title": "Episode 1: Genesis",
+          "youtube_id": "N7ulOF673vI",
+          "duration": "10:00"
+        }
       ]
     },
     {
-      "id": "exanimis",
-      "title": "Season 2: Exanimis",
-      "status": "Completed",
-      "description": "Descent into total chaos as ancient entities clash for dominion.",
-      "full_arc_url": "https://www.webtoons.com/en/canvas/beyond-the-void-genesis/list?title_no=1124299",
+      "season_title": "Season 2: EXANIMIS",
+      "episodes": []
+    },
+    {
+      "season_title": "Season 3: ARTHOS",
+      "episodes": []
+    }
+  ],
+  "webtoon_arcs": [
+    {
+      "arc_title": "Arc 1: Genesis",
       "chapters": [
-        {"number": 1, "title": "Chapter 1", "url": "https://www.webtoons.com/en/canvas/beyond-the-void-genesis/list?title_no=1124299"},
-        {"number": 2, "title": "Chapter 2", "url": "https://www.webtoons.com/en/canvas/beyond-the-void-genesis/list?title_no=1124299"},
-        {"number": 3, "title": "Chapter 3", "url": "https://www.webtoons.com/en/canvas/beyond-the-void-genesis/list?title_no=1124299"},
-        {"number": 4, "title": "Chapter 4", "url": "https://www.webtoons.com/en/canvas/beyond-the-void-genesis/list?title_no=1124299"},
-        {"number": 5, "title": "Chapter 5", "url": "https://www.webtoons.com/en/canvas/beyond-the-void-genesis/list?title_no=1124299"},
-        {"number": 6, "title": "Chapter 6", "url": "https://www.webtoons.com/en/canvas/beyond-the-void-genesis/list?title_no=1124299"},
-        {"number": 7, "title": "Chapter 7", "url": "https://www.webtoons.com/en/canvas/beyond-the-void-genesis/list?title_no=1124299"},
-        {"number": 8, "title": "Chapter 8", "url": "https://www.webtoons.com/en/canvas/beyond-the-void-genesis/list?title_no=1124299"},
-        {"number": 9, "title": "Chapter 9", "url": "https://www.webtoons.com/en/canvas/beyond-the-void-genesis/list?title_no=1124299"},
-        {"number": 10, "title": "Chapter 10", "url": "https://www.webtoons.com/en/canvas/beyond-the-void-genesis/list?title_no=1124299"},
-        {"number": 11, "title": "Chapter 11", "url": "https://www.webtoons.com/en/canvas/beyond-the-void-genesis/list?title_no=1124299"},
-        {"number": 12, "title": "Chapter 12", "url": "https://www.webtoons.com/en/canvas/beyond-the-void-genesis/list?title_no=1124299"},
-        {"number": 13, "title": "Chapter 13", "url": "https://www.webtoons.com/en/canvas/beyond-the-void-genesis/list?title_no=1124299"},
-        {"number": 14, "title": "Chapter 14", "url": "https://www.webtoons.com/en/canvas/beyond-the-void-genesis/list?title_no=1124299"}
+        {
+          "chapter_num": "ALL",
+          "title": "⚡ View Full Genesis Arc (Webtoon List)",
+          "url": "https://www.webtoons.com/en/canvas/beyond-the-void-genesis/list?title_no=1124299"
+        },
+        {
+          "chapter_num": "Ch. 01",
+          "title": "Genesis (Part 1): Scan the pulse",
+          "url": "https://www.webtoons.com/en/canvas/beyond-the-void-genesis/genesis-part-1-scan-the-pulse-the-void-is-listening/viewer?title_no=1124299&episode_no=1"
+        },
+        {
+          "chapter_num": "Ch. 02",
+          "title": "Genesis (Part 2): The Blood Ritual",
+          "url": "https://www.webtoons.com/en/canvas/beyond-the-void-genesis/genesis-part-2-the-sky-tears-the-blood-ritual/viewer?title_no=1124299&episode_no=2"
+        },
+        {
+          "chapter_num": "Ch. 03",
+          "title": "Genesis (Part 3): Shattered Skies",
+          "url": "https://www.webtoons.com/en/canvas/beyond-the-void-genesis/genesis-part-3-the-descent-shattered-skies/viewer?title_no=1124299&episode_no=3"
+        },
+        {
+          "chapter_num": "Ch. 04",
+          "title": "The Overseer (Prologue)",
+          "url": "https://www.webtoons.com/en/canvas/beyond-the-void-genesis/genesis-004-the-overseer-prologue/viewer?title_no=1124299&episode_no=5"
+        },
+        {
+          "chapter_num": "Ch. 05",
+          "title": "The Massacre (Phase 1)",
+          "url": "https://www.webtoons.com/en/canvas/beyond-the-void-genesis/genesis-004-the-massacre-phase-1/viewer?title_no=1124299&episode_no=6"
+        },
+        {
+          "chapter_num": "Ch. 06",
+          "title": "The Fractured Peace",
+          "url": "https://www.webtoons.com/en/canvas/beyond-the-void-genesis/the-fractured-peace/viewer?title_no=1124299&episode_no=7"
+        },
+        {
+          "chapter_num": "Ch. 07",
+          "title": "The Massacre (Phase 2: The Pulse)",
+          "url": "https://www.webtoons.com/en/canvas/beyond-the-void-genesis/the-massacre-phase-2-the-pulse/viewer?title_no=1124299&episode_no=8"
+        },
+        {
+          "chapter_num": "Ch. 08",
+          "title": "The Blackout",
+          "url": "https://www.webtoons.com/en/canvas/beyond-the-void-genesis/the-blackout/viewer?title_no=1124299&episode_no=9"
+        },
+        {
+          "chapter_num": "Ch. 09",
+          "title": "The Fragment from the Ruins",
+          "url": "https://www.webtoons.com/en/canvas/beyond-the-void-genesis/the-fragment-from-the-ruins/viewer?title_no=1124299&episode_no=10"
+        },
+        {
+          "chapter_num": "Ch. 10",
+          "title": "VUL-KOR Rising",
+          "url": "https://www.webtoons.com/en/canvas/beyond-the-void-genesis/vul-kor-rising/viewer?title_no=1124299&episode_no=11"
+        },
+        {
+          "chapter_num": "Ch. 11",
+          "title": "UNBOUND",
+          "url": "https://www.webtoons.com/en/canvas/beyond-the-void-genesis/unbound/viewer?title_no=1124299&episode_no=12"
+        },
+        {
+          "chapter_num": "Ch. 12",
+          "title": "Absolute Lunatics",
+          "url": "https://www.webtoons.com/en/canvas/beyond-the-void-genesis/absolute-lunatics/viewer?title_no=1124299&episode_no=13"
+        },
+        {
+          "chapter_num": "Ch. 13",
+          "title": "FALLING UP",
+          "url": "https://www.webtoons.com/en/canvas/beyond-the-void-genesis/falling-up/viewer?title_no=1124299&episode_no=14"
+        }
       ]
     },
     {
-      "id": "arthos",
-      "title": "Season 3: Arthos",
-      "status": "Ongoing",
-      "description": "Secrets of the Soft Abyss unravel as the cosmic horizon expands.",
-      "full_arc_url": "https://www.webtoons.com/en/canvas/beyond-the-void-genesis/list?title_no=1124299",
+      "arc_title": "Arc 2: Exanimis",
       "chapters": [
-        {"number": 1, "title": "Episode 1: Secrets of the Soft Abyss", "url": "https://www.webtoons.com/en/canvas/beyond-the-void-genesis/list?title_no=1124299"}
+        {
+          "chapter_num": "ALL",
+          "title": "⚡ View Full Exanimis Arc (Webtoon List)",
+          "url": "https://www.webtoons.com/en/canvas/beyond-the-void-exanimis/list?title_no=1142009"
+        },
+        {
+          "chapter_num": "Ch. 01",
+          "title": "THE DRIFT",
+          "url": "https://www.webtoons.com/en/canvas/beyond-the-void-exanimis/the-drift/viewer?title_no=1142009&episode_no=1"
+        },
+        {
+          "chapter_num": "Ch. 02",
+          "title": "I AM NOT HERA'EL",
+          "url": "https://www.webtoons.com/en/canvas/beyond-the-void-exanimis/i-am-not-herael/viewer?title_no=1142009&episode_no=2"
+        },
+        {
+          "chapter_num": "Ch. 03",
+          "title": "Suicide Pact",
+          "url": "https://www.webtoons.com/en/canvas/beyond-the-void-exanimis/suicide-pact/viewer?title_no=1142009&episode_no=3"
+        },
+        {
+          "chapter_num": "Ch. 04",
+          "title": "AKU-GEKISHIN",
+          "url": "https://www.webtoons.com/en/canvas/beyond-the-void-exanimis/aku-gekishin/viewer?title_no=1142009&episode_no=4"
+        },
+        {
+          "chapter_num": "Ch. 05",
+          "title": "The Puppet's Awakening",
+          "url": "https://www.webtoons.com/en/canvas/beyond-the-void-exanimis/the-puppets-awakening/viewer?title_no=1142009&episode_no=5"
+        },
+        {
+          "chapter_num": "Ch. 06",
+          "title": "BROKEN SEALS",
+          "url": "https://www.webtoons.com/en/canvas/beyond-the-void-exanimis/broken-seals/viewer?title_no=1142009&episode_no=6"
+        },
+        {
+          "chapter_num": "Ch. 07",
+          "title": "Echoes of Dissolution",
+          "url": "https://www.webtoons.com/en/canvas/beyond-the-void-exanimis/echoes-of-dissolution/viewer?title_no=1142009&episode_no=7"
+        },
+        {
+          "chapter_num": "Ch. 08",
+          "title": "AKO TOMOKI",
+          "url": "https://www.webtoons.com/en/canvas/beyond-the-void-exanimis/ako-tomoki/viewer?title_no=1142009&episode_no=8"
+        },
+        {
+          "chapter_num": "Ch. 09",
+          "title": "Lost Signals",
+          "url": "https://www.webtoons.com/en/canvas/beyond-the-void-exanimis/lost-signals/viewer?title_no=1142009&episode_no=9"
+        },
+        {
+          "chapter_num": "Ch. 10",
+          "title": "Void bound",
+          "url": "https://www.webtoons.com/en/canvas/beyond-the-void-exanimis/void-bound/viewer?title_no=1142009&episode_no=10"
+        },
+        {
+          "chapter_num": "Ch. 11",
+          "title": "Beyond the Threshold",
+          "url": "https://www.webtoons.com/en/canvas/beyond-the-void-exanimis/beyond-the-threshold/viewer?title_no=1142009&episode_no=11"
+        },
+        {
+          "chapter_num": "Ch. 12",
+          "title": "The Ultimate Collapse 最後の崩壊",
+          "url": "https://www.webtoons.com/en/canvas/beyond-the-void-exanimis/the-ultimate-collapse-%E6%9C%80%E5%BE%8C%E3%81%AE%E5%B4%A9%E5%A3%8A/viewer?title_no=1142009&episode_no=12"
+        },
+        {
+          "chapter_num": "Ch. 13",
+          "title": "Final - Abyss of Arthos",
+          "url": "https://www.webtoons.com/en/canvas/beyond-the-void-exanimis/final-abyss-of-arthos/viewer?title_no=1142009&episode_no=13"
+        },
+        {
+          "chapter_num": "Ch. 14",
+          "title": "The Final Echo",
+          "url": "https://www.webtoons.com/en/canvas/beyond-the-void-exanimis/the-final-echo/viewer?title_no=1142009&episode_no=14"
+        }
+      ]
+    },
+    {
+      "arc_title": "Arc 3: Arthos",
+      "chapters": [
+        {
+          "chapter_num": "ALL",
+          "title": "⚡ View Full Arthos Arc (Webtoon List)",
+          "url": "https://www.webtoons.com/en/canvas/beyond-the-void-arthos/list?title_no=1167067"
+        },
+        {
+          "chapter_num": "Ch. 01",
+          "title": "Secrets of the Soft Abyss",
+          "url": "https://www.webtoons.com/en/canvas/beyond-the-void-arthos/secrets-of-the-soft-abyss/viewer?title_no=1167067&episode_no=1"
+        }
       ]
     }
   ],
-  "vault": [
-    {
-      "title": "Syskral - Oni Form",
-      "category": "Character Art",
-      "image_url": "/vault/syskral.png"
-    }
-  ]
+  "vault_art": []
 }
