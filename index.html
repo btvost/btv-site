@@ -51,6 +51,24 @@
       background: #141420;
     }
     .folder-item:last-child { border-bottom: none; }
+
+    /* النقطة الحمراء النابضة للجديد */
+    .new-dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      background-color: #ff0033;
+      border-radius: 50%;
+      margin-left: 8px;
+      box-shadow: 0 0 8px #ff0033;
+      animation: pulse-dot 1.5s infinite;
+    }
+
+    @keyframes pulse-dot {
+      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 0, 51, 0.7); }
+      70% { transform: scale(1.2); box-shadow: 0 0 0 6px rgba(255, 0, 51, 0); }
+      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 0, 51, 0); }
+    }
   </style>
 </head>
 <body>
@@ -66,30 +84,49 @@
   <div class="section-title">🎬 Video Cinema (9:16)</div>
   <div class="cinema-wrapper">
     <div class="video-frame-container" id="video-container">
-      </div>
+    </div>
   </div>
 
   <div class="section-title">📁 Animation Episodes (Seasons)</div>
-  <div style="width: 100%; max-width: 800px;" id="seasons-container"></div>
+  <div style="width: 100%; max-width: 800px; margin: 0 auto;" id="seasons-container"></div>
 
   <div class="section-title">📖 Webtoon Story (Arcs & Parts)</div>
-  <div style="width: 100%; max-width: 800px;" id="webtoon-container"></div>
-<!-- BEYOND THE VOID - OFFICIAL OST PLAYLIST -->
-<div class="audio-section" style="margin: 40px auto; max-width: 800px; text-align: center; padding: 0 15px;">
-  <h2 style="color: #ff0033; font-family: sans-serif; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 5px;">
-    🎵 Official Soundtrack (OST)
-  </h2>
-  <p style="color: #888; font-size: 14px; margin-bottom: 20px;">Complete Original Series Playlist</p>
-  <iframe 
-    src="https://audiomack.com/embed/playlist/xmrboymanx/beyond-the-void-ost?background=1" 
-    scrolling="no" 
-    width="100%" 
-    height="450" 
-    frameborder="0" 
-    title="Beyond The Void OST"
-    style="border-radius: 12px; box-shadow: 0 0 20px rgba(255, 0, 51, 0.2); border: 1px solid rgba(255, 0, 51, 0.3);">
-  </iframe>
-</div>
+  <div style="width: 100%; max-width: 800px; margin: 0 auto;" id="webtoon-container"></div>
+
+  <div class="audio-section" style="margin: 40px auto; max-width: 800px; text-align: center; padding: 0 15px;">
+    
+    <div style="margin-bottom: 30px; background: rgba(20, 20, 31, 0.6); border: 1px solid rgba(255, 0, 51, 0.4); border-radius: 12px; padding: 16px; box-shadow: 0 0 15px rgba(255, 0, 51, 0.15);">
+      <div style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 12px;">
+        <span class="new-dot" style="margin-left: 0;"></span>
+        <span style="color: #ff0033; font-family: sans-serif; font-weight: bold; font-size: 13px; letter-spacing: 2px; text-transform: uppercase;">
+          LATEST OST RELEASE
+        </span>
+      </div>
+      <iframe 
+        src="https://audiomack.com//embed/xmrboymanx/song/the-glitched-paradox" 
+        scrolling="no" 
+        width="100%" 
+        height="252" 
+        frameborder="0" 
+        title="THE GLITCHED PARADOX"
+        style="border-radius: 8px; border: 1px solid #28283d;">
+      </iframe>
+    </div>
+
+    <h2 style="color: #ff0033; font-family: sans-serif; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 5px;">
+      🎵 Official Soundtrack (OST)
+    </h2>
+    <p style="color: #888; font-size: 14px; margin-bottom: 20px;">Complete Original Series Playlist</p>
+    <iframe 
+      src="https://audiomack.com/embed/playlist/xmrboymanx/beyond-the-void-ost?background=1" 
+      scrolling="no" 
+      width="100%" 
+      height="450" 
+      frameborder="0" 
+      title="Beyond The Void OST"
+      style="border-radius: 12px; box-shadow: 0 0 20px rgba(255, 0, 51, 0.2); border: 1px solid rgba(255, 0, 51, 0.3);">
+    </iframe>
+  </div>
 
   <script>
     function changeVideo(youtubeId) {
@@ -122,9 +159,10 @@
         // بناء فولدرات السيزنات والحلقات
         const seasonsContainer = document.getElementById('seasons-container');
         data.seasons.forEach((s, idx) => {
+          let hasNew = s.episodes.some(ep => ep.is_new);
           let epsHtml = s.episodes.map(ep => `
             <div class="folder-item" onclick="changeVideo('${ep.youtube_id}')">
-              <span>▶ ${ep.title}</span>
+              <span>▶ ${ep.title} ${ep.is_new ? '<span class="new-dot"></span>' : ''}</span>
               <span style="font-size: 0.8rem; color: #888;">${ep.duration} ↗</span>
             </div>
           `).join('');
@@ -132,7 +170,7 @@
           seasonsContainer.innerHTML += `
             <div>
               <button class="folder-btn" onclick="toggleFolder('season-${idx}')">
-                <span>📁 ${s.season_title}</span>
+                <span>📁 ${s.season_title} ${hasNew ? '<span class="new-dot"></span>' : ''}</span>
                 <span>▼</span>
               </button>
               <div class="folder-content" id="season-${idx}">${epsHtml}</div>
@@ -143,9 +181,10 @@
         // بناء فولدرات الويب تون
         const webtoonContainer = document.getElementById('webtoon-container');
         data.webtoon_arcs.forEach((arc, idx) => {
+          let hasNew = arc.chapters.some(ch => ch.is_new);
           let chsHtml = arc.chapters.map(ch => `
             <a href="${ch.url}" target="_blank" class="folder-item">
-              <span>📖 ${ch.chapter_num}: ${ch.title}</span>
+              <span>📖 ${ch.chapter_num}: ${ch.title} ${ch.is_new ? '<span class="new-dot"></span>' : ''}</span>
               <span style="font-size: 0.8rem; color: var(--crimson-glow);">Read ↗</span>
             </a>
           `).join('');
@@ -153,7 +192,7 @@
           webtoonContainer.innerHTML += `
             <div>
               <button class="folder-btn" onclick="toggleFolder('arc-${idx}')">
-                <span>📚 ${arc.arc_title}</span>
+                <span>📚 ${arc.arc_title} ${hasNew ? '<span class="new-dot"></span>' : ''}</span>
                 <span>▼</span>
               </button>
               <div class="folder-content" id="arc-${idx}">${chsHtml}</div>
@@ -163,13 +202,15 @@
 
         // بناء المتحف
         const vaultContainer = document.getElementById('vault-list');
-        data.vault_art.forEach(art => {
-          vaultContainer.innerHTML += `
-            <div class="vault-item">
-              <img src="${art.image_url}" alt="${art.title}">
-            </div>
-          `;
-        });
+        if (vaultContainer && data.vault_art) {
+          data.vault_art.forEach(art => {
+            vaultContainer.innerHTML += `
+              <div class="vault-item">
+                <img src="${art.image_url}" alt="${art.title}">
+              </div>
+            `;
+          });
+        }
       });
   </script>
 </body>
