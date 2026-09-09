@@ -25,7 +25,7 @@
       transition: 0.3s;
     }
     .folder-btn:hover {
-      border-color: var(--crimson-glow);
+      border-color: var(--crimson-glow, #ff0033);
       box-shadow: 0 0 10px rgba(255, 30, 66, 0.2);
     }
     .folder-content {
@@ -43,11 +43,11 @@
       justify-content: space-between;
       align-items: center;
       cursor: pointer;
-      color: var(--text-main);
+      color: var(--text-main, #e2e8f0);
       text-decoration: none;
     }
     .folder-item:hover {
-      color: var(--crimson-glow);
+      color: var(--crimson-glow, #ff0033);
       background: #141420;
     }
     .folder-item:last-child { border-bottom: none; }
@@ -62,6 +62,7 @@
       margin-left: 8px;
       box-shadow: 0 0 8px #ff0033;
       animation: pulse-dot 1.5s infinite;
+      vertical-align: middle;
     }
 
     @keyframes pulse-dot {
@@ -83,8 +84,7 @@
 
   <div class="section-title">🎬 Video Cinema (9:16)</div>
   <div class="cinema-wrapper">
-    <div class="video-frame-container" id="video-container">
-    </div>
+    <div class="video-frame-container" id="video-container"></div>
   </div>
 
   <div class="section-title">📁 Animation Episodes (Seasons)</div>
@@ -130,87 +130,89 @@
 
   <script>
     function changeVideo(youtubeId) {
-      document.getElementById('video-container').innerHTML = `
-        <iframe 
-          src="https://www.youtube.com/embed/${youtubeId}?autoplay=1&rel=0&modestbranding=1" 
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-          allowfullscreen>
-        </iframe>
-      `;
-      window.scrollTo({ top: 180, behavior: 'smooth' });
+      var vc = document.getElementById('video-container');
+      if (vc) {
+        vc.innerHTML = '<iframe src="https://www.youtube.com/embed/' + youtubeId + '?autoplay=1&rel=0&modestbranding=1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
+        window.scrollTo({ top: 180, behavior: 'smooth' });
+      }
     }
 
     function toggleFolder(id) {
-      const el = document.getElementById(id);
-      el.style.display = el.style.display === 'block' ? 'none' : 'block';
+      var el = document.getElementById(id);
+      if (el) {
+        el.style.display = (el.style.display === 'block') ? 'none' : 'block';
+      }
     }
 
     fetch('data.json')
-      .then(res => res.json())
-      .then(data => {
-        document.getElementById('site-title').innerText = data.project;
-        document.getElementById('site-tagline').innerText = data.tagline;
+      .then(function(res) { return res.json(); })
+      .then(function(data) {
+        if (data.project) document.getElementById('site-title').innerText = data.project;
+        if (data.tagline) document.getElementById('site-tagline').innerText = data.tagline;
 
-        // تشغيل أول حلقة تلقائياً
-        if (data.seasons[0]?.episodes[0]) {
+        // تشغيل أول حلقة
+        if (data.seasons && data.seasons[0] && data.seasons[0].episodes && data.seasons[0].episodes[0]) {
           changeVideo(data.seasons[0].episodes[0].youtube_id);
         }
 
-        // بناء فولدرات السيزنات والحلقات
-        const seasonsContainer = document.getElementById('seasons-container');
-        data.seasons.forEach((s, idx) => {
-          let hasNew = s.episodes.some(ep => ep.is_new);
-          let epsHtml = s.episodes.map(ep => `
-            <div class="folder-item" onclick="changeVideo('${ep.youtube_id}')">
-              <span>▶ ${ep.title} ${ep.is_new ? '<span class="new-dot"></span>' : ''}</span>
-              <span style="font-size: 0.8rem; color: #888;">${ep.duration} ↗</span>
-            </div>
-          `).join('');
+        // بناء مواسم الأنيميشن
+        var seasonsContainer = document.getElementById('seasons-container');
+        if (seasonsContainer && data.seasons) {
+          data.seasons.forEach(function(s, idx) {
+            var epsHtml = '';
+            if (s.episodes) {
+              epsHtml = s.episodes.map(function(ep) {
+                return '<div class="folder-item" onclick="changeVideo(\'' + ep.youtube_id + '\')">' +
+                  '<span>▶ ' + ep.title + '</span>' +
+                  '<span style="font-size: 0.8rem; color: #888;">' + ep.duration + ' ↗</span>' +
+                  '</div>';
+              }).join('');
+            }
 
-          seasonsContainer.innerHTML += `
-            <div>
-              <button class="folder-btn" onclick="toggleFolder('season-${idx}')">
-                <span>📁 ${s.season_title} ${hasNew ? '<span class="new-dot"></span>' : ''}</span>
-                <span>▼</span>
-              </button>
-              <div class="folder-content" id="season-${idx}">${epsHtml}</div>
-            </div>
-          `;
-        });
-
-        // بناء فولدرات الويب تون
-        const webtoonContainer = document.getElementById('webtoon-container');
-        data.webtoon_arcs.forEach((arc, idx) => {
-          let hasNew = arc.chapters.some(ch => ch.is_new);
-          let chsHtml = arc.chapters.map(ch => `
-            <a href="${ch.url}" target="_blank" class="folder-item">
-              <span>📖 ${ch.chapter_num}: ${ch.title} ${ch.is_new ? '<span class="new-dot"></span>' : ''}</span>
-              <span style="font-size: 0.8rem; color: var(--crimson-glow);">Read ↗</span>
-            </a>
-          `).join('');
-
-          webtoonContainer.innerHTML += `
-            <div>
-              <button class="folder-btn" onclick="toggleFolder('arc-${idx}')">
-                <span>📚 ${arc.arc_title} ${hasNew ? '<span class="new-dot"></span>' : ''}</span>
-                <span>▼</span>
-              </button>
-              <div class="folder-content" id="arc-${idx}">${chsHtml}</div>
-            </div>
-          `;
-        });
-
-        // بناء المتحف
-        const vaultContainer = document.getElementById('vault-list');
-        if (vaultContainer && data.vault_art) {
-          data.vault_art.forEach(art => {
-            vaultContainer.innerHTML += `
-              <div class="vault-item">
-                <img src="${art.image_url}" alt="${art.title}">
-              </div>
-            `;
+            seasonsContainer.innerHTML += '<div>' +
+              '<button class="folder-btn" onclick="toggleFolder(\'season-' + idx + '\')">' +
+              '<span>📁 ' + s.season_title + '</span>' +
+              '<span>▼</span>' +
+              '</button>' +
+              '<div class="folder-content" id="season-' + idx + '">' + epsHtml + '</div>' +
+              '</div>';
           });
         }
+
+        // بناء فصول الويب تون
+        var webtoonContainer = document.getElementById('webtoon-container');
+        if (webtoonContainer && data.webtoon_arcs) {
+          var lastArcIdx = data.webtoon_arcs.length - 1;
+
+          data.webtoon_arcs.forEach(function(arc, idx) {
+            var isLatestArc = (idx === lastArcIdx);
+            var chsHtml = '';
+
+            if (arc.chapters) {
+              var lastChapterIdx = arc.chapters.length - 1;
+              chsHtml = arc.chapters.map(function(ch, chIdx) {
+                var isLatestChapter = isLatestArc && (chIdx === lastChapterIdx);
+                var dotHtml = isLatestChapter ? '<span class="new-dot"></span>' : '';
+                return '<a href="' + ch.url + '" target="_blank" class="folder-item">' +
+                  '<span>📖 ' + ch.chapter_num + ': ' + ch.title + ' ' + dotHtml + '</span>' +
+                  '<span style="font-size: 0.8rem; color: var(--crimson-glow, #ff0033);">Read ↗</span>' +
+                  '</a>';
+              }).join('');
+            }
+
+            var arcDotHtml = isLatestArc ? '<span class="new-dot"></span>' : '';
+            webtoonContainer.innerHTML += '<div>' +
+              '<button class="folder-btn" onclick="toggleFolder(\'arc-' + idx + '\')">' +
+              '<span>📚 ' + arc.arc_title + ' ' + arcDotHtml + '</span>' +
+              '<span>▼</span>' +
+              '</button>' +
+              '<div class="folder-content" id="arc-' + idx + '">' + chsHtml + '</div>' +
+              '</div>';
+          });
+        }
+      })
+      .catch(function(err) {
+        console.error("Error loading data:", err);
       });
   </script>
 </body>
