@@ -1,222 +1,218 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BEYOND THE VOID</title>
-  <link rel="stylesheet" href="style.css">
-  <style>
-    /* تنسيق الفولدرات التفاعلية */
-    .folder-btn {
-      width: 100%;
-      background: #14141f;
-      color: #fff;
-      border: 1px solid #28283d;
-      padding: 14px 18px;
-      text-align: left;
-      font-size: 1rem;
-      font-weight: bold;
-      border-radius: 8px;
-      cursor: pointer;
-      margin-top: 10px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      transition: 0.3s;
-    }
-    .folder-btn:hover {
-      border-color: var(--crimson-glow, #ff0033);
-      box-shadow: 0 0 10px rgba(255, 30, 66, 0.2);
-    }
-    .folder-content {
-      display: none;
-      background: #0d0d14;
-      border: 1px solid #1f1f2e;
-      border-top: none;
-      border-radius: 0 0 8px 8px;
-      padding: 10px;
-    }
-    .folder-item {
-      padding: 10px;
-      border-bottom: 1px solid #1a1a26;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      cursor: pointer;
-      color: var(--text-main, #e2e8f0);
-      text-decoration: none;
-    }
-    .folder-item:hover {
-      color: var(--crimson-glow, #ff0033);
-      background: #141420;
-    }
-    .folder-item:last-child { border-bottom: none; }
-
-    /* النقطة الحمراء النابضة للجديد */
-    .new-dot {
-      display: inline-block;
-      width: 8px;
-      height: 8px;
-      background-color: #ff0033;
-      border-radius: 50%;
-      margin-left: 8px;
-      box-shadow: 0 0 8px #ff0033;
-      animation: pulse-dot 1.5s infinite;
-      vertical-align: middle;
-    }
-
-    @keyframes pulse-dot {
-      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 0, 51, 0.7); }
-      70% { transform: scale(1.2); box-shadow: 0 0 0 6px rgba(255, 0, 51, 0); }
-      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 0, 51, 0); }
-    }
-  </style>
-</head>
-<body>
-
-  <header>
-    <div class="logo-container">
-      <img src="logo.png" alt="BTV Logo">
-    </div>
-    <h1 id="site-title">BEYOND THE VOID</h1>
-    <p class="tagline" id="site-tagline">Dark Fantasy Universe</p>
-  </header>
-
-  <div class="section-title">🎬 Video Cinema (9:16)</div>
-  <div class="cinema-wrapper">
-    <div class="video-frame-container" id="video-container"></div>
-  </div>
-
-  <div class="section-title">📁 Animation Episodes (Seasons)</div>
-  <div style="width: 100%; max-width: 800px; margin: 0 auto;" id="seasons-container"></div>
-
-  <div class="section-title">📖 Webtoon Story (Arcs & Parts)</div>
-  <div style="width: 100%; max-width: 800px; margin: 0 auto;" id="webtoon-container"></div>
-
-  <div class="audio-section" style="margin: 40px auto; max-width: 800px; text-align: center; padding: 0 15px;">
-    
-    <div style="margin-bottom: 30px; background: rgba(20, 20, 31, 0.6); border: 1px solid rgba(255, 0, 51, 0.4); border-radius: 12px; padding: 16px; box-shadow: 0 0 15px rgba(255, 0, 51, 0.15);">
-      <div style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 12px;">
-        <span class="new-dot" style="margin-left: 0;"></span>
-        <span style="color: #ff0033; font-family: sans-serif; font-weight: bold; font-size: 13px; letter-spacing: 2px; text-transform: uppercase;">
-          LATEST OST RELEASE
-        </span>
-      </div>
-      <iframe 
-        src="https://audiomack.com//embed/xmrboymanx/song/the-glitched-paradox" 
-        scrolling="no" 
-        width="100%" 
-        height="252" 
-        frameborder="0" 
-        title="THE GLITCHED PARADOX"
-        style="border-radius: 8px; border: 1px solid #28283d;">
-      </iframe>
-    </div>
-
-    <h2 style="color: #ff0033; font-family: sans-serif; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 5px;">
-      🎵 Official Soundtrack (OST)
-    </h2>
-    <p style="color: #888; font-size: 14px; margin-bottom: 20px;">Complete Original Series Playlist</p>
-    <iframe 
-      src="https://audiomack.com/embed/playlist/xmrboymanx/beyond-the-void-ost?background=1" 
-      scrolling="no" 
-      width="100%" 
-      height="450" 
-      frameborder="0" 
-      title="Beyond The Void OST"
-      style="border-radius: 12px; box-shadow: 0 0 20px rgba(255, 0, 51, 0.2); border: 1px solid rgba(255, 0, 51, 0.3);">
-    </iframe>
-  </div>
-
-  <script>
-    function changeVideo(youtubeId) {
-      document.getElementById('video-container').innerHTML = `
-        <iframe 
-          src="https://www.youtube.com/embed/${youtubeId}?autoplay=1&rel=0&modestbranding=1" 
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-          allowfullscreen>
-        </iframe>
-      `;
-      window.scrollTo({ top: 180, behavior: 'smooth' });
-    }
-
-    function toggleFolder(id) {
-      const el = document.getElementById(id);
-      el.style.display = el.style.display === 'block' ? 'none' : 'block';
-    }
-
-    fetch('data.json')
-      .then(res => res.json())
-      .then(data => {
-        document.getElementById('site-title').innerText = data.project;
-        document.getElementById('site-tagline').innerText = data.tagline;
-
-        // تشغيل أول حلقة
-        if (data.seasons[0]?.episodes[0]) {
-          changeVideo(data.seasons[0].episodes[0].youtube_id);
+{
+  "project": "BEYOND THE VOID",
+  "tagline": "Official Portal | Dark Fantasy Universe",
+  "seasons": [
+    {
+      "season_title": "Season 1: GENESIS",
+      "episodes": [
+        {
+          "title": "Episode 1: Genesis",
+          "youtube_id": "N7ulOF673vI",
+          "duration": "10:00"
+        },
+        {
+          "title": "Episode 2: The Vessel",
+          "youtube_id": "Ac4YmgbzmtE",
+          "duration": "10:00"
+        },
+        {
+          "title": "Episode 3: The Broken Vow",
+          "youtube_id": "wrNGqS3irv0",
+          "duration": "10:00"
+        },
+        {
+          "title": "Episode 4: Chains of the Void",
+          "youtube_id": "z4YLe9MigSc",
+          "duration": "10:00"
         }
-
-        // بناء مواسم الأنيميشن
-        const seasonsContainer = document.getElementById('seasons-container');
-        data.seasons.forEach((s, idx) => {
-          let epsHtml = s.episodes.map(ep => `
-            <div class="folder-item" onclick="changeVideo('${ep.youtube_id}')">
-              <span>▶ ${ep.title}</span>
-              <span style="font-size: 0.8rem; color: #888;">${ep.duration} ↗</span>
-            </div>
-          `).join('');
-
-          seasonsContainer.innerHTML += `
-            <div>
-              <button class="folder-btn" onclick="toggleFolder('season-${idx}')">
-                <span>📁 ${s.season_title}</span>
-                <span>▼</span>
-              </button>
-              <div class="folder-content" id="season-${idx}">${epsHtml}</div>
-            </div>
-          `;
-        });
-
-        // بناء فصول الويب تون مع النقطة التلقائية على آخر فصل
-        const webtoonContainer = document.getElementById('webtoon-container');
-        data.webtoon_arcs.forEach((arc, idx) => {
-          // هل هذا أرك أرثوس الأخير؟
-          let isLatestArc = (idx === data.webtoon_arcs.length - 1);
-
-          let chsHtml = arc.chapters.map((ch, chIdx) => {
-            // هل هذا هو آخر فصل في السلسلة كاملة؟
-            let isLatestChapter = isLatestArc && (chIdx === arc.chapters.length - 1);
-            return `
-              <a href="${ch.url}" target="_blank" class="folder-item">
-                <span>📖 ${ch.chapter_num}: ${ch.title} ${isLatestChapter ? '<span class="new-dot"></span>' : ''}</span>
-                <span style="font-size: 0.8rem; color: var(--crimson-glow, #ff0033);">Read ↗</span>
-              </a>
-            `;
-          }).join('');
-
-          webtoonContainer.innerHTML += `
-            <div>
-              <button class="folder-btn" onclick="toggleFolder('arc-${idx}')">
-                <span>📚 ${arc.arc_title} ${isLatestArc ? '<span class="new-dot"></span>' : ''}</span>
-                <span>▼</span>
-              </button>
-              <div class="folder-content" id="arc-${idx}">${chsHtml}</div>
-            </div>
-          `;
-        });
-
-        // بناء المتحف
-        const vaultContainer = document.getElementById('vault-list');
-        if (vaultContainer && data.vault_art) {
-          data.vault_art.forEach(art => {
-            vaultContainer.innerHTML += `
-              <div class="vault-item">
-                <img src="${art.image_url}" alt="${art.title}">
-              </div>
-            `;
-          });
+      ]
+    },
+    {
+      "season_title": "Season 2: EXANIMIS",
+      "episodes": []
+    },
+    {
+      "season_title": "Season 3: ARTHOS",
+      "episodes": []
+    }
+  ],
+  "webtoon_arcs": [
+    {
+      "arc_title": "Arc 1: Genesis",
+      "chapters": [
+        {
+          "chapter_num": "ALL",
+          "title": "⚡ View Full Genesis Arc (Webtoon List)",
+          "url": "https://www.webtoons.com/en/canvas/beyond-the-void-genesis/list?title_no=1124299"
+        },
+        {
+          "chapter_num": "Ch. 01",
+          "title": "Genesis (Part 1): Scan the pulse",
+          "url": "https://www.webtoons.com/en/canvas/beyond-the-void-genesis/genesis-part-1-scan-the-pulse-the-void-is-listening/viewer?title_no=1124299&episode_no=1"
+        },
+        {
+          "chapter_num": "Ch. 02",
+          "title": "Genesis (Part 2): The Blood Ritual",
+          "url": "https://www.webtoons.com/en/canvas/beyond-the-void-genesis/genesis-part-2-the-sky-tears-the-blood-ritual/viewer?title_no=1124299&episode_no=2"
+        },
+        {
+          "chapter_num": "Ch. 03",
+          "title": "Genesis (Part 3): Shattered Skies",
+          "url": "https://www.webtoons.com/en/canvas/beyond-the-void-genesis/genesis-part-3-the-descent-shattered-skies/viewer?title_no=1124299&episode_no=3"
+        },
+        {
+          "chapter_num": "Ch. 04",
+          "title": "The Overseer (Prologue)",
+          "url": "https://www.webtoons.com/en/canvas/beyond-the-void-genesis/genesis-004-the-overseer-prologue/viewer?title_no=1124299&episode_no=5"
+        },
+        {
+          "chapter_num": "Ch. 05",
+          "title": "The Massacre (Phase 1)",
+          "url": "https://www.webtoons.com/en/canvas/beyond-the-void-genesis/genesis-004-the-massacre-phase-1/viewer?title_no=1124299&episode_no=6"
+        },
+        {
+          "chapter_num": "Ch. 06",
+          "title": "The Fractured Peace",
+          "url": "https://www.webtoons.com/en/canvas/beyond-the-void-genesis/the-fractured-peace/viewer?title_no=1124299&episode_no=7"
+        },
+        {
+          "chapter_num": "Ch. 07",
+          "title": "The Massacre (Phase 2: The Pulse)",
+          "url": "https://www.webtoons.com/en/canvas/beyond-the-void-genesis/the-massacre-phase-2-the-pulse/viewer?title_no=1124299&episode_no=8"
+        },
+        {
+          "chapter_num": "Ch. 08",
+          "title": "The Blackout",
+          "url": "https://www.webtoons.com/en/canvas/beyond-the-void-genesis/the-blackout/viewer?title_no=1124299&episode_no=9"
+        },
+        {
+          "chapter_num": "Ch. 09",
+          "title": "The Fragment from the Ruins",
+          "url": "https://www.webtoons.com/en/canvas/beyond-the-void-genesis/the-fragment-from-the-ruins/viewer?title_no=1124299&episode_no=10"
+        },
+        {
+          "chapter_num": "Ch. 10",
+          "title": "VUL-KOR Rising",
+          "url": "https://www.webtoons.com/en/canvas/beyond-the-void-genesis/vul-kor-rising/viewer?title_no=1124299&episode_no=11"
+        },
+        {
+          "chapter_num": "Ch. 11",
+          "title": "UNBOUND",
+          "url": "https://www.webtoons.com/en/canvas/beyond-the-void-genesis/unbound/viewer?title_no=1124299&episode_no=12"
+        },
+        {
+          "chapter_num": "Ch. 12",
+          "title": "Absolute Lunatics",
+          "url": "https://www.webtoons.com/en/canvas/beyond-the-void-genesis/absolute-lunatics/viewer?title_no=1124299&episode_no=13"
+        },
+        {
+          "chapter_num": "Ch. 13",
+          "title": "FALLING UP",
+          "url": "https://www.webtoons.com/en/canvas/beyond-the-void-genesis/falling-up/viewer?title_no=1124299&episode_no=14"
         }
-      });
-  </script>
-</body>
-</html>
+      ]
+    },
+    {
+      "arc_title": "Arc 2: Exanimis",
+      "chapters": [
+        {
+          "chapter_num": "ALL",
+          "title": "⚡ View Full Exanimis Arc (Webtoon List)",
+          "url": "https://www.webtoons.com/en/canvas/beyond-the-void-exanimis/list?title_no=1142009"
+        },
+        {
+          "chapter_num": "Ch. 01",
+          "title": "THE DRIFT",
+          "url": "https://www.webtoons.com/en/canvas/beyond-the-void-exanimis/the-drift/viewer?title_no=1142009&episode_no=1"
+        },
+        {
+          "chapter_num": "Ch. 02",
+          "title": "I AM NOT HERA'EL",
+          "url": "https://www.webtoons.com/en/canvas/beyond-the-void-exanimis/i-am-not-herael/viewer?title_no=1142009&episode_no=2"
+        },
+        {
+          "chapter_num": "Ch. 03",
+          "title": "Suicide Pact",
+          "url": "https://www.webtoons.com/en/canvas/beyond-the-void-exanimis/suicide-pact/viewer?title_no=1142009&episode_no=3"
+        },
+        {
+          "chapter_num": "Ch. 04",
+          "title": "AKU-GEKISHIN",
+          "url": "https://www.webtoons.com/en/canvas/beyond-the-void-exanimis/aku-gekishin/viewer?title_no=1142009&episode_no=4"
+        },
+        {
+          "chapter_num": "Ch. 05",
+          "title": "The Puppet's Awakening",
+          "url": "https://www.webtoons.com/en/canvas/beyond-the-void-exanimis/the-puppets-awakening/viewer?title_no=1142009&episode_no=5"
+        },
+        {
+          "chapter_num": "Ch. 06",
+          "title": "BROKEN SEALS",
+          "url": "https://www.webtoons.com/en/canvas/beyond-the-void-exanimis/broken-seals/viewer?title_no=1142009&episode_no=6"
+        },
+        {
+          "chapter_num": "Ch. 07",
+          "title": "Echoes of Dissolution",
+          "url": "https://www.webtoons.com/en/canvas/beyond-the-void-exanimis/echoes-of-dissolution/viewer?title_no=1142009&episode_no=7"
+        },
+        {
+          "chapter_num": "Ch. 08",
+          "title": "AKO TOMOKI",
+          "url": "https://www.webtoons.com/en/canvas/beyond-the-void-exanimis/ako-tomoki/viewer?title_no=1142009&episode_no=8"
+        },
+        {
+          "chapter_num": "Ch. 09",
+          "title": "Lost Signals",
+          "url": "https://www.webtoons.com/en/canvas/beyond-the-void-exanimis/lost-signals/viewer?title_no=1142009&episode_no=9"
+        },
+        {
+          "chapter_num": "Ch. 10",
+          "title": "Void bound",
+          "url": "https://www.webtoons.com/en/canvas/beyond-the-void-exanimis/void-bound/viewer?title_no=1142009&episode_no=10"
+        },
+        {
+          "chapter_num": "Ch. 11",
+          "title": "Beyond the Threshold",
+          "url": "https://www.webtoons.com/en/canvas/beyond-the-void-exanimis/beyond-the-threshold/viewer?title_no=1142009&episode_no=11"
+        },
+        {
+          "chapter_num": "Ch. 12",
+          "title": "The Ultimate Collapse 最後の崩壊",
+          "url": "https://www.webtoons.com/en/canvas/beyond-the-void-exanimis/the-ultimate-collapse-%E6%9C%80%E5%BE%8C%E3%81%AE%E5%B4%A9%E5%A3%8A/viewer?title_no=1142009&episode_no=12"
+        },
+        {
+          "chapter_num": "Ch. 13",
+          "title": "Final - Abyss of Arthos",
+          "url": "https://www.webtoons.com/en/canvas/beyond-the-void-exanimis/final-abyss-of-arthos/viewer?title_no=1142009&episode_no=13"
+        },
+        {
+          "chapter_num": "Ch. 14",
+          "title": "The Final Echo",
+          "url": "https://www.webtoons.com/en/canvas/beyond-the-void-exanimis/the-final-echo/viewer?title_no=1142009&episode_no=14"
+        }
+      ]
+    },
+    {
+      "arc_title": "Arc 3: Arthos",
+      "chapters": [
+        {
+          "chapter_num": "ALL",
+          "title": "⚡ View Full Arthos Arc (Webtoon List)",
+          "url": "https://www.webtoons.com/en/canvas/beyond-the-void-arthos/list?title_no=1167067"
+        },
+        {
+          "chapter_num": "Ch. 01",
+          "title": "Secrets of the Soft Abyss",
+          "url": "https://www.webtoons.com/en/canvas/beyond-the-void-arthos/secrets-of-the-soft-abyss/viewer?title_no=1167067&episode_no=1"
+        },
+        {
+          "chapter_num": "Ch. 02",
+          "title": "The Glitched Paradox",
+          "url": "https://www.webtoons.com/en/canvas/beyond-the-void-arthos/the-glitched-paradox/viewer?title_no=1167067&episode_no=2" 
+          "is_new": true
+        }
+      ]
+    }
+  ],
+  "vault_art": []
+}
