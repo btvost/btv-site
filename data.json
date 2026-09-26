@@ -3,7 +3,7 @@
   "tagline": "Official Portal | Dark Fantasy Universe",
   "seasons": [
     {
-      "season_title": "Season 1: GENESIS <span class=\"new-dot\"></span>",
+      "season_title": "Season 1: GENESIS",
       "episodes": [
         {
           "title": "Episode 1: Genesis",
@@ -26,7 +26,7 @@
           "duration": "10:00"
         },
         {
-          "title": "Episode 5: The Glitched Paradox <span class=\"new-dot\"></span>",
+          "title": "Episode 5: The Glitched Paradox",
           "youtube_id": "9FdJpj6huIk",
           "duration": "10:00"
         }
