@@ -144,13 +144,14 @@
       }
     }
 
-    fetch('data.json')
+    // إضافة طابع زمني لمنع المتصفح من تخزين النسخة القديمة كاش
+    fetch('data.json?v=' + Date.now())
       .then(function(res) { return res.json(); })
       .then(function(data) {
         if (data.project) document.getElementById('site-title').innerText = data.project;
         if (data.tagline) document.getElementById('site-tagline').innerText = data.tagline;
 
-        // تشغيل أول حلقة
+        // تشغيل أول حلقة في السينما العلوية
         if (data.seasons && data.seasons[0] && data.seasons[0].episodes && data.seasons[0].episodes[0]) {
           changeVideo(data.seasons[0].episodes[0].youtube_id);
         }
@@ -158,20 +159,36 @@
         // بناء مواسم الأنيميشن
         var seasonsContainer = document.getElementById('seasons-container');
         if (seasonsContainer && data.seasons) {
+          // معرفة آخر موسم فيه حلقات
+          var activeSeasonIdx = -1;
+          for (var i = data.seasons.length - 1; i >= 0; i--) {
+            if (data.seasons[i].episodes && data.seasons[i].episodes.length > 0) {
+              activeSeasonIdx = i;
+              break;
+            }
+          }
+
           data.seasons.forEach(function(s, idx) {
             var epsHtml = '';
-            if (s.episodes) {
-              epsHtml = s.episodes.map(function(ep) {
+            var isLatestSeason = (idx === activeSeasonIdx);
+
+            if (s.episodes && s.episodes.length > 0) {
+              var lastEpIdx = s.episodes.length - 1;
+
+              epsHtml = s.episodes.map(function(ep, epIdx) {
+                var isLatestEp = (isLatestSeason && epIdx === lastEpIdx);
+                var dotHtml = isLatestEp ? '<span class="new-dot"></span>' : '';
                 return '<div class="folder-item" onclick="changeVideo(\'' + ep.youtube_id + '\')">' +
-                  '<span>▶ ' + ep.title + '</span>' +
+                  '<span>▶ ' + ep.title + ' ' + dotHtml + '</span>' +
                   '<span style="font-size: 0.8rem; color: #888;">' + ep.duration + ' ↗</span>' +
                   '</div>';
               }).join('');
             }
 
+            var seasonDotHtml = isLatestSeason ? '<span class="new-dot"></span>' : '';
             seasonsContainer.innerHTML += '<div>' +
               '<button class="folder-btn" onclick="toggleFolder(\'season-' + idx + '\')">' +
-              '<span>📁 ' + s.season_title + '</span>' +
+              '<span>📁 ' + s.season_title + ' ' + seasonDotHtml + '</span>' +
               '<span>▼</span>' +
               '</button>' +
               '<div class="folder-content" id="season-' + idx + '">' + epsHtml + '</div>' +
