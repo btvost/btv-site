@@ -103,12 +103,12 @@
         </span>
       </div>
       <iframe 
-        src="https://audiomack.com/embed/xmrboymanx/song/6ab3f6b5f2749" 
+        src="https://audiomack.com/embed/xmrboymanx/song/attempt-22" 
         scrolling="no" 
         width="100%" 
         height="252" 
         frameborder="0" 
-        title="Timeline Fracture"
+        title="ATTEMPT 22"
         style="border-radius: 8px; border: 1px solid #28283d;">
       </iframe>
     </div>
@@ -144,7 +144,6 @@
       }
     }
 
-    // إضافة طابع زمني لمنع المتصفح من تخزين النسخة القديمة كاش
     fetch('data.json?v=' + Date.now())
       .then(function(res) { return res.json(); })
       .then(function(data) {
@@ -159,7 +158,6 @@
         // بناء مواسم الأنيميشن
         var seasonsContainer = document.getElementById('seasons-container');
         if (seasonsContainer && data.seasons) {
-          // معرفة آخر موسم فيه حلقات
           var activeSeasonIdx = -1;
           for (var i = data.seasons.length - 1; i >= 0; i--) {
             if (data.seasons[i].episodes && data.seasons[i].episodes.length > 0) {
