@@ -207,7 +207,7 @@
       "chapters": [
         {
           "chapter_num": "ALL",
-          "title": "⚡ View Full Arthos Arc (Webtoon List)",
+          "title": "⚡ View Full Genesis Arc (Webtoon List)",
           "url": "https://www.webtoons.com/en/canvas/beyond-the-void-arthos/list?title_no=1167067"
         },
         {
@@ -234,6 +234,11 @@
           "chapter_num": "Ch. 05",
           "title": "NEXUS",
           "url": "https://www.webtoons.com/en/canvas/beyond-the-void-arthos/nexus/viewer?title_no=1167067&episode_no=5"
+        },
+        {
+          "chapter_num": "Ch. 06",
+          "title": "The Asylum",
+          "url": "https://www.webtoons.com/en/canvas/beyond-the-void-arthos/the-asylum/viewer?title_no=1167067&episode_no=6"
         }
       ]
     }
