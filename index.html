@@ -1,234 +1,234 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BEYOND THE VOID</title>
-  <link rel="stylesheet" href="style.css">
-  <style>
-    /* تنسيق الفولدرات التفاعلية */
-    .folder-btn {
-      width: 100%;
-      background: #14141f;
-      color: #fff;
-      border: 1px solid #28283d;
-      padding: 14px 18px;
-      text-align: left;
-      font-size: 1rem;
-      font-weight: bold;
-      border-radius: 8px;
-      cursor: pointer;
-      margin-top: 10px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      transition: 0.3s;
-    }
-    .folder-btn:hover {
-      border-color: var(--crimson-glow, #ff0033);
-      box-shadow: 0 0 10px rgba(255, 30, 66, 0.2);
-    }
-    .folder-content {
-      display: none;
-      background: #0d0d14;
-      border: 1px solid #1f1f2e;
-      border-top: none;
-      border-radius: 0 0 8px 8px;
-      padding: 10px;
-    }
-    .folder-item {
-      padding: 10px;
-      border-bottom: 1px solid #1a1a26;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      cursor: pointer;
-      color: var(--text-main, #e2e8f0);
-      text-decoration: none;
-    }
-    .folder-item:hover {
-      color: var(--crimson-glow, #ff0033);
-      background: #141420;
-    }
-    .folder-item:last-child { border-bottom: none; }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BEYOND THE VOID</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* تنسيق الفولدرات التفاعلية */
+    .folder-btn {
+      width: 100%;
+      background: #14141f;
+      color: #fff;
+      border: 1px solid #28283d;
+      padding: 14px 18px;
+      text-align: left;
+      font-size: 1rem;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: 0.3s;
+    }
+    .folder-btn:hover {
+      border-color: var(--crimson-glow, #ff0033);
+      box-shadow: 0 0 10px rgba(255, 30, 66, 0.2);
+    }
+    .folder-content {
+      display: none;
+      background: #0d0d14;
+      border: 1px solid #1f1f2e;
+      border-top: none;
+      border-radius: 0 0 8px 8px;
+      padding: 10px;
+    }
+    .folder-item {
+      padding: 10px;
+      border-bottom: 1px solid #1a1a26;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      color: var(--text-main, #e2e8f0);
+      text-decoration: none;
+    }
+    .folder-item:hover {
+      color: var(--crimson-glow, #ff0033);
+      background: #141420;
+    }
+    .folder-item:last-child { border-bottom: none; }
 
-    /* النقطة الحمراء النابضة للجديد */
-    .new-dot {
-      display: inline-block;
-      width: 8px;
-      height: 8px;
-      background-color: #ff0033;
-      border-radius: 50%;
-      margin-left: 8px;
-      box-shadow: 0 0 8px #ff0033;
-      animation: pulse-dot 1.5s infinite;
-      vertical-align: middle;
-    }
+    /* النقطة الحمراء النابضة للجديد */
+    .new-dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      background-color: #ff0033;
+      border-radius: 50%;
+      margin-left: 8px;
+      box-shadow: 0 0 8px #ff0033;
+      animation: pulse-dot 1.5s infinite;
+      vertical-align: middle;
+    }
 
-    @keyframes pulse-dot {
-      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 0, 51, 0.7); }
-      70% { transform: scale(1.2); box-shadow: 0 0 0 6px rgba(255, 0, 51, 0); }
-      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 0, 51, 0); }
-    }
-  </style>
+    @keyframes pulse-dot {
+      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 0, 51, 0.7); }
+      70% { transform: scale(1.2); box-shadow: 0 0 0 6px rgba(255, 0, 51, 0); }
+      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 0, 51, 0); }
+    }
+  </style>
 </head>
 <body>
 
-  <header>
-    <div class="logo-container">
-      <img src="logo.png" alt="BTV Logo">
-    </div>
-    <h1 id="site-title">BEYOND THE VOID</h1>
-    <p class="tagline" id="site-tagline">Dark Fantasy Universe</p>
-  </header>
+  <header>
+    <div class="logo-container">
+      <img src="logo.png" alt="BTV Logo">
+    </div>
+    <h1 id="site-title">BEYOND THE VOID</h1>
+    <p class="tagline" id="site-tagline">Dark Fantasy Universe</p>
+  </header>
 
-  <div class="section-title">🎬 Video Cinema (9:16)</div>
-  <div class="cinema-wrapper">
-    <div class="video-frame-container" id="video-container"></div>
-  </div>
+  <div class="section-title">🎬 Video Cinema (9:16)</div>
+  <div class="cinema-wrapper">
+    <div class="video-frame-container" id="video-container"></div>
+  </div>
 
-  <div class="section-title">📁 Animation Episodes (Seasons)</div>
-  <div style="width: 100%; max-width: 800px; margin: 0 auto;" id="seasons-container"></div>
+  <div class="section-title">📁 Animation Episodes (Seasons)</div>
+  <div style="width: 100%; max-width: 800px; margin: 0 auto;" id="seasons-container"></div>
 
-  <div class="section-title">📖 Webtoon Story (Arcs & Parts)</div>
-  <div style="width: 100%; max-width: 800px; margin: 0 auto;" id="webtoon-container"></div>
+  <div class="section-title">📖 Webtoon Story (Arcs & Parts)</div>
+  <div style="width: 100%; max-width: 800px; margin: 0 auto;" id="webtoon-container"></div>
 
-  <div class="audio-section" style="margin: 40px auto; max-width: 800px; text-align: center; padding: 0 15px;">
-    
-    <div style="margin-bottom: 30px; background: rgba(20, 20, 31, 0.6); border: 1px solid rgba(255, 0, 51, 0.4); border-radius: 12px; padding: 16px; box-shadow: 0 0 15px rgba(255, 0, 51, 0.15);">
-      <div style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 12px;">
-        <span class="new-dot" style="margin-left: 0;"></span>
-        <span style="color: #ff0033; font-family: sans-serif; font-weight: bold; font-size: 13px; letter-spacing: 2px; text-transform: uppercase;">
-          LATEST OST RELEASE
-        </span>
-      </div>
-      <iframe 
-        src="https://audiomack.com/embed/xmrboymanx/song/nexus" 
-        scrolling="no" 
-        width="100%" 
-        height="252" 
-        frameborder="0" 
-        title="Nexus"
-        style="border-radius: 8px; border: 1px solid #28283d;">
-      </iframe>
-    </div>
+  <div class="audio-section" style="margin: 40px auto; max-width: 800px; text-align: center; padding: 0 15px;">
+    
+    <div style="margin-bottom: 30px; background: rgba(20, 20, 31, 0.6); border: 1px solid rgba(255, 0, 51, 0.4); border-radius: 12px; padding: 16px; box-shadow: 0 0 15px rgba(255, 0, 51, 0.15);">
+      <div style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 12px;">
+        <span class="new-dot" style="margin-left: 0;"></span>
+        <span style="color: #ff0033; font-family: sans-serif; font-weight: bold; font-size: 13px; letter-spacing: 2px; text-transform: uppercase;">
+          LATEST OST RELEASE
+        </span>
+      </div>
+      <iframe 
+        src="https://audiomack.com/embed/xmrboymanx/song/nexus" 
+        scrolling="no" 
+        width="100%" 
+        height="252" 
+        frameborder="0" 
+        title="Nexus"
+        style="border-radius: 8px; border: 1px solid #28283d;">
+      </iframe>
+    </div>
 
-    <h2 style="color: #ff0033; font-family: sans-serif; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 5px;">
-      🎵 Official Soundtrack (OST)
-    </h2>
-    <p style="color: #888; font-size: 14px; margin-bottom: 20px;">Complete Original Series Playlist</p>
-    <iframe 
-      src="https://audiomack.com/embed/playlist/xmrboymanx/beyond-the-void-ost?background=1" 
-      scrolling="no" 
-      width="100%" 
-      height="450" 
-      frameborder="0" 
-      title="Beyond The Void OST"
-      style="border-radius: 12px; box-shadow: 0 0 20px rgba(255, 0, 51, 0.2); border: 1px solid rgba(255, 0, 51, 0.3);">
-    </iframe>
-  </div>
+    <h2 style="color: #ff0033; font-family: sans-serif; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 5px;">
+      🎵 Official Soundtrack (OST)
+    </h2>
+    <p style="color: #888; font-size: 14px; margin-bottom: 20px;">Complete Original Series Playlist</p>
+    <iframe 
+      src="https://audiomack.com/embed/playlist/xmrboymanx/beyond-the-void-ost?background=1" 
+      scrolling="no" 
+      width="100%" 
+      height="450" 
+      frameborder="0" 
+      title="Beyond The Void OST"
+      style="border-radius: 12px; box-shadow: 0 0 20px rgba(255, 0, 51, 0.2); border: 1px solid rgba(255, 0, 51, 0.3);">
+    </iframe>
+  </div>
 
-  <script>
-    function changeVideo(youtubeId) {
-      var vc = document.getElementById('video-container');
-      if (vc) {
-        vc.innerHTML = '<iframe src="https://www.youtube.com/embed/' + youtubeId + '?autoplay=1&rel=0&modestbranding=1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
-        window.scrollTo({ top: 180, behavior: 'smooth' });
-      }
-    }
+  <script>
+    function changeVideo(youtubeId) {
+      var vc = document.getElementById('video-container');
+      if (vc) {
+        vc.innerHTML = '<iframe src="https://www.youtube.com/embed/' + youtubeId + '?autoplay=1&rel=0&modestbranding=1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
+        window.scrollTo({ top: 180, behavior: 'smooth' });
+      }
+    }
 
-    function toggleFolder(id) {
-      var el = document.getElementById(id);
-      if (el) {
-        el.style.display = (el.style.display === 'block') ? 'none' : 'block';
-      }
-    }
+    function toggleFolder(id) {
+      var el = document.getElementById(id);
+      if (el) {
+        el.style.display = (el.style.display === 'block') ? 'none' : 'block';
+      }
+    }
 
-    fetch('data.json?v=' + Date.now())
-      .then(function(res) { return res.json(); })
-      .then(function(data) {
-        if (data.project) document.getElementById('site-title').innerText = data.project;
-        if (data.tagline) document.getElementById('site-tagline').innerText = data.tagline;
+    fetch('data.json?v=' + Date.now())
+      .then(function(res) { return res.json(); })
+      .then(function(data) {
+        if (data.project) document.getElementById('site-title').innerText = data.project;
+        if (data.tagline) document.getElementById('site-tagline').innerText = data.tagline;
 
-        // تشغيل أول حلقة في السينما العلوية
-        if (data.seasons && data.seasons[0] && data.seasons[0].episodes && data.seasons[0].episodes[0]) {
-          changeVideo(data.seasons[0].episodes[0].youtube_id);
-        }
+        // تشغيل أول حلقة في السينما العلوية
+        if (data.seasons && data.seasons[0] && data.seasons[0].episodes && data.seasons[0].episodes[0]) {
+          changeVideo(data.seasons[0].episodes[0].youtube_id);
+        }
 
-        // بناء مواسم الأنيميشن
-        var seasonsContainer = document.getElementById('seasons-container');
-        if (seasonsContainer && data.seasons) {
-          var activeSeasonIdx = -1;
-          for (var i = data.seasons.length - 1; i >= 0; i--) {
-            if (data.seasons[i].episodes && data.seasons[i].episodes.length > 0) {
-              activeSeasonIdx = i;
-              break;
-            }
-          }
+        // بناء مواسم الأنيميشن
+        var seasonsContainer = document.getElementById('seasons-container');
+        if (seasonsContainer && data.seasons) {
+          var activeSeasonIdx = -1;
+          for (var i = data.seasons.length - 1; i >= 0; i--) {
+            if (data.seasons[i].episodes && data.seasons[i].episodes.length > 0) {
+              activeSeasonIdx = i;
+              break;
+            }
+          }
 
-          data.seasons.forEach(function(s, idx) {
-            var epsHtml = '';
-            var isLatestSeason = (idx === activeSeasonIdx);
+          data.seasons.forEach(function(s, idx) {
+            var epsHtml = '';
+            var isLatestSeason = (idx === activeSeasonIdx);
 
-            if (s.episodes && s.episodes.length > 0) {
-              var lastEpIdx = s.episodes.length - 1;
+            if (s.episodes && s.episodes.length > 0) {
+              var lastEpIdx = s.episodes.length - 1;
 
-              epsHtml = s.episodes.map(function(ep, epIdx) {
-                var isLatestEp = (isLatestSeason && epIdx === lastEpIdx);
-                var dotHtml = isLatestEp ? '<span class="new-dot"></span>' : '';
-                return '<div class="folder-item" onclick="changeVideo(\'' + ep.youtube_id + '\')">' +
-                  '<span>▶ ' + ep.title + ' ' + dotHtml + '</span>' +
-                  '<span style="font-size: 0.8rem; color: #888;">' + ep.duration + ' ↗</span>' +
-                  '</div>';
-              }).join('');
-            }
+              epsHtml = s.episodes.map(function(ep, epIdx) {
+                var isLatestEp = (isLatestSeason && epIdx === lastEpIdx);
+                var dotHtml = isLatestEp ? '<span class="new-dot"></span>' : '';
+                return '<div class="folder-item" onclick="changeVideo(\'' + ep.youtube_id + '\')">' +
+                  '<span>▶ ' + ep.title + ' ' + dotHtml + '</span>' +
+                  '<span style="font-size: 0.8rem; color: #888;">' + ep.duration + ' ↗</span>' +
+                  '</div>';
+              }).join('');
+            }
 
-            var seasonDotHtml = isLatestSeason ? '<span class="new-dot"></span>' : '';
-            seasonsContainer.innerHTML += '<div>' +
-              '<button class="folder-btn" onclick="toggleFolder(\'season-' + idx + '\')">' +
-              '<span>📁 ' + s.season_title + ' ' + seasonDotHtml + '</span>' +
-              '<span>▼</span>' +
-              '</button>' +
-              '<div class="folder-content" id="season-' + idx + '">' + epsHtml + '</div>' +
-              '</div>';
-          });
-        }
+            var seasonDotHtml = isLatestSeason ? '<span class="new-dot"></span>' : '';
+            seasonsContainer.innerHTML += '<div>' +
+              '<button class="folder-btn" onclick="toggleFolder(\'season-' + idx + '\')">' +
+              '<span>📁 ' + s.season_title + ' ' + seasonDotHtml + '</span>' +
+              '<span>▼</span>' +
+              '</button>' +
+              '<div class="folder-content" id="season-' + idx + '">' + epsHtml + '</div>' +
+              '</div>';
+          });
+        }
 
-        // بناء فصول الويب تون
-        var webtoonContainer = document.getElementById('webtoon-container');
-        if (webtoonContainer && data.webtoon_arcs) {
-          var lastArcIdx = data.webtoon_arcs.length - 1;
+        // بناء فصول الويب تون
+        var webtoonContainer = document.getElementById('webtoon-container');
+        if (webtoonContainer && data.webtoon_arcs) {
+          var lastArcIdx = data.webtoon_arcs.length - 1;
 
-          data.webtoon_arcs.forEach(function(arc, idx) {
-            var isLatestArc = (idx === lastArcIdx);
-            var chsHtml = '';
+          data.webtoon_arcs.forEach(function(arc, idx) {
+            var isLatestArc = (idx === lastArcIdx);
+            var chsHtml = '';
 
-            if (arc.chapters) {
-              var lastChapterIdx = arc.chapters.length - 1;
-              chsHtml = arc.chapters.map(function(ch, chIdx) {
-                var isLatestChapter = isLatestArc && (chIdx === lastChapterIdx);
-                var dotHtml = isLatestChapter ? '<span class="new-dot"></span>' : '';
-                return '<a href="' + ch.url + '" target="_blank" class="folder-item">' +
-                  '<span>📖 ' + ch.chapter_num + ': ' + ch.title + ' ' + dotHtml + '</span>' +
-                  '<span style="font-size: 0.8rem; color: var(--crimson-glow, #ff0033);">Read ↗</span>' +
-                  '</a>';
-              }).join('');
-            }
+            if (arc.chapters) {
+              var lastChapterIdx = arc.chapters.length - 1;
+              chsHtml = arc.chapters.map(function(ch, chIdx) {
+                var isLatestChapter = isLatestArc && (chIdx === lastChapterIdx);
+                var dotHtml = isLatestChapter ? '<span class="new-dot"></span>' : '';
+                return '<a href="' + ch.url + '" target="_blank" class="folder-item">' +
+                  '<span>📖 ' + ch.chapter_num + ': ' + ch.title + ' ' + dotHtml + '</span>' +
+                  '<span style="font-size: 0.8rem; color: var(--crimson-glow, #ff0033);">Read ↗</span>' +
+                  '</a>';
+              }).join('');
+            }
 
-            var arcDotHtml = isLatestArc ? '<span class="new-dot"></span>' : '';
-            webtoonContainer.innerHTML += '<div>' +
-              '<button class="folder-btn" onclick="toggleFolder(\'arc-' + idx + '\')">' +
-              '<span>📚 ' + arc.arc_title + ' ' + arcDotHtml + '</span>' +
-              '<span>▼</span>' +
-              '</button>' +
-              '<div class="folder-content" id="arc-' + idx + '">' + chsHtml + '</div>' +
-              '</div>';
-          });
-        }
-      })
-      .catch(function(err) {
-        console.error("Error loading data:", err);
-      });
-  </script>
+            var arcDotHtml = isLatestArc ? '<span class="new-dot"></span>' : '';
+            webtoonContainer.innerHTML += '<div>' +
+              '<button class="folder-btn" onclick="toggleFolder(\'arc-' + idx + '\')">' +
+              '<span>📚 ' + arc.arc_title + ' ' + arcDotHtml + '</span>' +
+              '<span>▼</span>' +
+              '</button>' +
+              '<div class="folder-content" id="arc-' + idx + '">' + chsHtml + '</div>' +
+              '</div>';
+          });
+        }
+      })
+      .catch(function(err) {
+        console.error("Error loading data:", err);
+      });
+  </script>
 </body>
 </html>
