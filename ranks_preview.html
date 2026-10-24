@@ -2,195 +2,188 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>BTV Rank Badges Preview</title>
+  <title>BTV Abyssal Sigils Preview</title>
   <style>
     body {
-      background: #09090e;
-      color: #fff;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      padding: 40px;
+      background: #050508;
+      color: #e0e0e0;
+      font-family: 'Cinzel', 'Trajan Pro', Georgia, serif;
+      padding: 40px 20px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 20px;
+      gap: 25px;
     }
 
-    h2 {
+    h1 {
       color: #ff0033;
-      letter-spacing: 2px;
+      letter-spacing: 4px;
       text-transform: uppercase;
-      margin-bottom: 25px;
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+      text-shadow: 0 0 15px rgba(255, 0, 51, 0.4);
     }
 
-    .badge-card {
+    .sigil-card {
       width: 100%;
-      max-width: 480px;
-      background: #11111a;
-      border: 1px solid #1f1f2e;
-      border-radius: 8px;
-      padding: 14px 20px;
+      max-width: 520px;
+      background: radial-gradient(circle at right, #141018 0%, #0a080d 100%);
+      border: 1px solid #221c2b;
+      border-radius: 12px;
+      padding: 16px 24px;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+      transition: all 0.4s ease;
+    }
+
+    .sigil-card::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 3px;
+      height: 100%;
+      background: #333;
       transition: 0.3s;
     }
 
-    .rank-info {
+    .rank-text-group {
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      gap: 6px;
     }
 
-    .rank-name {
-      font-size: 1rem;
-      font-weight: bold;
-      letter-spacing: 1.5px;
-      font-family: monospace;
+    .rank-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
     }
 
-    .rank-xp {
+    .rank-desc {
       font-size: 0.75rem;
-      color: #666;
+      color: #777;
+      font-family: sans-serif;
+      letter-spacing: 1px;
     }
 
-    /* هيكل البادج التكتيكي */
-    .tactical-badge {
+    /* أشكال الأختام SVG */
+    .sigil-emblem {
+      width: 56px;
+      height: 56px;
+      position: relative;
       display: flex;
-      gap: 4px;
       align-items: center;
+      justify-content: center;
     }
 
-    .chevron {
-      width: 6px;
-      height: 18px;
-      clip-path: polygon(100% 0, 100% 100%, 0 80%, 0 20%);
-      background: #333;
+    .sigil-svg {
+      width: 100%;
+      height: 100%;
+      transition: 0.4s;
     }
 
-    /* 1. VOID INITIATE */
-    .rank-initiate .rank-name { color: #888; }
-    .rank-initiate .chevron { background: #555; }
+    /* 1. VOID INITIATE: ختم الحجر الخام الباهت */
+    .tier-1::before { background: #555; }
+    .tier-1 .rank-title { color: #8a8a9e; }
+    .tier-1 .sigil-svg { fill: none; stroke: #4a4a5e; stroke-width: 1.5; }
 
-    /* 2. ABYSS WANDERER */
-    .rank-wanderer .rank-name { color: #ff4d6d; }
-    .rank-wanderer .chevron {
-      background: #ff4d6d;
-      box-shadow: 0 0 8px rgba(255, 77, 109, 0.4);
+    /* 2. ABYSS WANDERER: الختم الموقظ ونواة البعد */
+    .tier-2::before { background: #800020; }
+    .tier-2 .rank-title { color: #d1496a; }
+    .tier-2 .sigil-svg {
+      fill: none;
+      stroke: #d1496a;
+      stroke-width: 1.8;
+      filter: drop-shadow(0 0 4px rgba(209, 73, 106, 0.5));
     }
 
-    /* 3. ECHO TRANSCENDER */
-    .rank-transcender { border-color: rgba(255, 0, 51, 0.4); }
-    .rank-transcender .rank-name { color: #ff0033; }
-    .rank-transcender .chevron {
-      background: #ff0033;
-      box-shadow: 0 0 10px #ff0033;
+    /* 3. ECHO TRANSCENDER (القدامى): رون الشفرات والعين الملعونة */
+    .tier-3 {
+      border-color: rgba(255, 0, 51, 0.3);
+      box-shadow: 0 0 25px rgba(255, 0, 51, 0.15);
+    }
+    .tier-3::before { background: #ff0033; box-shadow: 0 0 10px #ff0033; }
+    .tier-3 .rank-title {
+      color: #ff0033;
+      text-shadow: 0 0 10px rgba(255, 0, 51, 0.5);
+    }
+    .tier-3 .sigil-svg {
+      fill: none;
+      stroke: #ff0033;
+      stroke-width: 2;
+      filter: drop-shadow(0 0 8px rgba(255, 0, 51, 0.7));
+      animation: pulse-rune 3s infinite ease-in-out;
     }
 
-    /* 4. SHADOW REAPER */
-    .rank-reaper { border-color: rgba(255, 68, 0, 0.5); }
-    .rank-reaper .rank-name { color: #ff5500; }
-    .rank-reaper .chevron {
-      background: #ff5500;
-      box-shadow: 0 0 12px #ff5500;
+    /* 4. SHADOW REAPER: دائرة التحضير الهجومية والأنياب */
+    .tier-4 {
+      border-color: rgba(255, 60, 0, 0.4);
+      background: radial-gradient(circle at right, #1f0c10 0%, #0a080d 100%);
+    }
+    .tier-4::before { background: #ff4500; box-shadow: 0 0 12px #ff4500; }
+    .tier-4 .rank-title {
+      color: #ff5522;
+      text-shadow: 0 0 12px rgba(255, 69, 0, 0.6);
+    }
+    .tier-4 .sigil-svg {
+      fill: none;
+      stroke: #ff4500;
+      stroke-width: 2;
+      filter: drop-shadow(0 0 10px rgba(255, 69, 0, 0.8));
+      animation: spin-slow 20s linear infinite;
     }
 
-    /* 5. VOID ARCHITECT */
-    .rank-architect {
-      border: 1px solid #ffd700;
-      background: linear-gradient(90deg, #161208 0%, #1a0a0f 100%);
-      box-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
+    /* 5. VOID ARCHITECT: خاتم العرش المطلق والتاج المشتعل */
+    .tier-5 {
+      border: 1px solid rgba(255, 215, 0, 0.5);
+      background: radial-gradient(circle at right, #241905 0%, #0d0912 100%);
+      box-shadow: 0 0 35px rgba(255, 215, 0, 0.2), inset 0 0 15px rgba(255, 0, 51, 0.2);
     }
-    .rank-architect .rank-name {
+    .tier-5::before { background: #ffd700; box-shadow: 0 0 15px #ffd700; }
+    .tier-5 .rank-title {
       color: #ffd700;
-      text-shadow: 0 0 8px rgba(255, 215, 0, 0.6);
+      text-shadow: 0 0 15px rgba(255, 215, 0, 0.7), 0 0 5px #ff0033;
     }
-    .rank-architect .chevron {
-      background: #ffd700;
-      box-shadow: 0 0 12px #ffd700;
+    .tier-5 .sigil-svg {
+      stroke: #ffd700;
+      stroke-width: 2;
+      filter: drop-shadow(0 0 12px rgba(255, 215, 0, 0.9));
+      animation: pulse-core 2s infinite alternate ease-in-out;
     }
-    .rank-architect .core-gem {
-      width: 14px;
-      height: 14px;
-      background: #ff0033;
-      transform: rotate(45deg);
-      box-shadow: 0 0 12px #ff0033;
-      margin-left: 6px;
-      animation: pulse-core 1.2s infinite alternate;
+
+    @keyframes pulse-rune {
+      0%, 100% { opacity: 0.8; transform: scale(0.98); }
+      50% { opacity: 1; transform: scale(1.03); filter: drop-shadow(0 0 12px #ff0033); }
+    }
+
+    @keyframes spin-slow {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
     }
 
     @keyframes pulse-core {
-      0% { transform: rotate(45deg) scale(0.9); box-shadow: 0 0 6px #ff0033; }
-      100% { transform: rotate(45deg) scale(1.15); box-shadow: 0 0 16px #ff0033; }
+      0% { transform: scale(0.95); filter: drop-shadow(0 0 8px #ffd700); }
+      100% { transform: scale(1.06); filter: drop-shadow(0 0 18px #ff0033) drop-shadow(0 0 8px #ffd700); }
     }
   </style>
 </head>
 <body>
 
-  <h2>BTV Identification Ranks</h2>
+  <h1>BEYOND THE VOID — OCCULT CRESTS</h1>
 
-  <!-- Rank 1 -->
-  <div class="badge-card rank-initiate">
-    <div class="rank-info">
-      <span class="rank-name">VOID INITIATE</span>
-      <span class="rank-xp">Entry Level | 0 XP</span>
+  <!-- 1. VOID INITIATE -->
+  <div class="sigil-card tier-1">
+    <div class="rank-text-group">
+      <span class="rank-title">VOID INITIATE</span>
+      <span class="rank-desc">Mark of the Awakening Soul | 0 XP</span>
     </div>
-    <div class="tactical-badge">
-      <div class="chevron"></div>
-    </div>
-  </div>
-
-  <!-- Rank 2 -->
-  <div class="badge-card rank-wanderer">
-    <div class="rank-info">
-      <span class="rank-name">ABYSS WANDERER</span>
-      <span class="rank-xp">Active Drifter | 25 XP</span>
-    </div>
-    <div class="tactical-badge">
-      <div class="chevron"></div>
-      <div class="chevron"></div>
-    </div>
-  </div>
-
-  <!-- Rank 3 -->
-  <div class="badge-card rank-transcender">
-    <div class="rank-info">
-      <span class="rank-name">ECHO TRANSCENDER</span>
-      <span class="rank-xp">Veteran Tier | 60 XP</span>
-    </div>
-    <div class="tactical-badge">
-      <div class="chevron"></div>
-      <div class="chevron"></div>
-      <div class="chevron"></div>
-    </div>
-  </div>
-
-  <!-- Rank 4 -->
-  <div class="badge-card rank-reaper">
-    <div class="rank-info">
-      <span class="rank-name">SHADOW REAPER</span>
-      <span class="rank-xp">High Vanguard | 110 XP</span>
-    </div>
-    <div class="tactical-badge">
-      <div class="chevron"></div>
-      <div class="chevron"></div>
-      <div class="chevron"></div>
-      <div class="chevron"></div>
-    </div>
-  </div>
-
-  <!-- Rank 5 -->
-  <div class="badge-card rank-architect">
-    <div class="rank-info">
-      <span class="rank-name">VOID ARCHITECT</span>
-      <span class="rank-xp">Supreme Master | 150+ XP</span>
-    </div>
-    <div class="tactical-badge">
-      <div class="chevron"></div>
-      <div class="chevron"></div>
-      <div class="chevron"></div>
-      <div class="core-gem"></div>
-    </div>
-  </div>
-
-</body>
-</html>
+    <div class="sigil-emblem">
+      <svg class="sigil-svg" viewBox="0 0 64 64">
+        <!-- دائرة طقوس مكسورة ومعين أساسي -->
+        <circle cx="32" cy="32" r="26" stroke-dasharray="4 6"/>
+        <polygon points
