@@ -6,6 +6,177 @@
   <title>BEYOND THE VOID</title>
   <link rel="stylesheet" href="style.css">
   <style>
+    /* محرك الجزيئات الخلفي */
+    #fx-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    body {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* نافذة التسجيل الأولى للمستخدم */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+    .modal-card {
+      background: #0d0d14;
+      border: 1px solid #ff0033;
+      border-radius: 12px;
+      padding: 30px 25px;
+      width: 90%;
+      max-width: 420px;
+      text-align: center;
+      box-shadow: 0 0 30px rgba(255, 0, 51, 0.35);
+      box-sizing: border-box;
+    }
+    .modal-card h2 {
+      color: #fff;
+      font-size: 1.4rem;
+      margin-top: 0;
+      margin-bottom: 8px;
+      letter-spacing: 2px;
+    }
+    .modal-card p {
+      color: #888;
+      font-size: 0.85rem;
+      margin-bottom: 20px;
+    }
+    .modal-input-group {
+      margin-bottom: 15px;
+      text-align: left;
+    }
+    .modal-input-group label {
+      display: block;
+      color: #aaa;
+      font-size: 0.8rem;
+      margin-bottom: 5px;
+      font-family: monospace;
+    }
+    .modal-input-group input, .modal-input-group select {
+      width: 100%;
+      padding: 10px 12px;
+      background: #14141f;
+      border: 1px solid #28283d;
+      border-radius: 6px;
+      color: #fff;
+      font-size: 0.95rem;
+      box-sizing: border-box;
+      outline: none;
+    }
+    .modal-input-group input:focus, .modal-input-group select:focus {
+      border-color: #ff0033;
+    }
+    .modal-btn {
+      width: 100%;
+      background: #ff0033;
+      color: #fff;
+      border: none;
+      padding: 12px;
+      font-weight: bold;
+      font-size: 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 10px;
+      letter-spacing: 1px;
+      transition: 0.2s;
+    }
+    .modal-btn:hover {
+      background: #cc0029;
+      box-shadow: 0 0 15px rgba(255, 0, 51, 0.5);
+    }
+
+    /* شريط الهوية والختم الحي في الهيدر */
+    .id-strip-container {
+      width: 100%;
+      max-width: 800px;
+      margin: 15px auto;
+      background: rgba(13, 13, 20, 0.85);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 0, 51, 0.4);
+      border-radius: 12px;
+      padding: 12px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+      box-sizing: border-box;
+      transition: all 0.4s ease;
+    }
+    .id-strip-left {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    .id-sigil-icon {
+      width: 48px;
+      height: 48px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .id-strip-info {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .id-strip-alias {
+      font-size: 1.05rem;
+      font-weight: bold;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .id-strip-rank {
+      font-size: 0.85rem;
+      font-weight: bold;
+      font-family: monospace;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+    .id-strip-meta {
+      font-size: 0.75rem;
+      color: #777;
+      font-family: monospace;
+      text-align: right;
+    }
+
+    /* حركات الأختام */
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); filter: drop-shadow(0 0 4px #ff0033); }
+      50% { transform: scale(1.08); filter: drop-shadow(0 0 12px #ff0033); }
+    }
+    @keyframes rotate-sigil {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    @keyframes counter-rotate {
+      from { transform: rotate(360deg); }
+      to { transform: rotate(0deg); }
+    }
+    @keyframes eye-flare {
+      0%, 100% { transform: scale(0.95); opacity: 0.8; }
+      50% { transform: scale(1.1); opacity: 1; filter: drop-shadow(0 0 15px #ff0033); }
+    }
+
     /* تنسيق الفولدرات التفاعلية */
     .folder-btn {
       width: 100%;
@@ -64,7 +235,6 @@
       animation: pulse-dot 1.5s infinite;
       vertical-align: middle;
     }
-
     @keyframes pulse-dot {
       0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 0, 51, 0.7); }
       70% { transform: scale(1.2); box-shadow: 0 0 0 6px rgba(255, 0, 51, 0); }
@@ -74,6 +244,36 @@
 </head>
 <body>
 
+  <canvas id="fx-canvas"></canvas>
+
+  <!-- نافذة التسجيل الأولى -->
+  <div class="modal-overlay" id="registration-modal" style="display: none;">
+    <div class="modal-card">
+      <h2>ENTER THE VOID</h2>
+      <p>Initialize your soul signature to bind with the archives.</p>
+      
+      <div class="modal-input-group">
+        <label>CODENAME / ALIAS</label>
+        <input type="text" id="reg-alias" placeholder="Enter your alias...">
+      </div>
+
+      <div class="modal-input-group">
+        <label>GENDER</label>
+        <select id="reg-gender">
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+        </select>
+      </div>
+
+      <div class="modal-input-group">
+        <label>VETERAN PASSCODE (OPTIONAL)</label>
+        <input type="text" id="reg-passcode" placeholder="Enter secret code if granted...">
+      </div>
+
+      <button class="modal-btn" onclick="saveUserIdentity()">SYNCHRONIZE IDENTITY</button>
+    </div>
+  </div>
+
   <header>
     <div class="logo-container">
       <img src="logo.png" alt="BTV Logo">
@@ -81,6 +281,24 @@
     <h1 id="site-title">BEYOND THE VOID</h1>
     <p class="tagline" id="site-tagline">Dark Fantasy Universe</p>
   </header>
+
+  <!-- شريط الرتبة والختم الحي في أعلى الموقع -->
+  <div class="id-strip-container" id="user-strip" style="display: none;">
+    <div class="id-strip-left">
+      <div class="id-sigil-icon" id="strip-sigil-slot"></div>
+      <div class="id-strip-info">
+        <div class="id-strip-alias">
+          <span id="strip-alias-text">Unknown</span>
+          <span id="strip-gender-badge" style="font-size: 0.7rem; background: #20202e; padding: 2px 6px; border-radius: 4px; color: #888;"></span>
+        </div>
+        <div class="id-strip-rank" id="strip-rank-text">VOID VESSEL</div>
+      </div>
+    </div>
+    <div class="id-strip-meta">
+      <div id="strip-code">EXP-0000</div>
+      <div id="strip-xp-text" style="color: #ff0033; font-weight: bold; margin-top: 3px;">0 XP</div>
+    </div>
+  </div>
 
   <div class="section-title">🎬 Video Cinema (9:16)</div>
   <div class="cinema-wrapper">
@@ -94,7 +312,6 @@
   <div style="width: 100%; max-width: 800px; margin: 0 auto;" id="webtoon-container"></div>
 
   <div class="audio-section" style="margin: 40px auto; max-width: 800px; text-align: center; padding: 0 15px;">
-    
     <div style="margin-bottom: 30px; background: rgba(20, 20, 31, 0.6); border: 1px solid rgba(255, 0, 51, 0.4); border-radius: 12px; padding: 16px; box-shadow: 0 0 15px rgba(255, 0, 51, 0.15);">
       <div style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 12px;">
         <span class="new-dot" style="margin-left: 0;"></span>
@@ -129,11 +346,199 @@
   </div>
 
   <script>
-    function changeVideo(youtubeId) {
+    var VETERAN_SECRET_CODE = "VOID-LEGACY-2026";
+    var globalData = null;
+
+    // أختام الـ SVG والبيانات الخاصة بالرتب الـ 5
+    var sigilTiers = {
+      1: {
+        name: "VOID VESSEL",
+        color: "#6b7280",
+        border: "rgba(107, 114, 128, 0.4)",
+        halo: "rgba(107, 114, 128, 0.2)",
+        emberColor: "rgba(120, 120, 140, 0.4)",
+        emberSpeed: 0.6,
+        svg: `<svg viewBox="0 0 100 100" style="width:100%; height:100%;">
+          <circle cx="50" cy="50" r="42" fill="none" stroke="#444" stroke-width="2" stroke-dasharray="6 6"/>
+          <polygon points="50,15 80,50 50,85 20,50" fill="none" stroke="#666" stroke-width="2"/>
+          <path d="M50,20 L48,45 L54,55 L50,80" stroke="#888" stroke-width="2" fill="none"/>
+        </svg>`
+      },
+      2: {
+        name: "AWAKENED PULSE",
+        color: "#ff2a55",
+        border: "rgba(255, 42, 85, 0.5)",
+        halo: "rgba(255, 42, 85, 0.25)",
+        emberColor: "rgba(255, 42, 85, 0.6)",
+        emberSpeed: 1,
+        svg: `<svg viewBox="0 0 100 100" style="width:100%; height:100%; animation: heartbeat 1.4s infinite ease-in-out;">
+          <circle cx="50" cy="50" r="42" fill="none" stroke="#aa1133" stroke-width="2.5"/>
+          <circle cx="50" cy="50" r="28" fill="rgba(255,0,51,0.1)" stroke="#ff2a55" stroke-width="1.5" stroke-dasharray="4 3"/>
+          <polygon points="50,10 88,50 50,90 12,50" fill="none" stroke="#ff2a55" stroke-width="2"/>
+          <circle cx="50" cy="50" r="10" fill="#ff0033" style="filter: drop-shadow(0 0 8px #ff0033);"/>
+        </svg>`
+      },
+      3: {
+        name: "CRIMSON ECLIPSE",
+        color: "#ff0033",
+        border: "rgba(255, 0, 51, 0.7)",
+        halo: "rgba(255, 0, 51, 0.35)",
+        emberColor: "rgba(255, 0, 51, 0.8)",
+        emberSpeed: 1.6,
+        svg: `<svg viewBox="0 0 100 100" style="width:100%; height:100%;">
+          <g style="transform-origin: 50px 50px; animation: rotate-sigil 22s linear infinite;">
+            <circle cx="50" cy="50" r="44" fill="none" stroke="#ff0033" stroke-width="2" stroke-dasharray="8 5 2 5"/>
+          </g>
+          <path d="M15,50 Q50,18 85,50 Q50,82 15,50 Z" fill="none" stroke="#ff0033" stroke-width="2.5" style="filter: drop-shadow(0 0 8px #ff0033);"/>
+          <circle cx="50" cy="50" r="14" fill="#660011" stroke="#ff0033" stroke-width="2"/>
+          <circle cx="50" cy="50" r="6" fill="#ff0033" style="animation: eye-flare 2s infinite ease-in-out;"/>
+        </svg>`
+      },
+      4: {
+        name: "ABYSSAL OVERLORD",
+        color: "#ff5500",
+        border: "rgba(255, 85, 0, 0.8)",
+        halo: "rgba(255, 85, 0, 0.4)",
+        emberColor: "rgba(255, 85, 0, 0.9)",
+        emberSpeed: 2.2,
+        svg: `<svg viewBox="0 0 100 100" style="width:100%; height:100%;">
+          <g style="transform-origin: 50px 50px; animation: rotate-sigil 15s linear infinite;">
+            <polygon points="50,4 96,50 50,96 4,50" fill="none" stroke="#ff3300" stroke-width="2"/>
+          </g>
+          <g style="transform-origin: 50px 50px; animation: counter-rotate 12s linear infinite;">
+            <polygon points="50,14 86,50 50,86 14,50" fill="none" stroke="#ff7700" stroke-width="1.5" stroke-dasharray="5 3"/>
+          </g>
+          <circle cx="50" cy="50" r="22" fill="rgba(255,60,0,0.15)" stroke="#ff4500" stroke-width="2.5"/>
+          <circle cx="50" cy="50" r="9" fill="#ff3300" style="filter: drop-shadow(0 0 12px #ff5500);"/>
+        </svg>`
+      },
+      5: {
+        name: "EYE OF ARTHOS",
+        color: "#ffd700",
+        border: "rgba(255, 215, 0, 0.9)",
+        halo: "rgba(255, 215, 0, 0.45)",
+        emberColor: "rgba(255, 215, 0, 0.9)",
+        emberSpeed: 3,
+        svg: `<svg viewBox="0 0 100 100" style="width:100%; height:100%;">
+          <g style="transform-origin: 50px 50px; animation: rotate-sigil 8s linear infinite;">
+            <circle cx="50" cy="50" r="45" fill="none" stroke="#ffd700" stroke-width="2.5" stroke-dasharray="10 4 2 4"/>
+            <polygon points="50,2 62,38 98,50 62,62 50,98 38,62 2,50 38,38" fill="none" stroke="#ffd700" stroke-width="1.5"/>
+          </g>
+          <g style="transform-origin: 50px 50px; animation: counter-rotate 14s linear infinite;">
+            <circle cx="50" cy="50" r="32" fill="none" stroke="#ff0033" stroke-width="2" stroke-dasharray="4 4"/>
+          </g>
+          <circle cx="50" cy="50" r="14" fill="#ff0033" stroke="#ffd700" stroke-width="2" style="filter: drop-shadow(0 0 18px #ff0033) drop-shadow(0 0 10px #ffd700); animation: eye-flare 1s infinite alternate;"/>
+        </svg>`
+      }
+    };
+
+    var currentTier = 1;
+
+    function getStorage(key, def) {
+      try {
+        var v = localStorage.getItem(key);
+        return v ? JSON.parse(v) : def;
+      } catch (e) { return def; }
+    }
+
+    function setStorage(key, val) {
+      try { localStorage.setItem(key, JSON.stringify(val)); } catch (e) {}
+    }
+
+    function calculateTier(user) {
+      if (user.isVeteran) return 3;
+      var xp = user.xp || 0;
+      if (xp >= 150) return 5;
+      if (xp >= 100) return 4;
+      if (xp >= 50) return 3;
+      if (xp >= 20) return 2;
+      return 1;
+    }
+
+    function checkUserIdentity() {
+      var user = getStorage('btv_user', null);
+      if (!user) {
+        document.getElementById('registration-modal').style.display = 'flex';
+      } else {
+        renderUserStrip(user);
+      }
+    }
+
+    function saveUserIdentity() {
+      var aliasInput = document.getElementById('reg-alias').value.trim();
+      var genderInput = document.getElementById('reg-gender').value;
+      var passcodeInput = document.getElementById('reg-passcode').value.trim();
+
+      if (!aliasInput) {
+        alert("Please enter a codename / alias.");
+        return;
+      }
+
+      var isVeteran = (passcodeInput === VETERAN_SECRET_CODE);
+      var expId = 'BTV-' + Math.floor(1000 + Math.random() * 9000);
+
+      var user = {
+        alias: aliasInput,
+        gender: genderInput,
+        isVeteran: isVeteran,
+        expId: expId,
+        xp: isVeteran ? 60 : 0,
+        readItems: isVeteran ? ['all_veteran'] : []
+      };
+
+      setStorage('btv_user', user);
+      document.getElementById('registration-modal').style.display = 'none';
+      renderUserStrip(user);
+      if (globalData) renderContent(globalData);
+    }
+
+    function renderUserStrip(user) {
+      var strip = document.getElementById('user-strip');
+      if (!strip) return;
+      strip.style.display = 'flex';
+
+      var tierNum = calculateTier(user);
+      currentTier = tierNum;
+      var tData = sigilTiers[tierNum];
+
+      document.getElementById('strip-alias-text').innerText = user.alias;
+      document.getElementById('strip-gender-badge').innerText = user.gender;
+      document.getElementById('strip-code').innerText = user.expId;
+      
+      var rankEl = document.getElementById('strip-rank-text');
+      rankEl.innerText = tData.name;
+      rankEl.style.color = tData.color;
+      rankEl.style.textShadow = '0 0 10px ' + tData.color;
+
+      document.getElementById('strip-xp-text').innerText = (user.xp || 0) + ' XP';
+      document.getElementById('strip-xp-text').style.color = tData.color;
+
+      strip.style.borderColor = tData.border;
+      strip.style.boxShadow = '0 0 25px ' + tData.halo;
+
+      document.getElementById('strip-sigil-slot').innerHTML = tData.svg;
+    }
+
+    function markAsRead(itemId, xpPoints) {
+      var user = getStorage('btv_user', null);
+      if (!user) return;
+      if (!user.readItems) user.readItems = [];
+      if (!user.readItems.includes(itemId)) {
+        user.readItems.push(itemId);
+        user.xp = (user.xp || 0) + (xpPoints || 5);
+        setStorage('btv_user', user);
+        renderUserStrip(user);
+      }
+      var dot = document.getElementById('dot-' + itemId);
+      if (dot) dot.style.display = 'none';
+    }
+
+    function changeVideo(youtubeId, itemId) {
+      if (itemId) markAsRead(itemId, 10);
       var vc = document.getElementById('video-container');
       if (vc) {
         vc.innerHTML = '<iframe src="https://www.youtube.com/embed/' + youtubeId + '?autoplay=1&rel=0&modestbranding=1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
-        window.scrollTo({ top: 180, behavior: 'smooth' });
+        window.scrollTo({ top: 220, behavior: 'smooth' });
       }
     }
 
@@ -144,87 +549,161 @@
       }
     }
 
+    function renderContent(data) {
+      var user = getStorage('btv_user', { readItems: [] });
+      var isVeteran = user && user.isVeteran;
+
+      // بناء مواسم الأنيميشن
+      var seasonsContainer = document.getElementById('seasons-container');
+      seasonsContainer.innerHTML = '';
+      if (data.seasons) {
+        var activeSeasonIdx = -1;
+        for (var i = data.seasons.length - 1; i >= 0; i--) {
+          if (data.seasons[i].episodes && data.seasons[i].episodes.length > 0) {
+            activeSeasonIdx = i;
+            break;
+          }
+        }
+
+        data.seasons.forEach(function(s, idx) {
+          var epsHtml = '';
+          var isLatestSeason = (idx === activeSeasonIdx);
+
+          if (s.episodes && s.episodes.length > 0) {
+            var lastEpIdx = s.episodes.length - 1;
+
+            epsHtml = s.episodes.map(function(ep, epIdx) {
+              var isLatestEp = (isLatestSeason && epIdx === lastEpIdx);
+              var epId = 'ep_' + ep.youtube_id;
+              var isRead = isVeteran || (user.readItems && user.readItems.includes(epId));
+              var showDot = isLatestEp && !isRead;
+
+              var dotHtml = showDot ? '<span class="new-dot" id="dot-' + epId + '"></span>' : '';
+              return '<div class="folder-item" onclick="changeVideo(\'' + ep.youtube_id + '\', \'' + epId + '\')">' +
+                '<span>▶ ' + ep.title + ' ' + dotHtml + '</span>' +
+                '<span style="font-size: 0.8rem; color: #888;">' + ep.duration + ' ↗</span>' +
+                '</div>';
+            }).join('');
+          }
+
+          var seasonDotHtml = isLatestSeason ? '<span class="new-dot"></span>' : '';
+          seasonsContainer.innerHTML += '<div>' +
+            '<button class="folder-btn" onclick="toggleFolder(\'season-' + idx + '\')">' +
+            '<span>📁 ' + s.season_title + ' ' + seasonDotHtml + '</span>' +
+            '<span>▼</span>' +
+            '</button>' +
+            '<div class="folder-content" id="season-' + idx + '">' + epsHtml + '</div>' +
+            '</div>';
+        });
+      }
+
+      // بناء فصول الويب تون
+      var webtoonContainer = document.getElementById('webtoon-container');
+      webtoonContainer.innerHTML = '';
+      if (data.webtoon_arcs) {
+        var lastArcIdx = data.webtoon_arcs.length - 1;
+
+        data.webtoon_arcs.forEach(function(arc, idx) {
+          var isLatestArc = (idx === lastArcIdx);
+          var chsHtml = '';
+
+          if (arc.chapters) {
+            var lastChapterIdx = arc.chapters.length - 1;
+            chsHtml = arc.chapters.map(function(ch, chIdx) {
+              var isLatestChapter = isLatestArc && (chIdx === lastChapterIdx);
+              var chId = 'ch_' + idx + '_' + chIdx;
+              var isRead = isVeteran || (user.readItems && user.readItems.includes(chId));
+              var showDot = isLatestChapter && !isRead;
+
+              var dotHtml = showDot ? '<span class="new-dot" id="dot-' + chId + '"></span>' : '';
+              return '<a href="' + ch.url + '" target="_blank" class="folder-item" onclick="markAsRead(\'' + chId + '\', 5)">' +
+                '<span>📖 ' + ch.chapter_num + ': ' + ch.title + ' ' + dotHtml + '</span>' +
+                '<span style="font-size: 0.8rem; color: var(--crimson-glow, #ff0033);">Read ↗</span>' +
+                '</a>';
+            }).join('');
+          }
+
+          var arcDotHtml = isLatestArc ? '<span class="new-dot"></span>' : '';
+          webtoonContainer.innerHTML += '<div>' +
+            '<button class="folder-btn" onclick="toggleFolder(\'arc-' + idx + '\')">' +
+            '<span>📚 ' + arc.arc_title + ' ' + arcDotHtml + '</span>' +
+            '<span>▼</span>' +
+            '</button>' +
+            '<div class="folder-content" id="arc-' + idx + '">' + chsHtml + '</div>' +
+            '</div>';
+        });
+      }
+    }
+
+    // محرك الكانفاس لجزيئات الرماد واللهب
+    var canvas = document.getElementById('fx-canvas');
+    var ctx = canvas.getContext('2d');
+    var particles = [];
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    function createParticle() {
+      var t = sigilTiers[currentTier] || sigilTiers[1];
+      return {
+        x: Math.random() * canvas.width,
+        y: canvas.height + Math.random() * 20,
+        size: Math.random() * 2 + 0.8,
+        speedY: (Math.random() * 1.2 + 0.4) * t.emberSpeed,
+        speedX: (Math.random() - 0.5) * 0.8,
+        opacity: Math.random() * 0.6 + 0.2,
+        life: 0,
+        maxLife: Math.random() * 140 + 80
+      };
+    }
+
+    for (var i = 0; i < 45; i++) {
+      particles.push(createParticle());
+    }
+
+    function animateParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      var t = sigilTiers[currentTier] || sigilTiers[1];
+
+      for (var i = 0; i < particles.length; i++) {
+        var p = particles[i];
+        p.y -= p.speedY;
+        p.x += p.speedX;
+        p.life++;
+
+        ctx.fillStyle = t.emberColor;
+        ctx.shadowColor = t.color;
+        ctx.shadowBlur = 6;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fill();
+
+        if (p.life >= p.maxLife || p.y < -10) {
+          particles[i] = createParticle();
+        }
+      }
+      requestAnimationFrame(animateParticles);
+    }
+
+    // جلب البيانات وبدء الموقع
     fetch('data.json?v=' + Date.now())
       .then(function(res) { return res.json(); })
       .then(function(data) {
+        globalData = data;
         if (data.project) document.getElementById('site-title').innerText = data.project;
         if (data.tagline) document.getElementById('site-tagline').innerText = data.tagline;
 
-        // تشغيل أول حلقة في السينما العلوية
         if (data.seasons && data.seasons[0] && data.seasons[0].episodes && data.seasons[0].episodes[0]) {
-          changeVideo(data.seasons[0].episodes[0].youtube_id);
+          changeVideo(data.seasons[0].episodes[0].youtube_id, null);
         }
 
-        // بناء مواسم الأنيميشن
-        var seasonsContainer = document.getElementById('seasons-container');
-        if (seasonsContainer && data.seasons) {
-          var activeSeasonIdx = -1;
-          for (var i = data.seasons.length - 1; i >= 0; i--) {
-            if (data.seasons[i].episodes && data.seasons[i].episodes.length > 0) {
-              activeSeasonIdx = i;
-              break;
-            }
-          }
-
-          data.seasons.forEach(function(s, idx) {
-            var epsHtml = '';
-            var isLatestSeason = (idx === activeSeasonIdx);
-
-            if (s.episodes && s.episodes.length > 0) {
-              var lastEpIdx = s.episodes.length - 1;
-
-              epsHtml = s.episodes.map(function(ep, epIdx) {
-                var isLatestEp = (isLatestSeason && epIdx === lastEpIdx);
-                var dotHtml = isLatestEp ? '<span class="new-dot"></span>' : '';
-                return '<div class="folder-item" onclick="changeVideo(\'' + ep.youtube_id + '\')">' +
-                  '<span>▶ ' + ep.title + ' ' + dotHtml + '</span>' +
-                  '<span style="font-size: 0.8rem; color: #888;">' + ep.duration + ' ↗</span>' +
-                  '</div>';
-              }).join('');
-            }
-
-            var seasonDotHtml = isLatestSeason ? '<span class="new-dot"></span>' : '';
-            seasonsContainer.innerHTML += '<div>' +
-              '<button class="folder-btn" onclick="toggleFolder(\'season-' + idx + '\')">' +
-              '<span>📁 ' + s.season_title + ' ' + seasonDotHtml + '</span>' +
-              '<span>▼</span>' +
-              '</button>' +
-              '<div class="folder-content" id="season-' + idx + '">' + epsHtml + '</div>' +
-              '</div>';
-          });
-        }
-
-        // بناء فصول الويب تون
-        var webtoonContainer = document.getElementById('webtoon-container');
-        if (webtoonContainer && data.webtoon_arcs) {
-          var lastArcIdx = data.webtoon_arcs.length - 1;
-
-          data.webtoon_arcs.forEach(function(arc, idx) {
-            var isLatestArc = (idx === lastArcIdx);
-            var chsHtml = '';
-
-            if (arc.chapters) {
-              var lastChapterIdx = arc.chapters.length - 1;
-              chsHtml = arc.chapters.map(function(ch, chIdx) {
-                var isLatestChapter = isLatestArc && (chIdx === lastChapterIdx);
-                var dotHtml = isLatestChapter ? '<span class="new-dot"></span>' : '';
-                return '<a href="' + ch.url + '" target="_blank" class="folder-item">' +
-                  '<span>📖 ' + ch.chapter_num + ': ' + ch.title + ' ' + dotHtml + '</span>' +
-                  '<span style="font-size: 0.8rem; color: var(--crimson-glow, #ff0033);">Read ↗</span>' +
-                  '</a>';
-              }).join('');
-            }
-
-            var arcDotHtml = isLatestArc ? '<span class="new-dot"></span>' : '';
-            webtoonContainer.innerHTML += '<div>' +
-              '<button class="folder-btn" onclick="toggleFolder(\'arc-' + idx + '\')">' +
-              '<span>📚 ' + arc.arc_title + ' ' + arcDotHtml + '</span>' +
-              '<span>▼</span>' +
-              '</button>' +
-              '<div class="folder-content" id="arc-' + idx + '">' + chsHtml + '</div>' +
-              '</div>';
-          });
-        }
+        checkUserIdentity();
+        renderContent(data);
+        animateParticles();
       })
       .catch(function(err) {
         console.error("Error loading data:", err);
