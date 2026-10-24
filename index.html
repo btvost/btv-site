@@ -157,6 +157,26 @@
       color: #777;
       font-family: monospace;
       text-align: right;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 3px;
+    }
+
+    .reset-btn {
+      background: transparent;
+      border: 1px solid #333;
+      color: #666;
+      font-size: 0.65rem;
+      padding: 2px 6px;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 4px;
+      transition: 0.2s;
+    }
+    .reset-btn:hover {
+      border-color: #ff0033;
+      color: #ff0033;
     }
 
     /* حركات الأختام */
@@ -266,7 +286,7 @@
       </div>
 
       <div class="modal-input-group">
-        <label>VETERAN PASSCODE (OPTIONAL)</label>
+        <label>AUTHORITY / PASSCODE (OPTIONAL)</label>
         <input type="text" id="reg-passcode" placeholder="Enter secret code if granted...">
       </div>
 
@@ -296,7 +316,8 @@
     </div>
     <div class="id-strip-meta">
       <div id="strip-code">EXP-0000</div>
-      <div id="strip-xp-text" style="color: #ff0033; font-weight: bold; margin-top: 3px;">0 XP</div>
+      <div id="strip-xp-text" style="color: #ff0033; font-weight: bold;">0 XP</div>
+      <button class="reset-btn" onclick="resetUserIdentity()">[ RESET ID ]</button>
     </div>
   </div>
 
@@ -346,10 +367,10 @@
   </div>
 
   <script>
+    var CREATOR_SECRET_CODE = "CREATOR-SALEM-999";
     var VETERAN_SECRET_CODE = "VOID-LEGACY-2026";
     var globalData = null;
 
-    // أختام الـ SVG والبيانات الخاصة بالرتب الـ 5
     var sigilTiers = {
       1: {
         name: "VOID VESSEL",
@@ -429,6 +450,25 @@
           </g>
           <circle cx="50" cy="50" r="14" fill="#ff0033" stroke="#ffd700" stroke-width="2" style="filter: drop-shadow(0 0 18px #ff0033) drop-shadow(0 0 10px #ffd700); animation: eye-flare 1s infinite alternate;"/>
         </svg>`
+      },
+      creator: {
+        name: "VOID ARCHITECT SUPREME (CREATOR)",
+        color: "#b026ff",
+        border: "rgba(176, 38, 255, 0.95)",
+        halo: "rgba(176, 38, 255, 0.5)",
+        emberColor: "rgba(176, 38, 255, 0.95)",
+        emberSpeed: 3.5,
+        svg: `<svg viewBox="0 0 100 100" style="width:100%; height:100%;">
+          <g style="transform-origin: 50px 50px; animation: rotate-sigil 5s linear infinite;">
+            <circle cx="50" cy="50" r="46" fill="none" stroke="#b026ff" stroke-width="3" stroke-dasharray="12 4 4 4"/>
+            <polygon points="50,0 64,36 100,50 64,64 50,100 36,64 0,50 36,36" fill="none" stroke="#ffd700" stroke-width="2"/>
+          </g>
+          <g style="transform-origin: 50px 50px; animation: counter-rotate 9s linear infinite;">
+            <polygon points="50,12 88,50 50,88 12,50" fill="none" stroke="#ff0033" stroke-width="2" stroke-dasharray="6 3"/>
+          </g>
+          <circle cx="50" cy="50" r="16" fill="#1b002c" stroke="#ffd700" stroke-width="2.5"/>
+          <circle cx="50" cy="50" r="8" fill="#b026ff" style="filter: drop-shadow(0 0 25px #b026ff) drop-shadow(0 0 12px #ffd700); animation: eye-flare 0.8s infinite alternate;"/>
+        </svg>`
       }
     };
 
@@ -446,6 +486,7 @@
     }
 
     function calculateTier(user) {
+      if (user.isCreator) return "creator";
       if (user.isVeteran) return 3;
       var xp = user.xp || 0;
       if (xp >= 150) return 5;
@@ -464,26 +505,42 @@
       }
     }
 
+    function resetUserIdentity() {
+      try { localStorage.removeItem('btv_user'); } catch (e) {}
+      location.reload();
+    }
+
     function saveUserIdentity() {
       var aliasInput = document.getElementById('reg-alias').value.trim();
       var genderInput = document.getElementById('reg-gender').value;
       var passcodeInput = document.getElementById('reg-passcode').value.trim();
 
-      if (!aliasInput) {
+      var isCreator = (passcodeInput === CREATOR_SECRET_CODE || aliasInput === CREATOR_SECRET_CODE);
+      var isVeteran = (passcodeInput === VETERAN_SECRET_CODE || aliasInput === VETERAN_SECRET_CODE);
+
+      var finalAlias = aliasInput;
+      if (isCreator) {
+        finalAlias = "MR.B";
+      } else if (isVeteran && (aliasInput === VETERAN_SECRET_CODE || !aliasInput)) {
+        finalAlias = "Void Veteran";
+      }
+
+      if (!finalAlias) {
         alert("Please enter a codename / alias.");
         return;
       }
 
-      var isVeteran = (passcodeInput === VETERAN_SECRET_CODE);
-      var expId = 'BTV-' + Math.floor(1000 + Math.random() * 9000);
+      var expId = isCreator ? 'AUTHORITY-000' : ('BTV-' + Math.floor(1000 + Math.random() * 9000));
+      var initialXp = isCreator ? 9999 : (isVeteran ? 60 : 0);
 
       var user = {
-        alias: aliasInput,
+        alias: finalAlias,
         gender: genderInput,
+        isCreator: isCreator,
         isVeteran: isVeteran,
         expId: expId,
-        xp: isVeteran ? 60 : 0,
-        readItems: isVeteran ? ['all_veteran'] : []
+        xp: initialXp,
+        readItems: (isCreator || isVeteran) ? ['all_authorized'] : []
       };
 
       setStorage('btv_user', user);
@@ -497,24 +554,24 @@
       if (!strip) return;
       strip.style.display = 'flex';
 
-      var tierNum = calculateTier(user);
-      currentTier = tierNum;
-      var tData = sigilTiers[tierNum];
+      var tierKey = calculateTier(user);
+      currentTier = tierKey;
+      var tData = sigilTiers[tierKey];
 
       document.getElementById('strip-alias-text').innerText = user.alias;
-      document.getElementById('strip-gender-badge').innerText = user.gender;
+      document.getElementById('strip-gender-badge').innerText = user.isCreator ? 'CREATOR' : user.gender;
       document.getElementById('strip-code').innerText = user.expId;
       
       var rankEl = document.getElementById('strip-rank-text');
       rankEl.innerText = tData.name;
       rankEl.style.color = tData.color;
-      rankEl.style.textShadow = '0 0 10px ' + tData.color;
+      rankEl.style.textShadow = '0 0 12px ' + tData.color;
 
       document.getElementById('strip-xp-text').innerText = (user.xp || 0) + ' XP';
       document.getElementById('strip-xp-text').style.color = tData.color;
 
       strip.style.borderColor = tData.border;
-      strip.style.boxShadow = '0 0 25px ' + tData.halo;
+      strip.style.boxShadow = '0 0 30px ' + tData.halo;
 
       document.getElementById('strip-sigil-slot').innerHTML = tData.svg;
     }
@@ -551,7 +608,7 @@
 
     function renderContent(data) {
       var user = getStorage('btv_user', { readItems: [] });
-      var isVeteran = user && user.isVeteran;
+      var isAuthorized = user && (user.isCreator || user.isVeteran);
 
       // بناء مواسم الأنيميشن
       var seasonsContainer = document.getElementById('seasons-container');
@@ -575,7 +632,7 @@
             epsHtml = s.episodes.map(function(ep, epIdx) {
               var isLatestEp = (isLatestSeason && epIdx === lastEpIdx);
               var epId = 'ep_' + ep.youtube_id;
-              var isRead = isVeteran || (user.readItems && user.readItems.includes(epId));
+              var isRead = isAuthorized || (user.readItems && user.readItems.includes(epId));
               var showDot = isLatestEp && !isRead;
 
               var dotHtml = showDot ? '<span class="new-dot" id="dot-' + epId + '"></span>' : '';
@@ -612,7 +669,7 @@
             chsHtml = arc.chapters.map(function(ch, chIdx) {
               var isLatestChapter = isLatestArc && (chIdx === lastChapterIdx);
               var chId = 'ch_' + idx + '_' + chIdx;
-              var isRead = isVeteran || (user.readItems && user.readItems.includes(chId));
+              var isRead = isAuthorized || (user.readItems && user.readItems.includes(chId));
               var showDot = isLatestChapter && !isRead;
 
               var dotHtml = showDot ? '<span class="new-dot" id="dot-' + chId + '"></span>' : '';
