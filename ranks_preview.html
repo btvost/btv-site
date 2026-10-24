@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>BTV Rank Badges Preview</title>
+  <style>
+    body {
+      background: #09090e;
+      color: #fff;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+
+    h2 {
+      color: #ff0033;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 25px;
+    }
+
+    .badge-card {
+      width: 100%;
+      max-width: 480px;
+      background: #11111a;
+      border: 1px solid #1f1f2e;
+      border-radius: 8px;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: 0.3s;
+    }
+
+    .rank-info {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .rank-name {
+      font-size: 1rem;
+      font-weight: bold;
+      letter-spacing: 1.5px;
+      font-family: monospace;
+    }
+
+    .rank-xp {
+      font-size: 0.75rem;
+      color: #666;
+    }
+
+    /* هيكل البادج التكتيكي */
+    .tactical-badge {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+    }
+
+    .chevron {
+      width: 6px;
+      height: 18px;
+      clip-path: polygon(100% 0, 100% 100%, 0 80%, 0 20%);
+      background: #333;
+    }
+
+    /* 1. VOID INITIATE */
+    .rank-initiate .rank-name { color: #888; }
+    .rank-initiate .chevron { background: #555; }
+
+    /* 2. ABYSS WANDERER */
+    .rank-wanderer .rank-name { color: #ff4d6d; }
+    .rank-wanderer .chevron {
+      background: #ff4d6d;
+      box-shadow: 0 0 8px rgba(255, 77, 109, 0.4);
+    }
+
+    /* 3. ECHO TRANSCENDER */
+    .rank-transcender { border-color: rgba(255, 0, 51, 0.4); }
+    .rank-transcender .rank-name { color: #ff0033; }
+    .rank-transcender .chevron {
+      background: #ff0033;
+      box-shadow: 0 0 10px #ff0033;
+    }
+
+    /* 4. SHADOW REAPER */
+    .rank-reaper { border-color: rgba(255, 68, 0, 0.5); }
+    .rank-reaper .rank-name { color: #ff5500; }
+    .rank-reaper .chevron {
+      background: #ff5500;
+      box-shadow: 0 0 12px #ff5500;
+    }
+
+    /* 5. VOID ARCHITECT */
+    .rank-architect {
+      border: 1px solid #ffd700;
+      background: linear-gradient(90deg, #161208 0%, #1a0a0f 100%);
+      box-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
+    }
+    .rank-architect .rank-name {
+      color: #ffd700;
+      text-shadow: 0 0 8px rgba(255, 215, 0, 0.6);
+    }
+    .rank-architect .chevron {
+      background: #ffd700;
+      box-shadow: 0 0 12px #ffd700;
+    }
+    .rank-architect .core-gem {
+      width: 14px;
+      height: 14px;
+      background: #ff0033;
+      transform: rotate(45deg);
+      box-shadow: 0 0 12px #ff0033;
+      margin-left: 6px;
+      animation: pulse-core 1.2s infinite alternate;
+    }
+
+    @keyframes pulse-core {
+      0% { transform: rotate(45deg) scale(0.9); box-shadow: 0 0 6px #ff0033; }
+      100% { transform: rotate(45deg) scale(1.15); box-shadow: 0 0 16px #ff0033; }
+    }
+  </style>
+</head>
+<body>
+
+  <h2>BTV Identification Ranks</h2>
+
+  <!-- Rank 1 -->
+  <div class="badge-card rank-initiate">
+    <div class="rank-info">
+      <span class="rank-name">VOID INITIATE</span>
+      <span class="rank-xp">Entry Level | 0 XP</span>
+    </div>
+    <div class="tactical-badge">
+      <div class="chevron"></div>
+    </div>
+  </div>
+
+  <!-- Rank 2 -->
+  <div class="badge-card rank-wanderer">
+    <div class="rank-info">
+      <span class="rank-name">ABYSS WANDERER</span>
+      <span class="rank-xp">Active Drifter | 25 XP</span>
+    </div>
+    <div class="tactical-badge">
+      <div class="chevron"></div>
+      <div class="chevron"></div>
+    </div>
+  </div>
+
+  <!-- Rank 3 -->
+  <div class="badge-card rank-transcender">
+    <div class="rank-info">
+      <span class="rank-name">ECHO TRANSCENDER</span>
+      <span class="rank-xp">Veteran Tier | 60 XP</span>
+    </div>
+    <div class="tactical-badge">
+      <div class="chevron"></div>
+      <div class="chevron"></div>
+      <div class="chevron"></div>
+    </div>
+  </div>
+
+  <!-- Rank 4 -->
+  <div class="badge-card rank-reaper">
+    <div class="rank-info">
+      <span class="rank-name">SHADOW REAPER</span>
+      <span class="rank-xp">High Vanguard | 110 XP</span>
+    </div>
+    <div class="tactical-badge">
+      <div class="chevron"></div>
+      <div class="chevron"></div>
+      <div class="chevron"></div>
+      <div class="chevron"></div>
+    </div>
+  </div>
+
+  <!-- Rank 5 -->
+  <div class="badge-card rank-architect">
+    <div class="rank-info">
+      <span class="rank-name">VOID ARCHITECT</span>
+      <span class="rank-xp">Supreme Master | 150+ XP</span>
+    </div>
+    <div class="tactical-badge">
+      <div class="chevron"></div>
+      <div class="chevron"></div>
+      <div class="chevron"></div>
+      <div class="core-gem"></div>
+    </div>
+  </div>
+
+</body>
+</html>
