@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>BTV - Folder Sigils Showcase</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: #050408;
+      color: #e2e8f0;
+      font-family: 'Cinzel', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px;
+      gap: 30px;
+    }
+
+    h1 {
+      color: #ff0033;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      font-size: 1.4rem;
+      text-shadow: 0 0 15px rgba(255, 0, 51, 0.5);
+      text-align: center;
+    }
+
+    p.subtitle {
+      color: #71717a;
+      font-size: 0.85rem;
+      letter-spacing: 1.5px;
+      margin-top: -20px;
+      font-family: monospace;
+    }
+
+    .showcase-container {
+      width: 100%;
+      max-width: 650px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* زر الفولدر المطور */
+    .btv-folder-card {
+      background: #0d0c14;
+      border: 1px solid #1f1d2b;
+      border-radius: 10px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
+    }
+
+    .btv-folder-card:hover {
+      border-color: rgba(255, 0, 51, 0.4);
+      box-shadow: 0 0 15px rgba(255, 0, 51, 0.15);
+    }
+
+    .btv-folder-header {
+      width: 100%;
+      background: transparent;
+      border: none;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      color: #fff;
+      text-align: left;
+    }
+
+    .folder-title-group {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .folder-name {
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: #f1f5f9;
+    }
+
+    .folder-tag {
+      font-size: 0.75rem;
+      color: #ff0033;
+      font-family: monospace;
+      display: block;
+      margin-top: 2px;
+    }
+
+    /* مكان الختم التفاعلي */
+    .sigil-icon-slot {
+      width: 38px;
+      height: 38px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .sigil-svg {
+      width: 100%;
+      height: 100%;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* سهم التوسيع الروماني الحاد */
+    .expand-chevron {
+      font-size: 0.85rem;
+      color: #64748b;
+      font-family: monospace;
+      transition: transform 0.3s ease, color 0.3s ease;
+    }
+
+    /* محتوى الفولدر عند الفتح */
+    .btv-folder-body {
+      display: none;
+      padding: 15px 20px;
+      background: #08070d;
+      border-top: 1px solid #161520;
+      font-size: 0.85rem;
+      color: #94a3b8;
+      font-family: monospace;
+      line-height: 1.6;
+    }
+
+    /* حالة الفولدر المفتوح */
+    .btv-folder-card.open {
+      border-color: #ff0033;
+      box-shadow: 0 0 20px rgba(255, 0, 51, 0.25);
+    }
+
+    .btv-folder-card.open .expand-chevron {
+      transform: rotate(180deg);
+      color: #ff0033;
+    }
+
+    /* =========================================
+       تأثيرات الأختام الأربعة عند الفتح (Active States)
+       ========================================= */
+
+    /* 1. ARCHIVE OF ARTHOS (بوابة الأقواس الرومانية والعين) */
+    .sigil-1 { stroke: #ff0033; fill: none; stroke-width: 2; }
+    .open .sigil-1 {
+      filter: drop-shadow(0 0 8px #ff0033);
+      transform: scale(1.1);
+    }
+    .open .sigil-1 .core-eye {
+      fill: #ff0033;
+      filter: drop-shadow(0 0 5px #ff0033);
+    }
+
+    /* 2. THE RITUAL MONOLITH (مسلّة الطقوس والشفرات المتقاطعة) */
+    .sigil-2 { stroke: #ff3344; fill: none; stroke-width: 1.8; }
+    .open .sigil-2 {
+      transform: rotate(45deg);
+      filter: drop-shadow(0 0 10px #ff3344);
+    }
+
+    /* 3. ECLIPSE LABYRINTH (متاهة العرش الرومانية الدوارة) */
+    .sigil-3 { stroke: #e11d48; fill: none; stroke-width: 2; }
+    .open .sigil-3 {
+      transform: rotate(180deg);
+      filter: drop-shadow(0 0 10px #e11d48);
+    }
+
+    /* 4. OBSIDIAN VAULT (خزينة الفويد القوطية الحجرية) */
+    .sigil-4 { stroke: #c084fc; fill: none; stroke-width: 2; }
+    .open .sigil-4 {
+      stroke: #ff0033;
+      filter: drop-shadow(0 0 12px #ff0033);
+      transform: scale(1.12);
+    }
+  </style>
+</head>
+<body>
+
+  <h1>BTV FOLDER SIGNATURE SEALS</h1>
+  <p class="subtitle">Click each archive to inspect the transformation</p>
+
+  <div class="showcase-container">
+
+    <!-- النمط 1: بوابة أرثوس الرومانية -->
+    <div class="btv-folder-card" id="card-1">
+      <button class="btv-folder-header" onclick="toggleCard('card-1')">
+        <div class="folder-title-group">
+          <div class="sigil-icon-slot">
+            <svg class="sigil-svg sigil-1" viewBox="0 0 64 64">
+              <!-- قوس روماني مع بوابة الفويد وعين المركز -->
+              <path d="M14,56 L14,30 A18,18 0 0,1 50,30 L50,56" />
+              <line x1="8" y1="56" x2="56" y2="56" stroke-width="2.5" />
+              <polygon points="32,10 44,24 20,24" />
+              <circle cx="32" cy="38" r="5" class="core-eye" />
+            </svg>
+          </div>
+          <div>
+            <div class="folder-name">OPTION 1: THE ARTHOS GATEWAY</div>
+            <span class="folder-tag">ROMAN ARCH & ABYSSAL APERTURE</span>
+          </div>
+        </div>
+        <div class="expand-chevron">▼</div>
+      </button>
+      <div class="btv-folder-body">
+        مستوحى من بوابات المعابد الرومانية القديمة مع رأس الحربة القوطي بالأعلى ونواة الفويد في المركز. عند الفتح، تشتعل العين الداخلية بهالة حمراء.
+      </div>
+    </div>
+
+    <!-- النمط 2: مسلة الطقوس والشفرات -->
+    <div class="btv-folder-card" id="card-2">
+      <button class="btv-folder-header" onclick="toggleCard('card-2')">
+        <div class="folder-title-group">
+          <div class="sigil-icon-slot">
+            <svg class="sigil-svg sigil-2" viewBox="0 0 64 64">
+              <!-- شفرات خناجر طقسية متقاطعة مع معين مركزي -->
+              <polygon points="32,6 54,32 32,58 10,32" stroke-dasharray="6 3" />
+              <line x1="32" y1="2" x2="32" y2="62" />
+              <line x1="2" y1="32" x2="62" y2="32" />
+              <circle cx="32" cy="32" r="7" fill="#0d0c14" />
+            </svg>
+          </div>
+          <div>
+            <div class="folder-name">OPTION 2: THE RITUAL CRUX</div>
+            <span class="folder-tag">SACRED BLADES & RUNIC MATRIX</span>
+          </div>
+        </div>
+        <div class="expand-chevron">▼</div>
+      </button>
+      <div class="btv-folder-body">
+        يرمز لشفرات الفويد المحرمة والمصفوفة السحرية المحفورة على الحجر. عند الفتح، يدور الختم بزاوية حادة 45 درجة كأنه مفتاح طقسي يفتح القفل.
+      </div>
+    </div>
+
+    <!-- النمط 3: متاهة العرش المظلمة -->
+    <div class="btv-folder-card" id="card-3">
+      <button class="btv-folder-header" onclick="toggleCard('card-3')">
+        <div class="folder-title-group">
+          <div class="sigil-icon-slot">
+            <svg class="sigil-svg sigil-3" viewBox="0 0 64 64">
+              <!-- دائرة رونية بأعمدة وأقواس كلاسيكية -->
+              <circle cx="32" cy="32" r="26" stroke-dasharray="8 4" />
+              <circle cx="32" cy="32" r="16" />
+              <line x1="16" y1="16" x2="48" y2="48" />
+              <line x1="48" y1="16" x2="16" y2="48" />
+              <polygon points="32,2 38,12 26,12" fill="#e11d48" />
+              <polygon points="32,62 38,52 26,52" fill="#e11d48" />
+            </svg>
+          </div>
+          <div>
+            <div class="folder-name">OPTION 3: THE ECLIPSE LABYRINTH</div>
+            <span class="folder-tag">CELESTIAL WHEEL OF THE FALLEN</span>
+          </div>
+        </div>
+        <div class="expand-chevron">▼</div>
+      </button>
+      <div class="btv-folder-body">
+        دائرة فلكية رومانية مستوحاة من ساعات العرش القديمة. عند الضغط، تدور الدائرة نصف دورة كاملة (180 درجة) مع وهج قرمزي مكثف.
+      </div>
+    </div>
+
+    <!-- النمط 4: خزينة الفويد القوطية الحجرية -->
+    <div class="btv-folder-card" id="card-4">
+      <button class="btv-folder-header" onclick="toggleCard('card-4')">
+        <div class="folder-title-group">
+          <div class="sigil-icon-slot">
+            <svg class="sigil-svg sigil-4" viewBox="0 0 64 64">
+              <!-- قفل حجري معيني بأسنان وأضلاع رومانية مزدوجة -->
+              <path d="M32,8 L56,32 L32,56 L8,32 Z" stroke-width="2" />
+              <path d="M32,18 L46,32 L32,46 L18,32 Z" stroke-dasharray="3 3" />
+              <rect x="28" y="28" width="8" height="8" fill="#c084fc" />
+            </svg>
+          </div>
+          <div>
+            <div class="folder-name">OPTION 4: OBSIDIAN RELIC VAULT</div>
+            <span class="folder-tag">ROYAL ARTIFACT LOCK (PURPLE/CRIMSON)</span>
+          </div>
+        </div>
+        <div class="expand-chevron">▼</div>
+      </button>
+      <div class="btv-folder-body">
+        قفل معدني ثقيل يدمج خطوط الذهب والبنفسجي الملكي مع توهج أحمر حارق عند الفتح، معطياً إحساس أرشيف سري ومغلق بإحكام.
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    function toggleCard(id) {
+      var card = document.getElementById(id);
+      var body = card.querySelector('.btv-folder-body');
+      var isOpen = card.classList.contains('open');
+
+      if (isOpen) {
+        card.classList.remove('open');
+        body.style.display = 'none';
+      } else {
+        card.classList.add('open');
+        body.style.display = 'block';
+      }
+    }
+  </script>
+</body>
+</html>
