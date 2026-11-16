@@ -203,7 +203,6 @@
       ]
     },
     {
-      {
       "arc_title": "Arc 3: Arthos",
       "chapters": [
         {
@@ -253,3 +252,6 @@
         }
       ]
     }
+  ],
+  "vault_art": []
+}
