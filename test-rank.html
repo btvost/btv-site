@@ -56,7 +56,7 @@
       opacity: 1;
     }
 
-    /* كانفاس رذاذ وغبار الصدم (فوق كل العناصر) */
+    /* كانفاس رذاذ الغبار (فوق كل العناصر) */
     #impact-canvas {
       position: fixed;
       top: 0;
@@ -86,7 +86,7 @@
       to { transform: scale(1.05); filter: drop-shadow(0 0 25px #ff0033); }
     }
 
-    /* بطاقة الـ 3D مع حركة الصدمة */
+    /* بطاقة الـ 3D مع حركة الصدمة بالتوقيت الدقيق (0.5 ثانية للاصطدام) */
     .rank-card-3d {
       width: 360px;
       background: linear-gradient(145deg, #12111c, #07060a);
@@ -102,7 +102,7 @@
     }
 
     .rank-card-3d.impact {
-      animation: cardImpact 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+      animation: cardImpact 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
     }
 
     @keyframes cardImpact {
@@ -110,16 +110,12 @@
         transform: scale(0.1) rotateX(25deg);
         opacity: 0;
       }
-      70% {
-        transform: scale(1.08) rotateX(-5deg);
-        opacity: 1;
-      }
-      85% {
-        transform: scale(0.97) rotateX(2deg);
+      80% {
+        transform: scale(1.05) rotateX(-3deg);
         opacity: 1;
       }
       100% {
-        transform: scale(1) rotateX(0deg);
+        transform: scale(1) rotateX(0deg); /* نقطة التوقف المفاجئ عند النهاية تماماً (بعد 0.5 ثانية) */
         opacity: 1;
       }
     }
@@ -191,8 +187,8 @@
 
   <div style="text-align: center;">
     <h1 style="color: #ff0033; letter-spacing: 2px; margin-bottom: 10px;">RANK-UP CINEMATIC TEST</h1>
-    <p style="color: #888; margin-bottom: 30px;">Click below to preview the rank-up animation with impact dust effect.</p>
-    <button class="test-btn" onclick="triggerRankUpPreview()">[ TEST RANK-UP IMPACT ]</button>
+    <p style="color: #888; margin-bottom: 30px;">Click below to preview the rank-up animation with precise edge impact dust.</p>
+    <button class="test-btn" onclick="triggerRankUpPreview()">[ TEST EXACT IMPACT ]</button>
   </div>
 
   <!-- شاشة الترفيع السينمائية -->
@@ -234,27 +230,38 @@
     window.addEventListener('resize', resizeImpactCanvas);
     resizeImpactCanvas();
 
-    function triggerDustExplosion() {
+    function triggerEdgeDustExplosion() {
       dustParticles = [];
-      var centerX = window.innerWidth / 2;
-      var centerY = window.innerHeight / 2;
+      var cardEl = document.getElementById('rankCard');
+      var rect = cardEl.getBoundingClientRect(); // نحسب إحداثيات أطراف البطاقة الحقيقية على الشاشة
       var colors = ['#ffd700', '#ff0033', '#ff4500', '#ffffff', '#ff2a55'];
 
-      // توليد كثافة عالية من جزيئات الغبار والرذاذ
-      for (var i = 0; i < 70; i++) {
-        var angle = Math.random() * Math.PI * 2;
-        var speed = Math.random() * 12 + 3;
+      // توليد الرذاذ متوزع على محيط وبطاقة الإطارات الأربعة للبطاقة
+      var perimeterPoints = [];
+      var steps = 15;
+      
+      // إطراف البطاقة (الأعلى، الأسفل، اليسار، اليمين)
+      for (var i = 0; i <= steps; i++) {
+        perimeterPoints.push({x: rect.left + (rect.width / steps) * i, y: rect.top}); // أعلى
+        perimeterPoints.push({x: rect.left + (rect.width / steps) * i, y: rect.bottom}); // أسفل
+        perimeterPoints.push({x: rect.left, y: rect.top + (rect.height / steps) * i}); // يسار
+        perimeterPoints.push({x: rect.right, y: rect.top + (rect.height / steps) * i}); // يمين
+      }
+
+      perimeterPoints.forEach(pt => {
+        var angle = Math.atan2(pt.y - (rect.top + rect.height/2), pt.x - (rect.left + rect.width/2)) + (Math.random() - 0.5) * 0.5;
+        var speed = Math.random() * 6 + 1.5;
         dustParticles.push({
-          x: centerX,
-          y: centerY,
+          x: pt.x,
+          y: pt.y,
           vx: Math.cos(angle) * speed,
           vy: Math.sin(angle) * speed,
-          size: Math.random() * 4 + 1.5,
+          size: Math.random() * 3 + 1,
           color: colors[Math.floor(Math.random() * colors.length)],
           alpha: 1,
-          decay: Math.random() * 0.025 + 0.01
+          decay: Math.random() * 0.015 + 0.008 // يتلاشى ببطء في الخلفية الجانبية
         });
-      }
+      });
 
       if (!isDustActive) {
         isDustActive = true;
@@ -268,9 +275,9 @@
         var p = dustParticles[i];
         p.x += p.vx;
         p.y += p.vy;
-        p.vx *= 0.90; 
-        p.vy *= 0.90;
-        p.alpha -= p.decay;
+        p.vx *= 0.95; 
+        p.vy *= 0.95;
+        p.alpha -= p.decay; // يتلاشى ببطء شديد
 
         if (p.alpha <= 0) {
           dustParticles.splice(i, 1);
@@ -281,7 +288,7 @@
         iCtx.globalAlpha = p.alpha;
         iCtx.fillStyle = p.color;
         iCtx.shadowColor = p.color;
-        iCtx.shadowBlur = 10;
+        iCtx.shadowBlur = 6;
         iCtx.beginPath();
         iCtx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
         iCtx.fill();
@@ -309,10 +316,14 @@
         audio.play();
       } catch(e) {}
 
+      // توقيت إطلاق الرذاذ: بالضبط بعد 500 ملي ثانية (لحظة اكتمال الصدمة والتوقف المفاجئ)
       setTimeout(function() {
         card.classList.add('impact');
-        triggerDustExplosion(); 
-      }, 500);
+      }, 50);
+
+      setTimeout(function() {
+        triggerEdgeDustExplosion(); 
+      }, 550); // يطلق الرذاذ من الأطراف تزامناً مع التوقف التام للبطاقة
     }
 
     function closePreview() {
