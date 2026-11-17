@@ -105,15 +105,15 @@
       text-shadow: 0 0 25px rgba(255, 215, 0, 0.7);
     }
 
-    /* بطاقة الـ 3D المعدنية */
+    /* بطاقة الصفيحة المعدنية الداكنة (Dark Metallic Plate) */
     .rank-card-3d {
-      width: 360px;
-      background: linear-gradient(145deg, #1b1924, #0b0a0f);
-      border: 2px solid #ffd700;
-      border-radius: 16px;
+      width: 380px;
+      background: linear-gradient(135deg, #14131c 0%, #0a090e 50%, #111017 100%);
+      border: 2px solid #332f4a;
+      border-radius: 14px;
       padding: 30px;
       text-align: center;
-      box-shadow: 0 0 50px rgba(255, 215, 0, 0.3), inset 0 0 20px rgba(255, 0, 51, 0.2);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8), inset 0 1px 2px rgba(255, 255, 255, 0.1), inset 0 0 30px rgba(0, 0, 0, 0.9);
       transform: scale(0.1) rotateX(25deg);
       opacity: 0;
       position: relative;
@@ -122,6 +122,8 @@
 
     .rank-card-3d.impact {
       animation: cardImpact 1.0s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+      border-color: #ffd700; /* تبرز الحواف الذهبية لحظة الاصطدام */
+      box-shadow: 0 0 40px rgba(255, 215, 0, 0.4), inset 0 0 25px rgba(255, 0, 51, 0.3);
     }
 
     @keyframes cardImpact {
@@ -131,42 +133,59 @@
     }
 
     .card-sigil {
-      width: 80px;
-      height: 80px;
-      margin: 0 auto 12px auto;
+      width: 70px;
+      height: 70px;
+      margin: 0 auto 10px auto;
       display: flex;
       align-items: center;
       justify-content: center;
-      filter: drop-shadow(0 0 10px #ff0033);
+      filter: drop-shadow(0 0 8px #ff0033);
     }
-    .card-alias {
-      font-size: 1.3rem;
-      font-weight: bold;
-      color: #fff;
-      letter-spacing: 1px;
-      margin-bottom: 4px;
-    }
-    .card-subtitle {
-      font-size: 0.7rem;
-      color: #777;
-      text-transform: uppercase;
+
+    .card-rank-title {
+      font-size: 1.2rem;
+      color: #ffd700;
+      font-weight: 900;
       letter-spacing: 2px;
       margin-bottom: 15px;
-    }
-    .card-rank-name {
-      font-size: 1.1rem;
-      color: #ffd700;
-      font-weight: bold;
-      letter-spacing: 2px;
-      margin-bottom: 20px;
-      text-shadow: 0 0 12px rgba(255, 215, 0, 0.6);
+      text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
       text-transform: uppercase;
     }
-    .card-meta {
-      font-size: 0.8rem;
-      color: #aaa;
-      border-top: 1px solid #201e30;
+
+    /* قسم الختم والنقش الحافر (Engraved Stamp) في الأسفل */
+    .creator-engraved-stamp {
+      margin-top: 25px;
+      border-top: 1px dashed #262238;
       padding-top: 15px;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 8px;
+      padding-bottom: 8px;
+      box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.6);
+    }
+
+    .creator-name {
+      font-size: 0.95rem;
+      font-weight: bold;
+      color: #d1d5db;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      /* تأثير الحفر المتموج والخفيف داخل المعدن */
+      text-shadow: 0 1px 1px rgba(255, 255, 255, 0.2), 0 -1px 1px rgba(0, 0, 0, 0.9);
+    }
+
+    .creator-role {
+      font-size: 0.65rem;
+      color: #9ca3af;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-top: 3px;
+      text-shadow: 0 1px 1px rgba(0, 0, 0, 0.9);
+    }
+
+    .card-meta {
+      font-size: 0.75rem;
+      color: #6b7280;
+      margin-top: 12px;
       display: flex;
       justify-content: space-between;
       font-family: monospace;
@@ -197,8 +216,8 @@
 
   <div style="text-align: center;">
     <h1 style="color: #ff0033; letter-spacing: 2px; margin-bottom: 10px;">RANK-UP CINEMATIC PREVIEW</h1>
-    <p style="color: #888; margin-bottom: 30px;">Click below to preview with audio starting right from the beginning.</p>
-    <button class="test-btn" onclick="triggerRankUpPreview()">[ TEST AUDIO FROM START ]</button>
+    <p style="color: #888; margin-bottom: 30px;">Click below to preview with engraved creator stamp.</p>
+    <button class="test-btn" onclick="triggerRankUpPreview()">[ TEST ENGRAVED STAMP ]</button>
   </div>
 
   <!-- شاشة الترفيع السينمائية -->
@@ -209,6 +228,7 @@
       <div class="rankup-main-name">EYE OF ARTHOS</div>
     </div>
     
+    <!-- البطاقة المعدنية الداكنة مع توقيعك المحفور -->
     <div class="rank-card-3d" id="rankCard">
       <div class="card-sigil">
         <svg viewBox="0 0 100 100" style="width:100%; height:100%;">
@@ -219,9 +239,15 @@
           <circle cx="50" cy="14" fill="#ff0033" stroke="#ffd700" stroke-width="2" style="filter: drop-shadow(0 0 12px #ff0033);"/>
         </svg>
       </div>
-      <div class="card-alias">MR.B</div>
-      <div class="card-subtitle">BEYOND THE VOID • SOUL SIGNATURE</div>
-      <div class="card-rank-name">EYE OF ARTHOS</div>
+      
+      <div class="card-rank-title">EYE OF ARTHOS</div>
+      
+      <!-- توقيعك وختم الصانع المحفور على المعدن -->
+      <div class="creator-engraved-stamp">
+        <div class="creator-name">SALEM AL-MANSOORI</div>
+        <div class="creator-role">BEYOND THE VOID CREATOR</div>
+      </div>
+
       <div class="card-meta">
         <span>ID: BTV-000</span>
         <span style="color: #ffd700; font-weight: bold;">150 XP</span>
@@ -324,7 +350,7 @@
       titleBox.classList.remove('show-text');
       card.classList.remove('impact');
 
-      // 1. تشغيل الصوت من البداية تماماً (عند الثانية 0.0) مع ظهور الكلمة
+      // 1. تشغيل الصوت من البداية تماماً مع ظهور الكلمة
       try {
         var impactAudio = new Audio('alex_kizenkov-huge-scary-hit-logo-145509.mp3');
         impactAudio.volume = 0.9;
