@@ -67,7 +67,7 @@
       z-index: 1000000;
     }
 
-    /* صندوق النص (تبدأ الكلمة من البداية وتأخذ وقتها) */
+    /* صندوق النص */
     .rankup-title-box {
       text-align: center;
       margin-bottom: 25px;
@@ -105,7 +105,7 @@
       text-shadow: 0 0 25px rgba(255, 215, 0, 0.7);
     }
 
-    /* بطاقة الـ 3D المعدنية (تظهر عند الثانية 3 وتصدم وتكتمل عند الثانية 4) */
+    /* بطاقة الـ 3D المعدنية */
     .rank-card-3d {
       width: 360px;
       background: linear-gradient(145deg, #1b1924, #0b0a0f);
@@ -197,8 +197,8 @@
 
   <div style="text-align: center;">
     <h1 style="color: #ff0033; letter-spacing: 2px; margin-bottom: 10px;">RANK-UP CINEMATIC PREVIEW</h1>
-    <p style="color: #888; margin-bottom: 30px;">Click below to preview with your custom sound effect.</p>
-    <button class="test-btn" onclick="triggerRankUpPreview()">[ TEST FINAL RANK-UP ]</button>
+    <p style="color: #888; margin-bottom: 30px;">Click below to preview with synced audio timing.</p>
+    <button class="test-btn" onclick="triggerRankUpPreview()">[ TEST SYNCED AUDIO ]</button>
   </div>
 
   <!-- شاشة الترفيع السينمائية -->
@@ -329,19 +329,22 @@
         titleBox.classList.add('show-text');
       }, 100);
 
-      // 2. عند الثانية 3.0 بالضبط: تبدأ البطاقة بالظهور والتحرك نحو الشاشة
+      // 2. تشغيل الصوت مبكراً قليلاً (عند الثانية 3.3) عشان الضربة الفعلية تلحق الثانية 4.0 بالضبط
+      setTimeout(function() {
+        try {
+          var impactAudio = new Audio('alex_kizenkov-huge-scary-hit-logo-145509.mp3');
+          impactAudio.volume = 0.9;
+          impactAudio.play();
+        } catch(e) { console.error("Audio play error:", e); }
+      }, 3300);
+
+      // 3. عند الثانية 3.0: تبدأ البطاقة بالتحرك
       setTimeout(function() {
         card.classList.add('impact');
       }, 3000);
 
-      // 3. عند الثانية 4.0 بالضبط: تصدم البطاقة الشاشة تماماً ويشتغل صوتك الحقيقي وانفجار الرذاذ
+      // 4. عند الثانية 4.0: تصدم البطاقة الشاشة وانفجار الرذاذ
       setTimeout(function() {
-        try {
-          var impactAudio = new Audio('alex_kizenkov-huge-scary-hit-logo-145509.mp3');
-          impactAudio.volume = 0.8;
-          impactAudio.play();
-        } catch(e) { console.error("Audio play error:", e); }
-
         triggerEdgeDustExplosion(); 
       }, 4000); 
     }
