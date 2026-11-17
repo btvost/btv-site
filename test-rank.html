@@ -49,14 +49,25 @@
       align-items: center;
       z-index: 99999;
       opacity: 0;
-      transition: opacity 0.5s ease;
+      transition: opacity 0.4s ease;
     }
     .rankup-overlay.active {
       display: flex;
       opacity: 1;
     }
 
-    /* النص العريض المتحرك بالإنجليزية */
+    /* كانفاس رذاذ وغبار الصدم */
+    #impact-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 100000;
+    }
+
+    /* النص العريض المتحرك */
     .rankup-title {
       font-size: 1.8rem;
       color: #ff0033;
@@ -73,7 +84,7 @@
       to { transform: scale(1.05); filter: drop-shadow(0 0 25px #ff0033); }
     }
 
-    /* بطاقة الـ 3D الملكية الفخمة */
+    /* بطاقة الـ 3D مع حركة الصدمة (Impact Animation) */
     .rank-card-3d {
       width: 360px;
       background: linear-gradient(145deg, #12111c, #07060a);
@@ -82,16 +93,37 @@
       padding: 30px;
       text-align: center;
       box-shadow: 0 0 50px rgba(255, 215, 0, 0.3), inset 0 0 20px rgba(255, 0, 51, 0.2);
-      transform: perspective(1000px) rotateX(15deg) scale(0.8);
+      transform: scale(0.1) rotateX(25deg);
       opacity: 0;
-      transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .rank-card-3d.show {
-      transform: perspective(1000px) rotateX(0deg) scale(1);
-      opacity: 1;
+      position: relative;
+      z-index: 100001;
     }
 
-    /* الشعار / الختم داخل البطاقة */
+    /* كلاس تفعيل الصدمة */
+    .rank-card-3d.impact {
+      animation: cardImpact 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+
+    @keyframes cardImpact {
+      0% {
+        transform: scale(0.1) rotateX(25deg);
+        opacity: 0;
+      }
+      70% {
+        transform: scale(1.06) rotateX(-5deg);
+        opacity: 1;
+      }
+      85% {
+        transform: scale(0.97) rotateX(2deg);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(1) rotateX(0deg);
+        opacity: 1;
+      }
+    }
+
+    /* الشعار داخل البطاقة */
     .card-sigil {
       width: 80px;
       height: 80px;
@@ -144,6 +176,8 @@
       cursor: pointer;
       font-size: 0.8rem;
       transition: 0.2s;
+      position: relative;
+      z-index: 100001;
     }
     .close-preview-btn:hover {
       border-color: #ff0033;
@@ -153,10 +187,12 @@
 </head>
 <body>
 
+  <canvas id="impact-canvas"></canvas>
+
   <div style="text-align: center;">
     <h1 style="color: #ff0033; letter-spacing: 2px; margin-bottom: 10px;">RANK-UP CINEMATIC TEST</h1>
-    <p style="color: #888; margin-bottom: 30px;">Click below to preview the rank-up animation with badge and sigil.</p>
-    <button class="test-btn" onclick="triggerRankUpPreview()">[ TEST RANK-UP EFFECT ]</button>
+    <p style="color: #888; margin-bottom: 30px;">Click below to preview the rank-up animation with impact dust effect.</p>
+    <button class="test-btn" onclick="triggerRankUpPreview()">[ TEST RANK-UP IMPACT ]</button>
   </div>
 
   <!-- شاشة الترفيع السينمائية -->
@@ -164,7 +200,6 @@
     <div class="rankup-title" id="rankupText">⚡ RANK UP: EYE OF ARTHOS ⚡</div>
     
     <div class="rank-card-3d" id="rankCard">
-      <!-- الختم / الشعار الملكي -->
       <div class="card-sigil">
         <svg viewBox="0 0 100 100" style="width:100%; height:100%;">
           <g style="transform-origin: 50px 50px; animation: rotate-sigil 8s linear infinite;">
@@ -187,12 +222,86 @@
   </div>
 
   <script>
+    var impactCanvas = document.getElementById('impact-canvas');
+    var iCtx = impactCanvas.getContext('2d');
+    var dustParticles = [];
+    var isDustActive = false;
+
+    function resizeImpactCanvas() {
+      impactCanvas.width = window.innerWidth;
+      impactCanvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeImpactCanvas);
+    resizeImpactCanvas();
+
+    function triggerDustExplosion() {
+      dustParticles = [];
+      var centerX = window.innerWidth / 2;
+      var centerY = window.innerHeight / 2;
+      var colors = ['#ffd700', '#ff0033', '#ff4500', '#ffffff'];
+
+      // توليد رذاذ وغبار الصدم
+      for (var i = 0; i < 50; i++) {
+        var angle = Math.random() * Math.PI * 2;
+        var speed = Math.random() * 8 + 2;
+        dustParticles.push({
+          x: centerX,
+          y: centerY,
+          vx: Math.cos(angle) * speed,
+          vy: Math.sin(angle) * speed,
+          size: Math.random() * 3 + 1,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          alpha: 1,
+          decay: Math.random() * 0.02 + 0.015
+        });
+      }
+
+      if (!isDustActive) {
+        isDustActive = true;
+        animateDust();
+      }
+    }
+
+    function animateDust() {
+      iCtx.clearRect(0, 0, impactCanvas.width, impactCanvas.height);
+      for (var i = dustParticles.length - 1; i >= 0; i--) {
+        var p = dustParticles[i];
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vx *= 0.92; // تباطؤ تدريجي كأنها صدمة وهدأت
+        p.vy *= 0.92;
+        p.alpha -= p.decay;
+
+        if (p.alpha <= 0) {
+          dustParticles.splice(i, 1);
+          continue;
+        }
+
+        iCtx.save();
+        iCtx.globalAlpha = p.alpha;
+        iCtx.fillStyle = p.color;
+        iCtx.shadowColor = p.color;
+        iCtx.shadowBlur = 8;
+        iCtx.beginPath();
+        iCtx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        iCtx.fill();
+        iCtx.restore();
+      }
+
+      if (dustParticles.length > 0) {
+        requestAnimationFrame(animateDust);
+      } else {
+        isDustActive = false;
+        iCtx.clearRect(0, 0, impactCanvas.width, impactCanvas.height);
+      }
+    }
+
     function triggerRankUpPreview() {
       var overlay = document.getElementById('rankupOverlay');
       var card = document.getElementById('rankCard');
       
       overlay.classList.add('active');
-      card.classList.remove('show');
+      card.classList.remove('impact');
 
       try {
         var audio = new Audio('https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3');
@@ -200,14 +309,17 @@
         audio.play();
       } catch(e) {}
 
+      // تشغيل صدمة البطاقة والرذاذ بعد لحظات قصيرة
       setTimeout(function() {
-        card.classList.add('show');
-      }, 700);
+        card.classList.add('impact');
+        triggerDustExplosion(); // إطلاق الغبار والرذاذ لحظة الاصطدام
+      }, 500);
     }
 
     function closePreview() {
       var overlay = document.getElementById('rankupOverlay');
       overlay.classList.remove('active');
+      iCtx.clearRect(0, 0, impactCanvas.width, impactCanvas.height);
     }
   </script>
 </body>
