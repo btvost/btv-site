@@ -56,15 +56,15 @@
       opacity: 1;
     }
 
-    /* كانفاس رذاذ وغبار الصدم */
+    /* كانفاس رذاذ وغبار الصدم (فوق كل العناصر) */
     #impact-canvas {
-      position: absolute;
+      position: fixed;
       top: 0;
       left: 0;
       width: 100vw;
       height: 100vh;
       pointer-events: none;
-      z-index: 100000;
+      z-index: 1000000;
     }
 
     /* النص العريض المتحرك */
@@ -78,13 +78,15 @@
       margin-bottom: 25px;
       text-shadow: 0 0 20px rgba(255, 0, 51, 0.8);
       animation: pulse-text 1.2s infinite alternate;
+      position: relative;
+      z-index: 1000001;
     }
     @keyframes pulse-text {
       from { transform: scale(1); filter: drop-shadow(0 0 10px #ff0033); }
       to { transform: scale(1.05); filter: drop-shadow(0 0 25px #ff0033); }
     }
 
-    /* بطاقة الـ 3D مع حركة الصدمة (Impact Animation) */
+    /* بطاقة الـ 3D مع حركة الصدمة */
     .rank-card-3d {
       width: 360px;
       background: linear-gradient(145deg, #12111c, #07060a);
@@ -96,10 +98,9 @@
       transform: scale(0.1) rotateX(25deg);
       opacity: 0;
       position: relative;
-      z-index: 100001;
+      z-index: 1000001;
     }
 
-    /* كلاس تفعيل الصدمة */
     .rank-card-3d.impact {
       animation: cardImpact 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
     }
@@ -110,7 +111,7 @@
         opacity: 0;
       }
       70% {
-        transform: scale(1.06) rotateX(-5deg);
+        transform: scale(1.08) rotateX(-5deg);
         opacity: 1;
       }
       85% {
@@ -123,7 +124,6 @@
       }
     }
 
-    /* الشعار داخل البطاقة */
     .card-sigil {
       width: 80px;
       height: 80px;
@@ -177,7 +177,7 @@
       font-size: 0.8rem;
       transition: 0.2s;
       position: relative;
-      z-index: 100001;
+      z-index: 1000001;
     }
     .close-preview-btn:hover {
       border-color: #ff0033;
@@ -238,21 +238,21 @@
       dustParticles = [];
       var centerX = window.innerWidth / 2;
       var centerY = window.innerHeight / 2;
-      var colors = ['#ffd700', '#ff0033', '#ff4500', '#ffffff'];
+      var colors = ['#ffd700', '#ff0033', '#ff4500', '#ffffff', '#ff2a55'];
 
-      // توليد رذاذ وغبار الصدم
-      for (var i = 0; i < 50; i++) {
+      // توليد كثافة عالية من جزيئات الغبار والرذاذ
+      for (var i = 0; i < 70; i++) {
         var angle = Math.random() * Math.PI * 2;
-        var speed = Math.random() * 8 + 2;
+        var speed = Math.random() * 12 + 3;
         dustParticles.push({
           x: centerX,
           y: centerY,
           vx: Math.cos(angle) * speed,
           vy: Math.sin(angle) * speed,
-          size: Math.random() * 3 + 1,
+          size: Math.random() * 4 + 1.5,
           color: colors[Math.floor(Math.random() * colors.length)],
           alpha: 1,
-          decay: Math.random() * 0.02 + 0.015
+          decay: Math.random() * 0.025 + 0.01
         });
       }
 
@@ -268,8 +268,8 @@
         var p = dustParticles[i];
         p.x += p.vx;
         p.y += p.vy;
-        p.vx *= 0.92; // تباطؤ تدريجي كأنها صدمة وهدأت
-        p.vy *= 0.92;
+        p.vx *= 0.90; 
+        p.vy *= 0.90;
         p.alpha -= p.decay;
 
         if (p.alpha <= 0) {
@@ -281,7 +281,7 @@
         iCtx.globalAlpha = p.alpha;
         iCtx.fillStyle = p.color;
         iCtx.shadowColor = p.color;
-        iCtx.shadowBlur = 8;
+        iCtx.shadowBlur = 10;
         iCtx.beginPath();
         iCtx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
         iCtx.fill();
@@ -309,10 +309,9 @@
         audio.play();
       } catch(e) {}
 
-      // تشغيل صدمة البطاقة والرذاذ بعد لحظات قصيرة
       setTimeout(function() {
         card.classList.add('impact');
-        triggerDustExplosion(); // إطلاق الغبار والرذاذ لحظة الاصطدام
+        triggerDustExplosion(); 
       }, 500);
     }
 
