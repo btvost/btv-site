@@ -13,7 +13,7 @@
       padding: 20px;
     }
     .admin-container {
-      max-width: 1000px;
+      max-width: 1050px;
       margin: 0 auto;
       background: #0d0c14;
       border: 1px solid #ff0033;
@@ -145,7 +145,7 @@
         <tr>
           <th>User</th>
           <th>Rank</th>
-          <th>Item ID / Episode</th>
+          <th>Target Episode / Chapter</th>
           <th>Comment Text</th>
           <th>Time</th>
         </tr>
@@ -155,7 +155,7 @@
       </tbody>
     </table>
 
-    <button class="refresh-btn" onclick="loadAdminData()">[ REFRESH DATA ]</button>
+    <button class="refresh-btn" onclick="initAdmin()">[ REFRESH DATA ]</button>
   </div>
 
   <script>
@@ -163,8 +163,45 @@
     var SUPABASE_KEY = "sb_publishable_oMkm_pQ76xmfel1VQZ-AhA_QfdgmAVX";
     var _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
+    var titlesMap = {};
+
+    // تحميل data.json لترجمة الأكواد إلى أسماء حقيقية
+    async function loadTitlesDictionary() {
+      try {
+        var res = await fetch('data.json?v=' + Date.now());
+        var data = res.ok ? await res.json() : null;
+        if (!data) return;
+
+        // ترجمة حلقات الأنيميشن
+        if (data.seasons) {
+          data.seasons.forEach(s => {
+            if (s.episodes) {
+              s.episodes.forEach(ep => {
+                titlesMap['ep_' + ep.youtube_id] = s.season_title + ' ➔ ' + ep.title;
+              });
+            }
+          });
+        }
+
+        // ترجمة فصول الويبتون
+        if (data.webtoon_arcs) {
+          data.webtoon_arcs.forEach((arc, aIdx) => {
+            if (arc.chapters) {
+              arc.chapters.forEach((ch, cIdx) => {
+                titlesMap['ch_' + aIdx + '_' + cIdx] = arc.arc_title + ' ➔ ' + ch.chapter_num + ': ' + ch.title;
+              });
+            }
+          });
+        }
+      } catch (e) {
+        console.error("Could not load data.json titles", e);
+      }
+    }
+
     async function loadAdminData() {
       try {
+        await loadTitlesDictionary();
+
         // 1. جلب المستخدمين
         var { data: users, error: userErr } = await _supabase.from('void_users').select('*').order('xp', { ascending: false });
         if (userErr) throw userErr;
@@ -199,15 +236,18 @@
           document.getElementById('total-comments').innerText = '0';
         } else {
           document.getElementById('total-comments').innerText = comments.length;
-          commentsTbody.innerHTML = comments.map(c => `
-            <tr>
-              <td><strong>${c.alias}</strong></td>
-              <td style="color: #ff0033;">${c.rank_name || 'VOID VESSEL'}</td>
-              <td style="font-family: monospace; color: #00ffff; font-size: 0.75rem;">${c.item_id}</td>
-              <td>${c.comment_text}</td>
-              <td style="font-size: 0.75rem; color: #666;">${new Date(c.created_at).toLocaleString()}</td>
-            </tr>
-          `).join('');
+          commentsTbody.innerHTML = comments.map(c => {
+            var readableTitle = titlesMap[c.item_id] || c.item_id;
+            return `
+              <tr>
+                <td><strong>${c.alias}</strong></td>
+                <td style="color: #ff0033;">${c.rank_name || 'VOID VESSEL'}</td>
+                <td style="color: #00ffff; font-weight: bold; font-size: 0.8rem;">${readableTitle}</td>
+                <td>${c.comment_text}</td>
+                <td style="font-size: 0.75rem; color: #666;">${new Date(c.created_at).toLocaleString()}</td>
+              </tr>
+            `;
+          }).join('');
         }
 
       } catch (err) {
