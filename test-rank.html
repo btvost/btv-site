@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BTV | Rank-Up Cinematic Preview</title>
+  <!-- مكتبة html2canvas لالتقاط صورة البطاقة الحصرية بدقة عالية -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <style>
     body {
       background: #08070d;
@@ -142,7 +144,6 @@
       filter: drop-shadow(0 0 8px #ff0033);
     }
 
-    /* اسم المستخدم صاحب الرتبة في المنتصف */
     .card-username {
       font-size: 1.4rem;
       color: #fff;
@@ -162,7 +163,6 @@
       text-transform: uppercase;
     }
 
-    /* نظام الـ Souls في الأسفل (يمين ويسار بضبط الخط والترتيب) */
     .souls-footer-system {
       display: flex;
       justify-content: space-between;
@@ -190,18 +190,48 @@
       text-align: right;
     }
 
+    /* أزرار التحكم والتحميل أسفل البطاقة */
+    .action-buttons-container {
+      margin-top: 25px;
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      position: relative;
+      z-index: 1000001;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+    .action-buttons-container.show {
+      opacity: 1;
+    }
+
+    .card-action-btn {
+      background: linear-gradient(135deg, #ffd700, #b8860b);
+      color: #08070d;
+      border: none;
+      padding: 10px 20px;
+      font-size: 0.85rem;
+      font-weight: bold;
+      border-radius: 6px;
+      cursor: pointer;
+      box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+      transition: 0.2s;
+      text-transform: uppercase;
+    }
+    .card-action-btn:hover {
+      background: linear-gradient(135deg, #ffea75, #ffd700);
+      box-shadow: 0 0 25px rgba(255, 215, 0, 0.6);
+    }
+
     .close-preview-btn {
-      margin-top: 30px;
       background: transparent;
       border: 1px solid #444;
       color: #888;
-      padding: 8px 20px;
+      padding: 10px 20px;
       border-radius: 6px;
       cursor: pointer;
-      font-size: 0.8rem;
+      font-size: 0.85rem;
       transition: 0.2s;
-      position: relative;
-      z-index: 1000001;
     }
     .close-preview-btn:hover {
       border-color: #ff0033;
@@ -215,8 +245,8 @@
 
   <div style="text-align: center;">
     <h1 style="color: #ff0033; letter-spacing: 2px; margin-bottom: 10px;">RANK-UP CINEMATIC PREVIEW</h1>
-    <p style="color: #888; margin-bottom: 30px;">Click below to preview with aligned Souls footer.</p>
-    <button class="test-btn" onclick="triggerRankUpPreview()">[ TEST SOULS UI CARD ]</button>
+    <p style="color: #888; margin-bottom: 30px;">Click below to preview with exclusive card download.</p>
+    <button class="test-btn" onclick="triggerRankUpPreview()">[ TEST RANK-UP & DOWNLOAD ]</button>
   </div>
 
   <!-- شاشة الترفيع السينمائية -->
@@ -227,7 +257,7 @@
       <div class="rankup-main-name">EYE OF ARTHOS</div>
     </div>
     
-    <!-- البطاقة بتصميم الـ Souls -->
+    <!-- البطاقة الحصرية -->
     <div class="rank-card-3d" id="rankCard">
       <div class="card-sigil">
         <svg viewBox="0 0 100 100" style="width:100%; height:100%;">
@@ -239,18 +269,21 @@
         </svg>
       </div>
       
-      <!-- اسم المستخدم صاحب الرتبة في المنتصف -->
       <div class="card-username">MR.B</div>
       <div class="card-rank-title">EYE OF ARTHOS</div>
       
-      <!-- نظام الـ Souls في الأسفل (متناسق تماماً) -->
       <div class="souls-footer-system">
         <div class="souls-side-text left">BEYOND THE VOID</div>
         <div class="souls-side-text right">ISSUED BY THE CREATOR<br>SALEM AL-MANSOORI</div>
       </div>
     </div>
 
-    <button class="close-preview-btn" onclick="closePreview()">[ CLOSE PREVIEW ]</button>
+    <!-- أزرار الإجراءات (تظهر بعد استقرار البطاقة) -->
+    <div class="action-buttons-container" id="actionButtons">
+      <button class="card-action-btn" onclick="downloadExclusiveCard()">[ DOWNLOAD CARD PNG ]</button>
+      <button class="close-preview-btn" onclick="closePreview()">[ CLOSE ]</button>
+    </div>
+
   </div>
 
   <script>
@@ -341,10 +374,12 @@
       var overlay = document.getElementById('rankupOverlay');
       var titleBox = document.getElementById('rankTitleBox');
       var card = document.getElementById('rankCard');
+      var actionBtns = document.getElementById('actionButtons');
       
       overlay.classList.add('active');
       titleBox.classList.remove('show-text');
       card.classList.remove('impact');
+      actionBtns.classList.remove('show');
 
       try {
         var impactAudio = new Audio('alex_kizenkov-huge-scary-hit-logo-145509.mp3');
@@ -361,8 +396,25 @@
       }, 3000);
 
       setTimeout(function() {
-        triggerEdgeDustExplosion(); 
+        triggerEdgeDustExplosion();
+        // إظهار أزرار التحميل بعد اكتمال الصدمة واستقرار البطاقة
+        actionBtns.classList.add('show');
       }, 4000); 
+    }
+
+    // دالة حفظ البطاقة كصورة PNG حصرية نقية بدون أي محيط خارجي
+    function downloadExclusiveCard() {
+      var cardElement = document.getElementById('rankCard');
+      html2canvas(cardElement, {
+        backgroundColor: null, // الحفاظ على الشفافية إن وجدت
+        scale: 3, // دقة عالية جداً (High Resolution)
+        logging: false
+      }).then(function(canvas) {
+        var link = document.createElement('a');
+        link.download = 'BTV-Rank-Card.png';
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+      });
     }
 
     function closePreview() {
