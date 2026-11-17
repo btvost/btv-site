@@ -35,7 +35,7 @@
       box-shadow: 0 0 30px rgba(255, 0, 51, 0.7);
     }
 
-    /* شاشة الترفيع السينمائية (Cinematic Rank-Up Overlay) */
+    /* شاشة الترفيع السينمائية */
     .rankup-overlay {
       position: fixed;
       top: 0;
@@ -56,12 +56,12 @@
       opacity: 1;
     }
 
-    /* النص العريض المتحرك */
+    /* النص العريض المتحرك بالإنجليزية */
     .rankup-title {
       font-size: 1.8rem;
       color: #ff0033;
       text-transform: uppercase;
-      letter-spacing: 4px;
+      letter-spacing: 3px;
       font-weight: 900;
       text-align: center;
       margin-bottom: 25px;
@@ -73,16 +73,16 @@
       to { transform: scale(1.05); filter: drop-shadow(0 0 25px #ff0033); }
     }
 
-    /* بطاقة الـ 3D الملكية */
+    /* بطاقة الـ 3D الملكية الفخمة */
     .rank-card-3d {
-      width: 340px;
+      width: 360px;
       background: linear-gradient(145deg, #12111c, #07060a);
-      border: 2px solid #ff0033;
+      border: 2px solid #ffd700;
       border-radius: 16px;
       padding: 30px;
       text-align: center;
-      box-shadow: 0 0 40px rgba(255, 0, 51, 0.4), inset 0 0 15px rgba(255, 0, 51, 0.2);
-      transform: perspective(1000px) rotateX(10deg) scale(0.8);
+      box-shadow: 0 0 50px rgba(255, 215, 0, 0.3), inset 0 0 20px rgba(255, 0, 51, 0.2);
+      transform: perspective(1000px) rotateX(15deg) scale(0.8);
       opacity: 0;
       transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
     }
@@ -91,35 +91,47 @@
       opacity: 1;
     }
 
+    /* الشعار / الختم داخل البطاقة */
     .card-sigil {
-      width: 90px;
-      height: 90px;
-      margin: 0 auto 15px auto;
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 12px auto;
       display: flex;
       align-items: center;
       justify-content: center;
+      filter: drop-shadow(0 0 10px #ff0033);
     }
     .card-alias {
-      font-size: 1.4rem;
+      font-size: 1.3rem;
       font-weight: bold;
       color: #fff;
-      margin-bottom: 5px;
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+    }
+    .card-subtitle {
+      font-size: 0.7rem;
+      color: #777;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 15px;
     }
     .card-rank-name {
-      font-size: 1rem;
+      font-size: 1.1rem;
       color: #ffd700;
       font-weight: bold;
       letter-spacing: 2px;
-      margin-bottom: 15px;
-      text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+      margin-bottom: 20px;
+      text-shadow: 0 0 12px rgba(255, 215, 0, 0.6);
+      text-transform: uppercase;
     }
     .card-meta {
       font-size: 0.8rem;
-      color: #888;
+      color: #aaa;
       border-top: 1px solid #201e30;
-      padding-top: 12px;
+      padding-top: 15px;
       display: flex;
       justify-content: space-between;
+      font-family: monospace;
     }
 
     .close-preview-btn {
@@ -143,21 +155,31 @@
 
   <div style="text-align: center;">
     <h1 style="color: #ff0033; letter-spacing: 2px; margin-bottom: 10px;">RANK-UP CINEMATIC TEST</h1>
-    <p style="color: #888; margin-bottom: 30px;">Click below to preview the rank-up animation and 3D card display.</p>
+    <p style="color: #888; margin-bottom: 30px;">Click below to preview the rank-up animation with badge and sigil.</p>
     <button class="test-btn" onclick="triggerRankUpPreview()">[ TEST RANK-UP EFFECT ]</button>
   </div>
 
   <!-- شاشة الترفيع السينمائية -->
   <div class="rankup-overlay" id="rankupOverlay">
-    <div class="rankup-title" id="rankupText">⚡ تم ترفيعك إلى رتبه: EYE OF ARTHOS ⚡</div>
+    <div class="rankup-title" id="rankupText">⚡ RANK UP: EYE OF ARTHOS ⚡</div>
     
     <div class="rank-card-3d" id="rankCard">
-      <div class="card-sigil" id="cardSigilSlot"></div>
+      <!-- الختم / الشعار الملكي -->
+      <div class="card-sigil">
+        <svg viewBox="0 0 100 100" style="width:100%; height:100%;">
+          <g style="transform-origin: 50px 50px; animation: rotate-sigil 8s linear infinite;">
+            <circle cx="50" cy="50" r="45" fill="none" stroke="#ffd700" stroke-width="2.5" stroke-dasharray="10 4 2 4"/>
+            <polygon points="50,2 62,38 98,50 62,62 50,98 38,62 2,50 38,38" fill="none" stroke="#ffd700" stroke-width="1.5"/>
+          </g>
+          <circle cx="50" cy="14" fill="#ff0033" stroke="#ffd700" stroke-width="2" style="filter: drop-shadow(0 0 12px #ff0033);"/>
+        </svg>
+      </div>
       <div class="card-alias">MR.B</div>
+      <div class="card-subtitle">BEYOND THE VOID • SOUL SIGNATURE</div>
       <div class="card-rank-name" id="cardRankTitle">EYE OF ARTHOS</div>
       <div class="card-meta">
         <span>ID: BTV-000</span>
-        <span style="color: #ff0033; font-weight: bold;">150 XP</span>
+        <span style="color: #ffd700; font-weight: bold;">150 XP</span>
       </div>
     </div>
 
@@ -172,17 +194,15 @@
       overlay.classList.add('active');
       card.classList.remove('show');
 
-      // تشغيل مؤثر صوتي سينمائي (اختياري - صوت تنبيه فويد)
       try {
         var audio = new Audio('https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3');
         audio.volume = 0.5;
         audio.play();
       } catch(e) {}
 
-      // إظهار البطاقة الـ 3D بعد ظهور النص العريض بـ 800 ملي ثانية
       setTimeout(function() {
         card.classList.add('show');
-      }, 800);
+      }, 700);
     }
 
     function closePreview() {
