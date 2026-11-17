@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BTV | Void Control Center (Admin)</title>
+  <style>
+    body {
+      background: #08070d;
+      color: #f1f5f9;
+      font-family: monospace;
+      margin: 0;
+      padding: 20px;
+    }
+    .admin-container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: #0d0c14;
+      border: 1px solid #ff0033;
+      border-radius: 12px;
+      padding: 25px;
+      box-shadow: 0 0 25px rgba(255, 0, 51, 0.2);
+    }
+    h1 {
+      color: #ff0033;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-top: 0;
+      text-align: center;
+      text-shadow: 0 0 10px rgba(255, 0, 51, 0.4);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    th, td {
+      padding: 12px 15px;
+      text-align: left;
+      border-bottom: 1px solid #1f1d2b;
+    }
+    th {
+      color: #ff0033;
+      font-size: 0.9rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    td {
+      font-size: 0.85rem;
+      color: #cbd5e1;
+    }
+    tr:hover {
+      background: #100f1c;
+    }
+    .stats-box {
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 25px;
+      padding: 15px;
+      background: #14131f;
+      border-radius: 8px;
+      border: 1px solid #28283d;
+    }
+    .stat-item {
+      text-align: center;
+    }
+    .stat-num {
+      font-size: 1.5rem;
+      color: #ff0033;
+      font-weight: bold;
+    }
+    .stat-label {
+      font-size: 0.75rem;
+      color: #888;
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
+    .refresh-btn {
+      background: #ff0033;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      font-weight: bold;
+      border-radius: 6px;
+      cursor: pointer;
+      display: block;
+      margin: 20px auto 0 auto;
+      transition: 0.2s;
+    }
+    .refresh-btn:hover {
+      background: #cc0029;
+      box-shadow: 0 0 10px rgba(255, 0, 51, 0.5);
+    }
+  </style>
+  <!-- مكتبة Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+  <div class="admin-container">
+    <h1>VOID CONTROL CENTER</h1>
+    
+    <div class="stats-box">
+      <div class="stat-item">
+        <div class="stat-num" id="total-users">0</div>
+        <div class="stat-label">Total Visitors</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num" id="max-xp">0</div>
+        <div class="stat-label">Highest XP</div>
+      </div>
+    </div>
+
+    <table id="users-table">
+      <thead>
+        <tr>
+          <th>Codename / Alias</th>
+          <th>Gender</th>
+          <th>Exp ID</th>
+          <th>Rank</th>
+          <th>XP</th>
+          <th>Last Seen</th>
+        </tr>
+      </thead>
+      <tbody id="table-body">
+        <tr><td colspan="6" style="text-align: center; color: #666;">Loading database records...</td></tr>
+      </tbody>
+    </table>
+
+    <button class="refresh-btn" onclick="loadAdminData()">[ REFRESH DATA ]</button>
+  </div>
+
+  <script>
+    var SUPABASE_URL = "https://jabmdhvyhtgtcypixygg.supabase.co";
+    var SUPABASE_KEY = "sb_publishable_oMkm_pQ76xmfel1VQZ-AhA_QfdgmAVX";
+    var _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    async function loadAdminData() {
+      var tbody = document.getElementById('table-body');
+      tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: #666;">Syncing with void...</td></tr>';
+
+      try {
+        var { data, error } = await _supabase
+          .from('void_users')
+          .select('*')
+          .order('xp', { ascending: false });
+
+        if (error) throw error;
+
+        if (!data || data.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: #888;">No visitors recorded yet.</td></tr>';
+          document.getElementById('total-users').innerText = '0';
+          document.getElementById('max-xp').innerText = '0';
+          return;
+        }
+
+        document.getElementById('total-users').innerText = data.length;
+        document.getElementById('max-xp').innerText = data[0].xp || 0;
+
+        tbody.innerHTML = data.map(function(u) {
+          var dateStr = new Date(u.last_seen).toLocaleString();
+          return `<tr>
+            <td><strong>${u.alias}</strong></td>
+            <td>${u.gender || '-'}</td>
+            <td style="color: #888;">${u.exp_id || '-'}</td>
+            <td style="color: #ff0033; font-weight: bold;">${u.rank_name || 'VOID VESSEL'}</td>
+            <td style="color: #ffd700; font-weight: bold;">${u.xp} XP</td>
+            <td style="font-size: 0.75rem; color: #666;">${dateStr}</td>
+          </tr>`;
+        }).join('');
+
+      } catch (err) {
+        console.error("Error loading admin data:", err);
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: #ff0033;">Failed to load records from database.</td></tr>';
+      }
+    }
+
+    loadAdminData();
+  </script>
+</body>
+</html>
