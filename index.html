@@ -6,8 +6,6 @@
   <title>BEYOND THE VOID</title>
   <!-- مكتبة Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <!-- مكتبة html2canvas لالتقاط الشعار والبطاقة الحقيقية بدقة تامة -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <link rel="stylesheet" href="style.css">
   <style>
     /* محرك الجزيئات الخلفي والمؤثرات */
@@ -1178,21 +1176,99 @@
       }
     }
 
-    // تنزيل البطاقة الحصرية بدقة عالية وبشعار الرتبة الحقيقي باستخدام html2canvas
+    // تنزيل البطاقة برمجياً مباشرة على الكانفاس (نقاء مطلق 100%، بدون مربعات وبشعار الرتبة الأصلي)
     function downloadCleanCardCanvas() {
-      var cardElement = document.getElementById('rankCard');
-      var tData = sigilTiers[currentTier] || sigilTiers[1];
+      var user = getStorage('btv_user', { alias: "MR.B" });
+      var tierKey = calculateTier(user);
+      var tData = sigilTiers[tierKey] || sigilTiers[1];
 
-      html2canvas(cardElement, {
-        backgroundColor: null,
-        scale: 3, // دقة فائقة (High Resolution)
-        logging: false
-      }).then(function(canvas) {
-        var link = document.createElement('a');
-        link.download = 'BTV-' + tData.name.replace(/\s+/g, '-') + '-Card.png';
-        link.href = canvas.toDataURL('image/png');
-        link.click();
-      });
+      var canvas = document.createElement('canvas');
+      canvas.width = 1200;
+      canvas.height = 720;
+      var ctx = canvas.getContext('2d');
+
+      // 1. خلفية سوداء داكنة أصلية 100%
+      ctx.fillStyle = '#0a090e';
+      ctx.beginPath();
+      ctx.roundRect(0, 0, 1200, 720, 24);
+      ctx.fill();
+
+      // 2. إطار البطاقة بلون الرتبة الحقيقي
+      ctx.strokeStyle = tData.color || '#5c4f80';
+      ctx.lineWidth = 4;
+      ctx.beginPath();
+      ctx.roundRect(0, 0, 1200, 720, 24);
+      ctx.stroke();
+
+      // 3. رسم شعار الرتبة الحقيقي برمجياً في المنتصف
+      ctx.save();
+      ctx.translate(600, 150);
+      ctx.strokeStyle = tData.color || '#ffd700';
+      ctx.fillStyle = tData.color || '#ffd700';
+      ctx.lineWidth = 4;
+
+      if (tierKey === 5) { // EYE OF ARTHOS
+        ctx.beginPath(); ctx.arc(0, 0, 55, 0, Math.PI * 2); ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(0, -55); ctx.lineTo(17, -15); ctx.lineTo(55, 0); ctx.lineTo(17, 15);
+        ctx.lineTo(0, 55); ctx.lineTo(-17, 15); ctx.lineTo(-55, 0); ctx.lineTo(-17, -15);
+        ctx.closePath(); ctx.stroke();
+        ctx.beginPath(); ctx.arc(0, -42, 8, 0, Math.PI * 2); ctx.fillStyle = '#ff0033'; ctx.fill();
+      } else if (tierKey === 2 || tierKey === 3) { // AWAKENED PULSE / CRIMSON ECLIPSE
+        ctx.beginPath(); ctx.arc(0, 0, 52, 0, Math.PI * 2); ctx.stroke();
+        ctx.beginPath(); ctx.arc(0, 0, 36, 0, Math.PI * 2); ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(0, -48); ctx.lineTo(42, 0); ctx.lineTo(0, 48); ctx.lineTo(-42, 0);
+        ctx.closePath(); ctx.stroke();
+        ctx.beginPath(); ctx.arc(0, 0, 10, 0, Math.PI * 2); ctx.fillStyle = '#ff0033'; ctx.fill();
+      } else if (tierKey === 4) { // ABYSSAL OVERLORD
+        ctx.beginPath(); ctx.rect(-45, -45, 90, 90); ctx.stroke();
+        ctx.rotate(Math.PI / 4);
+        ctx.beginPath(); ctx.rect(-35, -35, 70, 70); ctx.stroke();
+      } else if (tierKey === 'creator') { // CREATOR SUPREME
+        ctx.beginPath(); ctx.arc(0, 0, 55, 0, Math.PI * 2); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(0, -58); ctx.lineTo(58, 0); ctx.lineTo(0, 58); ctx.lineTo(-58, 0); ctx.closePath(); ctx.stroke();
+        ctx.beginPath(); ctx.arc(0, 0, 15, 0, Math.PI * 2); ctx.fillStyle = '#b026ff'; ctx.fill();
+      } else { // VOID VESSEL
+        ctx.beginPath(); ctx.arc(0, 0, 48, 0, Math.PI * 2); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(-28, -28); ctx.lineTo(28, 28); ctx.moveTo(28, -28); ctx.lineTo(-28, 28); ctx.stroke();
+      }
+      ctx.restore();
+
+      // 4. اسم المستخدم
+      ctx.fillStyle = '#ffffff';
+      ctx.font = '900 55px monospace';
+      ctx.textAlign = 'center';
+      ctx.fillText(user.alias, 600, 290);
+
+      // 5. اسم الرتبة الفعلي بلونها الحقيقي
+      ctx.fillStyle = tData.color || '#ffd700';
+      ctx.font = '800 36px monospace';
+      ctx.fillText(tData.name, 600, 350);
+
+      // 6. خط فاصل
+      ctx.strokeStyle = '#1a1724';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(80, 530);
+      ctx.lineTo(1120, 530);
+      ctx.stroke();
+
+      // 7. التوقيعات النظامية (الـ Souls UI)
+      ctx.fillStyle = '#7c7599';
+      ctx.font = '20px monospace';
+      
+      ctx.textAlign = 'left';
+      ctx.fillText('BEYOND THE VOID', 80, 595);
+
+      ctx.textAlign = 'right';
+      ctx.fillText('ISSUED BY THE CREATOR', 1120, 580);
+      ctx.fillText('SALEM AL-MANSOORI', 1120, 610);
+
+      var link = document.createElement('a');
+      link.download = 'BTV-' + tData.name.replace(/\s+/g, '-') + '-Card.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
     }
 
     function closePreview() {
