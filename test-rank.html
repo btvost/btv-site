@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BTV | Rank-Up Cinematic Preview</title>
+  <style>
+    body {
+      background: #08070d;
+      color: #f1f5f9;
+      font-family: monospace;
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .test-btn {
+      background: #ff0033;
+      color: #fff;
+      border: none;
+      padding: 15px 30px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 0 0 20px rgba(255, 0, 51, 0.4);
+      transition: 0.2s;
+    }
+    .test-btn:hover {
+      background: #cc0029;
+      box-shadow: 0 0 30px rgba(255, 0, 51, 0.7);
+    }
+
+    /* شاشة الترفيع السينمائية (Cinematic Rank-Up Overlay) */
+    .rankup-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(4, 3, 7, 0.95);
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 99999;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+    .rankup-overlay.active {
+      display: flex;
+      opacity: 1;
+    }
+
+    /* النص العريض المتحرك */
+    .rankup-title {
+      font-size: 1.8rem;
+      color: #ff0033;
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      font-weight: 900;
+      text-align: center;
+      margin-bottom: 25px;
+      text-shadow: 0 0 20px rgba(255, 0, 51, 0.8);
+      animation: pulse-text 1.2s infinite alternate;
+    }
+    @keyframes pulse-text {
+      from { transform: scale(1); filter: drop-shadow(0 0 10px #ff0033); }
+      to { transform: scale(1.05); filter: drop-shadow(0 0 25px #ff0033); }
+    }
+
+    /* بطاقة الـ 3D الملكية */
+    .rank-card-3d {
+      width: 340px;
+      background: linear-gradient(145deg, #12111c, #07060a);
+      border: 2px solid #ff0033;
+      border-radius: 16px;
+      padding: 30px;
+      text-align: center;
+      box-shadow: 0 0 40px rgba(255, 0, 51, 0.4), inset 0 0 15px rgba(255, 0, 51, 0.2);
+      transform: perspective(1000px) rotateX(10deg) scale(0.8);
+      opacity: 0;
+      transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .rank-card-3d.show {
+      transform: perspective(1000px) rotateX(0deg) scale(1);
+      opacity: 1;
+    }
+
+    .card-sigil {
+      width: 90px;
+      height: 90px;
+      margin: 0 auto 15px auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .card-alias {
+      font-size: 1.4rem;
+      font-weight: bold;
+      color: #fff;
+      margin-bottom: 5px;
+    }
+    .card-rank-name {
+      font-size: 1rem;
+      color: #ffd700;
+      font-weight: bold;
+      letter-spacing: 2px;
+      margin-bottom: 15px;
+      text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+    }
+    .card-meta {
+      font-size: 0.8rem;
+      color: #888;
+      border-top: 1px solid #201e30;
+      padding-top: 12px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .close-preview-btn {
+      margin-top: 30px;
+      background: transparent;
+      border: 1px solid #444;
+      color: #888;
+      padding: 8px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.8rem;
+      transition: 0.2s;
+    }
+    .close-preview-btn:hover {
+      border-color: #ff0033;
+      color: #ff0033;
+    }
+  </style>
+</head>
+<body>
+
+  <div style="text-align: center;">
+    <h1 style="color: #ff0033; letter-spacing: 2px; margin-bottom: 10px;">RANK-UP CINEMATIC TEST</h1>
+    <p style="color: #888; margin-bottom: 30px;">Click below to preview the rank-up animation and 3D card display.</p>
+    <button class="test-btn" onclick="triggerRankUpPreview()">[ TEST RANK-UP EFFECT ]</button>
+  </div>
+
+  <!-- شاشة الترفيع السينمائية -->
+  <div class="rankup-overlay" id="rankupOverlay">
+    <div class="rankup-title" id="rankupText">⚡ تم ترفيعك إلى رتبه: EYE OF ARTHOS ⚡</div>
+    
+    <div class="rank-card-3d" id="rankCard">
+      <div class="card-sigil" id="cardSigilSlot"></div>
+      <div class="card-alias">MR.B</div>
+      <div class="card-rank-name" id="cardRankTitle">EYE OF ARTHOS</div>
+      <div class="card-meta">
+        <span>ID: BTV-000</span>
+        <span style="color: #ff0033; font-weight: bold;">150 XP</span>
+      </div>
+    </div>
+
+    <button class="close-preview-btn" onclick="closePreview()">[ CLOSE PREVIEW ]</button>
+  </div>
+
+  <script>
+    function triggerRankUpPreview() {
+      var overlay = document.getElementById('rankupOverlay');
+      var card = document.getElementById('rankCard');
+      
+      overlay.classList.add('active');
+      card.classList.remove('show');
+
+      // تشغيل مؤثر صوتي سينمائي (اختياري - صوت تنبيه فويد)
+      try {
+        var audio = new Audio('https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3');
+        audio.volume = 0.5;
+        audio.play();
+      } catch(e) {}
+
+      // إظهار البطاقة الـ 3D بعد ظهور النص العريض بـ 800 ملي ثانية
+      setTimeout(function() {
+        card.classList.add('show');
+      }, 800);
+    }
+
+    function closePreview() {
+      var overlay = document.getElementById('rankupOverlay');
+      overlay.classList.remove('active');
+    }
+  </script>
+</body>
+</html>
