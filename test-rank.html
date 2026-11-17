@@ -67,7 +67,7 @@
       z-index: 1000000;
     }
 
-    /* صندوق النص */
+    /* صندوق النص (تبدأ الكلمة من البداية وتأخذ وقتها) */
     .rankup-title-box {
       text-align: center;
       margin-bottom: 25px;
@@ -78,14 +78,13 @@
     }
 
     .rankup-title-box.show-text {
-      animation: textSequence 2.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+      animation: textSequence 4.0s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
     }
 
     @keyframes textSequence {
       0% { transform: scale(0.2); opacity: 0; }
-      20% { transform: scale(1.15); opacity: 1; }
-      35% { transform: scale(1); opacity: 1; }
-      85% { transform: scale(1); opacity: 1; }
+      15% { transform: scale(1.15); opacity: 1; }
+      30% { transform: scale(1); opacity: 1; }
       100% { transform: scale(1); opacity: 1; }
     }
 
@@ -106,10 +105,10 @@
       text-shadow: 0 0 25px rgba(255, 215, 0, 0.7);
     }
 
-    /* بطاقة الـ 3D مع الصدمة */
+    /* بطاقة الـ 3D المعدنية (تظهر عند الثانية 3 وتصدم وتكتمل عند الثانية 4) */
     .rank-card-3d {
       width: 360px;
-      background: linear-gradient(145deg, #12111c, #07060a);
+      background: linear-gradient(145deg, #1b1924, #0b0a0f);
       border: 2px solid #ffd700;
       border-radius: 16px;
       padding: 30px;
@@ -122,12 +121,12 @@
     }
 
     .rank-card-3d.impact {
-      animation: cardImpact 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+      animation: cardImpact 1.0s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
     }
 
     @keyframes cardImpact {
       0% { transform: scale(0.1) rotateX(25deg); opacity: 0; }
-      80% { transform: scale(1.05) rotateX(-3deg); opacity: 1; }
+      75% { transform: scale(1.05) rotateX(-3deg); opacity: 1; }
       100% { transform: scale(1) rotateX(0deg); opacity: 1; }
     }
 
@@ -197,9 +196,9 @@
   <canvas id="impact-canvas"></canvas>
 
   <div style="text-align: center;">
-    <h1 style="color: #ff0033; letter-spacing: 2px; margin-bottom: 10px;">RANK-UP CINEMATIC TEST</h1>
-    <p style="color: #888; margin-bottom: 30px;">Click below to preview the sequence with precise audio effects.</p>
-    <button class="test-btn" onclick="triggerRankUpPreview()">[ TEST SEQUENCE WITH SFX ]</button>
+    <h1 style="color: #ff0033; letter-spacing: 2px; margin-bottom: 10px;">RANK-UP CINEMATIC PREVIEW</h1>
+    <p style="color: #888; margin-bottom: 30px;">Click below to preview with your custom sound effect.</p>
+    <button class="test-btn" onclick="triggerRankUpPreview()">[ TEST FINAL RANK-UP ]</button>
   </div>
 
   <!-- شاشة الترفيع السينمائية -->
@@ -325,29 +324,26 @@
       titleBox.classList.remove('show-text');
       card.classList.remove('impact');
 
-      // 1. تشغيل صوت بداية ظهور النص (Energy Rise / Hum)
-      try {
-        var introAudio = new Audio('https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3');
-        introAudio.volume = 0.4;
-        introAudio.play();
-      } catch(e) {}
-
-      // تشغيل تكبير النص وثباته
+      // 1. بدء ظهور الكلمة من الثانية 0.0
       setTimeout(function() {
         titleBox.classList.add('show-text');
       }, 100);
 
-      // 2. بعد ثانيتين ونصف (عند اكتمال ثبات النص وطلوع الكرت)، يشتغل صوت الاصطدام القوي (Heavy Impact Boom) + الرذاذ
+      // 2. عند الثانية 3.0 بالضبط: تبدأ البطاقة بالظهور والتحرك نحو الشاشة
+      setTimeout(function() {
+        card.classList.add('impact');
+      }, 3000);
+
+      // 3. عند الثانية 4.0 بالضبط: تصدم البطاقة الشاشة تماماً ويشتغل صوتك الحقيقي وانفجار الرذاذ
       setTimeout(function() {
         try {
-          var impactAudio = new Audio('https://assets.mixkit.co/active_storage/sfx/2148/2148-preview.mp3');
-          impactAudio.volume = 0.7;
+          var impactAudio = new Audio('alex_kizenkov-huge-scary-hit-logo-145509.mp3');
+          impactAudio.volume = 0.8;
           impactAudio.play();
-        } catch(e) {}
+        } catch(e) { console.error("Audio play error:", e); }
 
-        card.classList.add('impact');
         triggerEdgeDustExplosion(); 
-      }, 2200); 
+      }, 4000); 
     }
 
     function closePreview() {
