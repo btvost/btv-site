@@ -56,7 +56,7 @@
       opacity: 1;
     }
 
-    /* كانفاس رذاذ الغبار (فوق كل العناصر) */
+    /* كانفاس رذاذ الغبار */
     #impact-canvas {
       position: fixed;
       top: 0;
@@ -67,26 +67,62 @@
       z-index: 1000000;
     }
 
-    /* النص العريض المتحرك */
-    .rankup-title {
-      font-size: 1.8rem;
-      color: #ff0033;
+    /* النص العريض المتحرك باللون الذهبي للرتبة */
+    .rankup-title-box {
+      text-align: center;
+      margin-bottom: 25px;
+      position: relative;
+      z-index: 1000001;
+      transform: scale(0.2);
+      opacity: 0;
+    }
+
+    /* مرحلة تكبير النص وثباته ثم عودته للحجم العادي */
+    .rankup-title-box.show-text {
+      animation: textSequence 2.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+
+    @keyframes textSequence {
+      0% {
+        transform: scale(0.2);
+        opacity: 0;
+      }
+      20% {
+        transform: scale(1.15); /* يكبر بزيادة */
+        opacity: 1;
+      }
+      35% {
+        transform: scale(1); /* يستقر في حجم العرض البارز ويجلس ثانيتين */
+        opacity: 1;
+      }
+      85% {
+        transform: scale(1); /* فترة الثبات وثانيتين */
+        opacity: 1;
+      }
+      100% {
+        transform: scale(1); /* يرجع لحجمه الطبيعي المستقر وثابت أثناء طلوع الكرت */
+        opacity: 1;
+      }
+    }
+
+    .rankup-sub {
+      font-size: 0.9rem;
+      color: #888;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 5px;
+    }
+
+    .rankup-main-name {
+      font-size: 2.2rem;
+      color: #ffd700; /* لون الرتبه الملكي */
       text-transform: uppercase;
       letter-spacing: 3px;
       font-weight: 900;
-      text-align: center;
-      margin-bottom: 25px;
-      text-shadow: 0 0 20px rgba(255, 0, 51, 0.8);
-      animation: pulse-text 1.2s infinite alternate;
-      position: relative;
-      z-index: 1000001;
-    }
-    @keyframes pulse-text {
-      from { transform: scale(1); filter: drop-shadow(0 0 10px #ff0033); }
-      to { transform: scale(1.05); filter: drop-shadow(0 0 25px #ff0033); }
+      text-shadow: 0 0 25px rgba(255, 215, 0, 0.7);
     }
 
-    /* بطاقة الـ 3D مع حركة الصدمة بالتوقيت الدقيق (0.5 ثانية للاصطدام) */
+    /* بطاقة الـ 3D مع الصدمة المفاجئة */
     .rank-card-3d {
       width: 360px;
       background: linear-gradient(145deg, #12111c, #07060a);
@@ -115,7 +151,7 @@
         opacity: 1;
       }
       100% {
-        transform: scale(1) rotateX(0deg); /* نقطة التوقف المفاجئ عند النهاية تماماً (بعد 0.5 ثانية) */
+        transform: scale(1) rotateX(0deg); /* توقف مفاجئ عند الاصطدام */
         opacity: 1;
       }
     }
@@ -187,14 +223,20 @@
 
   <div style="text-align: center;">
     <h1 style="color: #ff0033; letter-spacing: 2px; margin-bottom: 10px;">RANK-UP CINEMATIC TEST</h1>
-    <p style="color: #888; margin-bottom: 30px;">Click below to preview the rank-up animation with precise edge impact dust.</p>
-    <button class="test-btn" onclick="triggerRankUpPreview()">[ TEST EXACT IMPACT ]</button>
+    <p style="color: #888; margin-bottom: 30px;">Click below to preview the precise 3-step cinematic rank-up sequence.</p>
+    <button class="test-btn" onclick="triggerRankUpPreview()">[ TEST SEQUENCE ]</button>
   </div>
 
   <!-- شاشة الترفيع السينمائية -->
   <div class="rankup-overlay" id="rankupOverlay">
-    <div class="rankup-title" id="rankupText">⚡ RANK UP: EYE OF ARTHOS ⚡</div>
     
+    <!-- النص العريض الذي يبدأ صغيراً ويكبر ثم يثبت -->
+    <div class="rankup-title-box" id="rankTitleBox">
+      <div class="rankup-sub">⚡ RANK UP ACHIEVED ⚡</div>
+      <div class="rankup-main-name">EYE OF ARTHOS</div>
+    </div>
+    
+    <!-- بطاقة الـ 3D الملكية -->
     <div class="rank-card-3d" id="rankCard">
       <div class="card-sigil">
         <svg viewBox="0 0 100 100" style="width:100%; height:100%;">
@@ -207,7 +249,7 @@
       </div>
       <div class="card-alias">MR.B</div>
       <div class="card-subtitle">BEYOND THE VOID • SOUL SIGNATURE</div>
-      <div class="card-rank-name" id="cardRankTitle">EYE OF ARTHOS</div>
+      <div class="card-rank-name">EYE OF ARTHOS</div>
       <div class="card-meta">
         <span>ID: BTV-000</span>
         <span style="color: #ffd700; font-weight: bold;">150 XP</span>
@@ -233,33 +275,31 @@
     function triggerEdgeDustExplosion() {
       dustParticles = [];
       var cardEl = document.getElementById('rankCard');
-      var rect = cardEl.getBoundingClientRect(); // نحسب إحداثيات أطراف البطاقة الحقيقية على الشاشة
+      var rect = cardEl.getBoundingClientRect(); 
       var colors = ['#ffd700', '#ff0033', '#ff4500', '#ffffff', '#ff2a55'];
 
-      // توليد الرذاذ متوزع على محيط وبطاقة الإطارات الأربعة للبطاقة
       var perimeterPoints = [];
       var steps = 15;
       
-      // إطراف البطاقة (الأعلى، الأسفل، اليسار، اليمين)
       for (var i = 0; i <= steps; i++) {
-        perimeterPoints.push({x: rect.left + (rect.width / steps) * i, y: rect.top}); // أعلى
-        perimeterPoints.push({x: rect.left + (rect.width / steps) * i, y: rect.bottom}); // أسفل
-        perimeterPoints.push({x: rect.left, y: rect.top + (rect.height / steps) * i}); // يسار
-        perimeterPoints.push({x: rect.right, y: rect.top + (rect.height / steps) * i}); // يمين
+        perimeterPoints.push({x: rect.left + (rect.width / steps) * i, y: rect.top}); 
+        perimeterPoints.push({x: rect.left + (rect.width / steps) * i, y: rect.bottom}); 
+        perimeterPoints.push({x: rect.left, y: rect.top + (rect.height / steps) * i}); 
+        perimeterPoints.push({x: rect.right, y: rect.top + (rect.height / steps) * i}); 
       }
 
       perimeterPoints.forEach(pt => {
         var angle = Math.atan2(pt.y - (rect.top + rect.height/2), pt.x - (rect.left + rect.width/2)) + (Math.random() - 0.5) * 0.5;
-        var speed = Math.random() * 6 + 1.5;
+        var speed = Math.random() * 7 + 2;
         dustParticles.push({
           x: pt.x,
           y: pt.y,
           vx: Math.cos(angle) * speed,
           vy: Math.sin(angle) * speed,
-          size: Math.random() * 3 + 1,
+          size: Math.random() * 3.5 + 1,
           color: colors[Math.floor(Math.random() * colors.length)],
           alpha: 1,
-          decay: Math.random() * 0.015 + 0.008 // يتلاشى ببطء في الخلفية الجانبية
+          decay: Math.random() * 0.012 + 0.006 // يتلاشى ببطء شديد في الخلفية الجانبية
         });
       });
 
@@ -275,9 +315,9 @@
         var p = dustParticles[i];
         p.x += p.vx;
         p.y += p.vy;
-        p.vx *= 0.95; 
-        p.vy *= 0.95;
-        p.alpha -= p.decay; // يتلاشى ببطء شديد
+        p.vx *= 0.94; 
+        p.vy *= 0.94;
+        p.alpha -= p.decay; 
 
         if (p.alpha <= 0) {
           dustParticles.splice(i, 1);
@@ -288,7 +328,7 @@
         iCtx.globalAlpha = p.alpha;
         iCtx.fillStyle = p.color;
         iCtx.shadowColor = p.color;
-        iCtx.shadowBlur = 6;
+        iCtx.shadowBlur = 8;
         iCtx.beginPath();
         iCtx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
         iCtx.fill();
@@ -305,9 +345,11 @@
 
     function triggerRankUpPreview() {
       var overlay = document.getElementById('rankupOverlay');
+      var titleBox = document.getElementById('rankTitleBox');
       var card = document.getElementById('rankCard');
       
       overlay.classList.add('active');
+      titleBox.classList.remove('show-text');
       card.classList.remove('impact');
 
       try {
@@ -316,14 +358,16 @@
         audio.play();
       } catch(e) {}
 
-      // توقيت إطلاق الرذاذ: بالضبط بعد 500 ملي ثانية (لحظة اكتمال الصدمة والتوقف المفاجئ)
+      // 1. تشغيل تكبير النص وثباته
+      setTimeout(function() {
+        titleBox.classList.add('show-text');
+      }, 100);
+
+      // 2. بعد أن يأخذ النص وقته وثباته (بعد 2.2 ثانية)، تهجم البطاقة وتصدم في المنتصف وينفجر الرذاذ معاً في نفس اللحظة!
       setTimeout(function() {
         card.classList.add('impact');
-      }, 50);
-
-      setTimeout(function() {
         triggerEdgeDustExplosion(); 
-      }, 550); // يطلق الرذاذ من الأطراف تزامناً مع التوقف التام للبطاقة
+      }, 2200); 
     }
 
     function closePreview() {
