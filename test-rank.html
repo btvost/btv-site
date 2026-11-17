@@ -197,8 +197,8 @@
 
   <div style="text-align: center;">
     <h1 style="color: #ff0033; letter-spacing: 2px; margin-bottom: 10px;">RANK-UP CINEMATIC PREVIEW</h1>
-    <p style="color: #888; margin-bottom: 30px;">Click below to preview with perfectly synced custom audio.</p>
-    <button class="test-btn" onclick="triggerRankUpPreview()">[ TEST PERFECT SYNC ]</button>
+    <p style="color: #888; margin-bottom: 30px;">Click below to preview with audio starting right from the beginning.</p>
+    <button class="test-btn" onclick="triggerRankUpPreview()">[ TEST AUDIO FROM START ]</button>
   </div>
 
   <!-- شاشة الترفيع السينمائية -->
@@ -324,26 +324,24 @@
       titleBox.classList.remove('show-text');
       card.classList.remove('impact');
 
-      // 1. بدء ظهور الكلمة من الثانية 0.0
+      // 1. تشغيل الصوت من البداية تماماً (عند الثانية 0.0) مع ظهور الكلمة
+      try {
+        var impactAudio = new Audio('alex_kizenkov-huge-scary-hit-logo-145509.mp3');
+        impactAudio.volume = 0.9;
+        impactAudio.play();
+      } catch(e) { console.error("Audio play error:", e); }
+
+      // 2. بدء ظهور الكلمة من الثانية 0.0
       setTimeout(function() {
         titleBox.classList.add('show-text');
       }, 100);
 
-      // 2. تشغيل الصوت مبكراً عند الثانية 3.0 عشان تاخذ الفراغ اللي في بداية المقطع وتضرب الضربة القوية بالضبط عند الثانية 4.0
-      setTimeout(function() {
-        try {
-          var impactAudio = new Audio('alex_kizenkov-huge-scary-hit-logo-145509.mp3');
-          impactAudio.volume = 0.9;
-          impactAudio.play();
-        } catch(e) { console.error("Audio play error:", e); }
-      }, 1800);
-
-      // 3. عند الثانية 3.0: تبدأ البطاقة بالتحرك
+      // 3. عند الثانية 3.0: تبدأ البطاقة بالظهور والتحرك نحو الشاشة
       setTimeout(function() {
         card.classList.add('impact');
       }, 3000);
 
-      // 4. عند الثانية 4.0: تصدم البطاقة الشاشة تماماً مع انفجار الرذاذ ووصول ضربة الصوت الفعلية
+      // 4. عند الثانية 4.0: تصدم البطاقة الشاشة تماماً مع انفجار الرذاذ
       setTimeout(function() {
         triggerEdgeDustExplosion(); 
       }, 4000); 
