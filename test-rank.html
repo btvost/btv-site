@@ -4,8 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BTV | Rank-Up Cinematic Preview</title>
-  <!-- مكتبة html2canvas لالتقاط صورة البطاقة الحصرية بدقة عالية -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <style>
     body {
       background: #08070d;
@@ -190,7 +188,7 @@
       text-align: right;
     }
 
-    /* أزرار التحكم والتحميل أسفل البطاقة */
+    /* أزرار الإجراءات أسفل البطاقة */
     .action-buttons-container {
       margin-top: 25px;
       display: flex;
@@ -245,7 +243,7 @@
 
   <div style="text-align: center;">
     <h1 style="color: #ff0033; letter-spacing: 2px; margin-bottom: 10px;">RANK-UP CINEMATIC PREVIEW</h1>
-    <p style="color: #888; margin-bottom: 30px;">Click below to preview with exclusive card download.</p>
+    <p style="color: #888; margin-bottom: 30px;">Click below to preview with clean direct canvas card download.</p>
     <button class="test-btn" onclick="triggerRankUpPreview()">[ TEST RANK-UP & DOWNLOAD ]</button>
   </div>
 
@@ -278,9 +276,9 @@
       </div>
     </div>
 
-    <!-- أزرار الإجراءات (تظهر بعد استقرار البطاقة) -->
+    <!-- أزرار الإجراءات -->
     <div class="action-buttons-container" id="actionButtons">
-      <button class="card-action-btn" onclick="downloadExclusiveCard()">[ DOWNLOAD CARD PNG ]</button>
+      <button class="card-action-btn" onclick="downloadCleanCardCanvas()">[ DOWNLOAD CARD PNG ]</button>
       <button class="close-preview-btn" onclick="closePreview()">[ CLOSE ]</button>
     </div>
 
@@ -397,24 +395,101 @@
 
       setTimeout(function() {
         triggerEdgeDustExplosion();
-        // إظهار أزرار التحميل بعد اكتمال الصدمة واستقرار البطاقة
         actionBtns.classList.add('show');
       }, 4000); 
     }
 
-    // دالة حفظ البطاقة كصورة PNG حصرية نقية بدون أي محيط خارجي
-    function downloadExclusiveCard() {
-      var cardElement = document.getElementById('rankCard');
-      html2canvas(cardElement, {
-        backgroundColor: null, // الحفاظ على الشفافية إن وجدت
-        scale: 3, // دقة عالية جداً (High Resolution)
-        logging: false
-      }).then(function(canvas) {
-        var link = document.createElement('a');
-        link.download = 'BTV-Rank-Card.png';
-        link.href = canvas.toDataURL('image/png');
-        link.click();
-      });
+    // رسم البطاقة مباشرة على Canvas بألوان نقية وثابتة 100% بدون شوائب أو خلفيات باهتة
+    function downloadCleanCardCanvas() {
+      var canvas = document.createElement('canvas');
+      canvas.width = 1200;
+      canvas.height = 700;
+      var ctx = canvas.getContext('2d');
+
+      // 1. خلفية البطاقة (معدن أسود داكن فخم)
+      var bgGradient = ctx.createLinearGradient(0, 0, 1200, 700);
+      bgGradient.addColorStop(0, '#0e0d14');
+      bgGradient.addColorStop(0.5, '#050508');
+      bgGradient.addColorStop(1, '#0a090e');
+      ctx.fillStyle = bgGradient;
+      ctx.roundRect(0, 0, 1200, 700, 24);
+      ctx.fill();
+
+      // 2. حدود البطاقة الفولاذية الداكنة
+      ctx.strokeStyle = '#5c4f80';
+      ctx.lineWidth = 4;
+      ctx.roundRect(0, 0, 1200, 700, 24);
+      ctx.stroke();
+
+      // 3. رسم النجمة والشعار في المنتصف
+      ctx.save();
+      ctx.translate(600, 140);
+      ctx.strokeStyle = '#ffd700';
+      ctx.fillStyle = '#ff0033';
+      ctx.lineWidth = 3;
+      
+      // الدائرة المتقطعة والشعار
+      ctx.beginPath();
+      ctx.arc(0, 0, 50, 0, Math.PI * 2);
+      ctx.stroke();
+
+      // النجمة
+      ctx.beginPath();
+      ctx.moveTo(0, -45);
+      ctx.lineTo(14, -12);
+      ctx.lineTo(45, 0);
+      ctx.lineTo(14, 12);
+      ctx.lineTo(0, 45);
+      ctx.lineTo(-14, 12);
+      ctx.lineTo(-45, 0);
+      ctx.lineTo(-14, -12);
+      ctx.closePath();
+      ctx.strokeStyle = '#ffd700';
+      ctx.stroke();
+
+      // النقطة الحمراء
+      ctx.beginPath();
+      ctx.arc(0, -35, 6, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+
+      // 4. اسم المستخدم
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 42px monospace';
+      ctx.textAlign = 'center';
+      ctx.fillText('MR.B', 600, 260);
+
+      // 5. اسم الرتبة
+      ctx.fillStyle = '#ffd700';
+      ctx.font = 'bold 28px monospace';
+      ctx.fillText('EYE OF ARTHOS', 600, 310);
+
+      // 6. الخط الفاصل السفلي
+      ctx.strokeStyle = '#1a1724';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(80, 520);
+      ctx.lineTo(1120, 520);
+      ctx.stroke();
+
+      // 7. النصوص الجانبية (نظام الـ Souls)
+      ctx.fillStyle = '#7c7599';
+      ctx.font = '20px monospace';
+      
+      // اليمين
+      ctx.textAlign = 'left';
+      ctx.fillText('BEYOND THE VOID', 80, 580);
+
+      // اليسار (مع سطرين)
+      ctx.textAlign = 'right';
+      ctx.fillText('ISSUED BY THE CREATOR', 1120, 570);
+      ctx.fillText('SALEM AL-MANSOORI', 1120, 600);
+
+      // تحميل الصورة مباشرة
+      var link = document.createElement('a');
+      link.download = 'BTV-Rank-Card-HD.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
     }
 
     function closePreview() {
