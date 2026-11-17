@@ -67,7 +67,7 @@
       z-index: 1000000;
     }
 
-    /* النص العريض المتحرك باللون الذهبي للرتبة */
+    /* صندوق النص */
     .rankup-title-box {
       text-align: center;
       margin-bottom: 25px;
@@ -77,32 +77,16 @@
       opacity: 0;
     }
 
-    /* مرحلة تكبير النص وثباته ثم عودته للحجم العادي */
     .rankup-title-box.show-text {
       animation: textSequence 2.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
     }
 
     @keyframes textSequence {
-      0% {
-        transform: scale(0.2);
-        opacity: 0;
-      }
-      20% {
-        transform: scale(1.15); /* يكبر بزيادة */
-        opacity: 1;
-      }
-      35% {
-        transform: scale(1); /* يستقر في حجم العرض البارز ويجلس ثانيتين */
-        opacity: 1;
-      }
-      85% {
-        transform: scale(1); /* فترة الثبات وثانيتين */
-        opacity: 1;
-      }
-      100% {
-        transform: scale(1); /* يرجع لحجمه الطبيعي المستقر وثابت أثناء طلوع الكرت */
-        opacity: 1;
-      }
+      0% { transform: scale(0.2); opacity: 0; }
+      20% { transform: scale(1.15); opacity: 1; }
+      35% { transform: scale(1); opacity: 1; }
+      85% { transform: scale(1); opacity: 1; }
+      100% { transform: scale(1); opacity: 1; }
     }
 
     .rankup-sub {
@@ -115,14 +99,14 @@
 
     .rankup-main-name {
       font-size: 2.2rem;
-      color: #ffd700; /* لون الرتبه الملكي */
+      color: #ffd700;
       text-transform: uppercase;
       letter-spacing: 3px;
       font-weight: 900;
       text-shadow: 0 0 25px rgba(255, 215, 0, 0.7);
     }
 
-    /* بطاقة الـ 3D مع الصدمة المفاجئة */
+    /* بطاقة الـ 3D مع الصدمة */
     .rank-card-3d {
       width: 360px;
       background: linear-gradient(145deg, #12111c, #07060a);
@@ -142,18 +126,9 @@
     }
 
     @keyframes cardImpact {
-      0% {
-        transform: scale(0.1) rotateX(25deg);
-        opacity: 0;
-      }
-      80% {
-        transform: scale(1.05) rotateX(-3deg);
-        opacity: 1;
-      }
-      100% {
-        transform: scale(1) rotateX(0deg); /* توقف مفاجئ عند الاصطدام */
-        opacity: 1;
-      }
+      0% { transform: scale(0.1) rotateX(25deg); opacity: 0; }
+      80% { transform: scale(1.05) rotateX(-3deg); opacity: 1; }
+      100% { transform: scale(1) rotateX(0deg); opacity: 1; }
     }
 
     .card-sigil {
@@ -223,20 +198,18 @@
 
   <div style="text-align: center;">
     <h1 style="color: #ff0033; letter-spacing: 2px; margin-bottom: 10px;">RANK-UP CINEMATIC TEST</h1>
-    <p style="color: #888; margin-bottom: 30px;">Click below to preview the precise 3-step cinematic rank-up sequence.</p>
-    <button class="test-btn" onclick="triggerRankUpPreview()">[ TEST SEQUENCE ]</button>
+    <p style="color: #888; margin-bottom: 30px;">Click below to preview the sequence with precise audio effects.</p>
+    <button class="test-btn" onclick="triggerRankUpPreview()">[ TEST SEQUENCE WITH SFX ]</button>
   </div>
 
   <!-- شاشة الترفيع السينمائية -->
   <div class="rankup-overlay" id="rankupOverlay">
     
-    <!-- النص العريض الذي يبدأ صغيراً ويكبر ثم يثبت -->
     <div class="rankup-title-box" id="rankTitleBox">
       <div class="rankup-sub">⚡ RANK UP ACHIEVED ⚡</div>
       <div class="rankup-main-name">EYE OF ARTHOS</div>
     </div>
     
-    <!-- بطاقة الـ 3D الملكية -->
     <div class="rank-card-3d" id="rankCard">
       <div class="card-sigil">
         <svg viewBox="0 0 100 100" style="width:100%; height:100%;">
@@ -299,7 +272,7 @@
           size: Math.random() * 3.5 + 1,
           color: colors[Math.floor(Math.random() * colors.length)],
           alpha: 1,
-          decay: Math.random() * 0.012 + 0.006 // يتلاشى ببطء شديد في الخلفية الجانبية
+          decay: Math.random() * 0.012 + 0.006 
         });
       });
 
@@ -352,19 +325,26 @@
       titleBox.classList.remove('show-text');
       card.classList.remove('impact');
 
+      // 1. تشغيل صوت بداية ظهور النص (Energy Rise / Hum)
       try {
-        var audio = new Audio('https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3');
-        audio.volume = 0.5;
-        audio.play();
+        var introAudio = new Audio('https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3');
+        introAudio.volume = 0.4;
+        introAudio.play();
       } catch(e) {}
 
-      // 1. تشغيل تكبير النص وثباته
+      // تشغيل تكبير النص وثباته
       setTimeout(function() {
         titleBox.classList.add('show-text');
       }, 100);
 
-      // 2. بعد أن يأخذ النص وقته وثباته (بعد 2.2 ثانية)، تهجم البطاقة وتصدم في المنتصف وينفجر الرذاذ معاً في نفس اللحظة!
+      // 2. بعد ثانيتين ونصف (عند اكتمال ثبات النص وطلوع الكرت)، يشتغل صوت الاصطدام القوي (Heavy Impact Boom) + الرذاذ
       setTimeout(function() {
+        try {
+          var impactAudio = new Audio('https://assets.mixkit.co/active_storage/sfx/2148/2148-preview.mp3');
+          impactAudio.volume = 0.7;
+          impactAudio.play();
+        } catch(e) {}
+
         card.classList.add('impact');
         triggerEdgeDustExplosion(); 
       }, 2200); 
