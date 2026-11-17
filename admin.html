@@ -13,7 +13,7 @@
       padding: 20px;
     }
     .admin-container {
-      max-width: 900px;
+      max-width: 1000px;
       margin: 0 auto;
       background: #0d0c14;
       border: 1px solid #ff0033;
@@ -29,24 +29,32 @@
       text-align: center;
       text-shadow: 0 0 10px rgba(255, 0, 51, 0.4);
     }
+    h2 {
+      color: #ff0033;
+      font-size: 1.1rem;
+      border-bottom: 1px solid #28283d;
+      padding-bottom: 8px;
+      margin-top: 30px;
+      letter-spacing: 1px;
+    }
     table {
       width: 100%;
       border-collapse: collapse;
-      margin-top: 20px;
+      margin-top: 15px;
     }
     th, td {
-      padding: 12px 15px;
+      padding: 10px 14px;
       text-align: left;
       border-bottom: 1px solid #1f1d2b;
     }
     th {
       color: #ff0033;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       letter-spacing: 1px;
       text-transform: uppercase;
     }
     td {
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       color: #cbd5e1;
     }
     tr:hover {
@@ -84,7 +92,7 @@
       border-radius: 6px;
       cursor: pointer;
       display: block;
-      margin: 20px auto 0 auto;
+      margin: 25px auto 0 auto;
       transition: 0.2s;
     }
     .refresh-btn:hover {
@@ -92,7 +100,6 @@
       box-shadow: 0 0 10px rgba(255, 0, 51, 0.5);
     }
   </style>
-  <!-- مكتبة Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
@@ -106,12 +113,17 @@
         <div class="stat-label">Total Visitors</div>
       </div>
       <div class="stat-item">
+        <div class="stat-num" id="total-comments">0</div>
+        <div class="stat-label">Total Comments</div>
+      </div>
+      <div class="stat-item">
         <div class="stat-num" id="max-xp">0</div>
         <div class="stat-label">Highest XP</div>
       </div>
     </div>
 
-    <table id="users-table">
+    <h2>Active Visitors & Ranks</h2>
+    <table>
       <thead>
         <tr>
           <th>Codename / Alias</th>
@@ -122,8 +134,24 @@
           <th>Last Seen</th>
         </tr>
       </thead>
-      <tbody id="table-body">
-        <tr><td colspan="6" style="text-align: center; color: #666;">Loading database records...</td></tr>
+      <tbody id="users-table-body">
+        <tr><td colspan="6" style="text-align: center; color: #666;">Loading users...</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Live Comments & Transmissions</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>User</th>
+          <th>Rank</th>
+          <th>Item ID / Episode</th>
+          <th>Comment Text</th>
+          <th>Time</th>
+        </tr>
+      </thead>
+      <tbody id="comments-table-body">
+        <tr><td colspan="5" style="text-align: center; color: #666;">Loading comments...</td></tr>
       </tbody>
     </table>
 
@@ -136,42 +164,54 @@
     var _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
     async function loadAdminData() {
-      var tbody = document.getElementById('table-body');
-      tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: #666;">Syncing with void...</td></tr>';
-
       try {
-        var { data, error } = await _supabase
-          .from('void_users')
-          .select('*')
-          .order('xp', { ascending: false });
+        // 1. جلب المستخدمين
+        var { data: users, error: userErr } = await _supabase.from('void_users').select('*').order('xp', { ascending: false });
+        if (userErr) throw userErr;
 
-        if (error) throw error;
-
-        if (!data || data.length === 0) {
-          tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: #888;">No visitors recorded yet.</td></tr>';
+        var usersTbody = document.getElementById('users-table-body');
+        if (!users || users.length === 0) {
+          usersTbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: #888;">No visitors recorded yet.</td></tr>';
           document.getElementById('total-users').innerText = '0';
           document.getElementById('max-xp').innerText = '0';
-          return;
+        } else {
+          document.getElementById('total-users').innerText = users.length;
+          document.getElementById('max-xp').innerText = users[0].xp || 0;
+          usersTbody.innerHTML = users.map(u => `
+            <tr>
+              <td><strong>${u.alias}</strong></td>
+              <td>${u.gender || '-'}</td>
+              <td style="color: #888;">${u.exp_id || '-'}</td>
+              <td style="color: #ff0033; font-weight: bold;">${u.rank_name || 'VOID VESSEL'}</td>
+              <td style="color: #ffd700; font-weight: bold;">${u.xp} XP</td>
+              <td style="font-size: 0.75rem; color: #666;">${new Date(u.last_seen).toLocaleString()}</td>
+            </tr>
+          `).join('');
         }
 
-        document.getElementById('total-users').innerText = data.length;
-        document.getElementById('max-xp').innerText = data[0].xp || 0;
+        // 2. جلب التعليقات الحية
+        var { data: comments, error: commErr } = await _supabase.from('void_comments').select('*').order('created_at', { ascending: false });
+        if (commErr) throw commErr;
 
-        tbody.innerHTML = data.map(function(u) {
-          var dateStr = new Date(u.last_seen).toLocaleString();
-          return `<tr>
-            <td><strong>${u.alias}</strong></td>
-            <td>${u.gender || '-'}</td>
-            <td style="color: #888;">${u.exp_id || '-'}</td>
-            <td style="color: #ff0033; font-weight: bold;">${u.rank_name || 'VOID VESSEL'}</td>
-            <td style="color: #ffd700; font-weight: bold;">${u.xp} XP</td>
-            <td style="font-size: 0.75rem; color: #666;">${dateStr}</td>
-          </tr>`;
-        }).join('');
+        var commentsTbody = document.getElementById('comments-table-body');
+        if (!comments || comments.length === 0) {
+          commentsTbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: #888;">No comments recorded yet.</td></tr>';
+          document.getElementById('total-comments').innerText = '0';
+        } else {
+          document.getElementById('total-comments').innerText = comments.length;
+          commentsTbody.innerHTML = comments.map(c => `
+            <tr>
+              <td><strong>${c.alias}</strong></td>
+              <td style="color: #ff0033;">${c.rank_name || 'VOID VESSEL'}</td>
+              <td style="font-family: monospace; color: #00ffff; font-size: 0.75rem;">${c.item_id}</td>
+              <td>${c.comment_text}</td>
+              <td style="font-size: 0.75rem; color: #666;">${new Date(c.created_at).toLocaleString()}</td>
+            </tr>
+          `).join('');
+        }
 
       } catch (err) {
         console.error("Error loading admin data:", err);
-        tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: #ff0033;">Failed to load records from database.</td></tr>';
       }
     }
 
