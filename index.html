@@ -19,8 +19,8 @@
       z-index: 0;
     }
 
-    /* كانفاس رذاذ الاحتكاك الرملي */
-    #burst-canvas {
+    /* كانفاس رذاذ الاحتكاك الرملي والغبار السينمائي */
+    #burst-canvas, #impact-canvas {
       position: fixed;
       top: 0;
       left: 0;
@@ -354,7 +354,7 @@
       padding-left: 18px;
     }
 
-    /* سكشن التفاعل (لايكات وتعليقات تحت الحلقة أو الفصل) */
+    /* سكشن التفاعل (لايكات وتعليقات) */
     .interaction-panel {
       background: #100f1c;
       border: 1px solid #201e30;
@@ -455,12 +455,181 @@
       70% { transform: scale(1.2); box-shadow: 0 0 0 6px rgba(255, 0, 51, 0); }
       100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 0, 51, 0); }
     }
+
+    /* === ستايلات الشاشة السينمائية لترفيع الرتب (Rank-Up Cinematic) === */
+    .rankup-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(4, 3, 7, 0.95);
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 999999;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+    .rankup-overlay.active {
+      display: flex;
+      opacity: 1;
+    }
+
+    .rankup-title-box {
+      text-align: center;
+      margin-bottom: 25px;
+      position: relative;
+      z-index: 1000001;
+      transform: scale(0.2);
+      opacity: 0;
+    }
+    .rankup-title-box.show-text {
+      animation: textSequence 4.0s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+    @keyframes textSequence {
+      0% { transform: scale(0.2); opacity: 0; }
+      15% { transform: scale(1.15); opacity: 1; }
+      30% { transform: scale(1); opacity: 1; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .rankup-sub {
+      font-size: 0.9rem;
+      color: #888;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 5px;
+    }
+    .rankup-main-name {
+      font-size: 2.2rem;
+      color: #ffd700;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      font-weight: 900;
+      text-shadow: 0 0 25px rgba(255, 215, 0, 0.7);
+    }
+
+    /* بطاقة الـ Souls المعدنية الداكنة */
+    .rank-card-3d {
+      width: 440px;
+      background: linear-gradient(135deg, #0e0d14 0%, #050508 50%, #0a090e 100%);
+      border: 1px solid #2a2538;
+      border-radius: 12px;
+      padding: 35px 30px;
+      text-align: center;
+      box-shadow: 0 15px 50px rgba(0, 0, 0, 0.9), inset 0 0 30px rgba(0, 0, 0, 0.8);
+      transform: scale(0.1) rotateX(25deg);
+      opacity: 0;
+      position: relative;
+      z-index: 1000001;
+    }
+    .rank-card-3d.impact {
+      animation: cardImpact 1.0s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+      border-color: #5c4f80;
+      box-shadow: 0 0 30px rgba(92, 79, 128, 0.5), inset 0 0 25px rgba(255, 0, 51, 0.2);
+    }
+    @keyframes cardImpact {
+      0% { transform: scale(0.1) rotateX(25deg); opacity: 0; }
+      75% { transform: scale(1.05) rotateX(-3deg); opacity: 1; }
+      100% { transform: scale(1) rotateX(0deg); opacity: 1; }
+    }
+    .card-sigil {
+      width: 95px;
+      height: 95px;
+      margin: 0 auto 18px auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      filter: drop-shadow(0 0 12px #ff0033);
+    }
+    .card-username {
+      font-size: 1.7rem;
+      color: #fff;
+      font-weight: 900;
+      letter-spacing: 3px;
+      margin-bottom: 8px;
+      text-shadow: 0 0 12px rgba(255, 255, 255, 0.4);
+    }
+    .card-rank-title {
+      font-size: 1.2rem;
+      color: #ffd700;
+      font-weight: 800;
+      letter-spacing: 4px;
+      margin-bottom: 35px;
+      text-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
+      text-transform: uppercase;
+    }
+    .souls-footer-system {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      border-top: 1px solid #1a1724;
+      padding-top: 18px;
+      margin-top: 10px;
+    }
+    .souls-side-text {
+      font-size: 0.52rem;
+      color: #7c7599;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      font-family: monospace;
+      line-height: 1.4;
+      width: 48%;
+    }
+    .souls-side-text.left { text-align: left; }
+    .souls-side-text.right { text-align: right; }
+
+    .action-buttons-container {
+      margin-top: 25px;
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      position: relative;
+      z-index: 1000001;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+    .action-buttons-container.show { opacity: 1; }
+
+    .card-action-btn {
+      background: linear-gradient(135deg, #ffd700, #b8860b);
+      color: #08070d;
+      border: none;
+      padding: 10px 20px;
+      font-size: 0.85rem;
+      font-weight: bold;
+      border-radius: 6px;
+      cursor: pointer;
+      box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+      transition: 0.2s;
+      text-transform: uppercase;
+    }
+    .card-action-btn:hover {
+      background: linear-gradient(135deg, #ffea75, #ffd700);
+      box-shadow: 0 0 25px rgba(255, 215, 0, 0.6);
+    }
+    .close-preview-btn {
+      background: transparent;
+      border: 1px solid #444;
+      color: #888;
+      padding: 10px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: 0.2s;
+    }
+    .close-preview-btn:hover {
+      border-color: #ff0033;
+      color: #ff0033;
+    }
   </style>
 </head>
 <body>
 
   <canvas id="fx-canvas"></canvas>
   <canvas id="burst-canvas"></canvas>
+  <canvas id="impact-canvas"></canvas>
 
   <!-- نافذة التسجيل الأولى -->
   <div class="modal-overlay" id="registration-modal" style="display: none;">
@@ -487,6 +656,39 @@
       </div>
 
       <button class="modal-btn" onclick="saveUserIdentity()">SYNCHRONIZE IDENTITY</button>
+    </div>
+  </div>
+
+  <!-- الشاشة السينمائية لترفيع الرتب -->
+  <div class="rankup-overlay" id="rankupOverlay">
+    <div class="rankup-title-box" id="rankTitleBox">
+      <div class="rankup-sub">⚡ RANK UP ACHIEVED ⚡</div>
+      <div class="rankup-main-name" id="cinematic-rank-name">EYE OF ARTHOS</div>
+    </div>
+    
+    <div class="rank-card-3d" id="rankCard">
+      <div class="card-sigil" id="cinematic-sigil-slot">
+        <svg viewBox="0 0 100 100" style="width:100%; height:100%;">
+          <g style="transform-origin: 50px 50px; animation: rotate-sigil 8s linear infinite;">
+            <circle cx="50" cy="50" r="45" fill="none" stroke="#ffd700" stroke-width="2.5" stroke-dasharray="10 4 2 4"/>
+            <polygon points="50,2 62,38 98,50 62,62 50,98 38,62 2,50 38,38" fill="none" stroke="#ffd700" stroke-width="1.5"/>
+          </g>
+          <circle cx="50" cy="14" fill="#ff0033" stroke="#ffd700" stroke-width="2" style="filter: drop-shadow(0 0 12px #ff0033);"/>
+        </svg>
+      </div>
+      
+      <div class="card-username" id="cinematic-username">MR.B</div>
+      <div class="card-rank-title" id="cinematic-rank-title">EYE OF ARTHOS</div>
+      
+      <div class="souls-footer-system">
+        <div class="souls-side-text left">BEYOND THE VOID</div>
+        <div class="souls-side-text right">ISSUED BY THE CREATOR<br>SALEM AL-MANSOORI</div>
+      </div>
+    </div>
+
+    <div class="action-buttons-container" id="actionButtons">
+      <button class="card-action-btn" onclick="downloadCleanCardCanvas()">[ DOWNLOAD CARD PNG ]</button>
+      <button class="close-preview-btn" onclick="closePreview()">[ CLOSE ]</button>
     </div>
   </div>
 
@@ -716,16 +918,66 @@
       document.getElementById('strip-sigil-slot').innerHTML = tData.svg;
     }
 
+    // تشغيل العرض السينمائي للترفيه (Rank-Up Animation)
+    function triggerRankUpCinematic(rankName, sigilSvgHtml, userName) {
+      var overlay = document.getElementById('rankupOverlay');
+      var titleBox = document.getElementById('rankTitleBox');
+      var card = document.getElementById('rankCard');
+      var actionBtns = document.getElementById('actionButtons');
+      
+      document.getElementById('cinematic-rank-name').innerText = rankName;
+      document.getElementById('cinematic-rank-title').innerText = rankName;
+      document.getElementById('cinematic-username').innerText = userName;
+      document.getElementById('cinematic-sigil-slot').innerHTML = sigilSvgHtml;
+
+      overlay.classList.add('active');
+      titleBox.classList.remove('show-text');
+      card.classList.remove('impact');
+      actionBtns.classList.remove('show');
+
+      // تشغيل الصوت الحقيقي عند الضغط
+      try {
+        var impactAudio = new Audio('alex_kizenkov-huge-scary-hit-logo-145509.mp3');
+        impactAudio.volume = 0.9;
+        impactAudio.play();
+      } catch(e) { console.error("Audio play error:", e); }
+
+      // 1. بدء ظهور الكلمة من البداية (0 ثانية)
+      setTimeout(function() {
+        titleBox.classList.add('show-text');
+      }, 100);
+
+      // 2. عند الثانية 3.0: تهجم البطاقة وتتحرك نحو الشاشة
+      setTimeout(function() {
+        card.classList.add('impact');
+      }, 3000);
+
+      // 3. عند الثانية 4.0: تصدم البطاقة الشاشة تماماً مع انفجار الرذاذ وإظهار زر التحميل
+      setTimeout(function() {
+        triggerEdgeDustExplosion();
+        actionBtns.classList.add('show');
+      }, 4000);
+    }
+
     function markAsRead(itemId, xpPoints) {
       var user = getStorage('btv_user', null);
       if (!user) return;
       if (!user.readItems) user.readItems = [];
       if (!user.readItems.includes(itemId)) {
         user.readItems.push(itemId);
+        var oldTier = calculateTier(user);
         user.xp = (user.xp || 0) + (xpPoints || 5);
+        var newTier = calculateTier(user);
+        
         setStorage('btv_user', user);
         renderUserStrip(user);
         updateCloudUserXP(user);
+
+        // إذا ارتفع رانك المستخدم، يتم عرض الشاشة السينمائية تلقائياً!
+        if (newTier > oldTier) {
+          var tData = sigilTiers[newTier];
+          triggerRankUpCinematic(tData.name, tData.svg, user.alias);
+        }
       }
       var dot = document.getElementById('dot-' + itemId);
       if (dot) dot.style.display = 'none';
@@ -740,24 +992,26 @@
       }
     }
 
-    // دوال التفاعل (اللايكات والتعليقات)
     async function toggleLike(itemId) {
       var user = getStorage('btv_user', null);
       if (!user) { alert("Please synchronize identity first."); return; }
 
       try {
-        // تحقق هل معجب من قبل
         var { data: existing } = await _supabase.from('void_likes').select('*').eq('item_id', itemId).eq('alias', user.alias).single();
         if (existing) {
-          // إلغاء اللايك
           await _supabase.from('void_likes').delete().eq('item_id', itemId).eq('alias', user.alias);
         } else {
-          // إضافة لايك وإعطاء نقاط XP للزائر
           await _supabase.from('void_likes').insert({ item_id: itemId, alias: user.alias });
+          var oldTier = calculateTier(user);
           user.xp = (user.xp || 0) + 3;
+          var newTier = calculateTier(user);
           setStorage('btv_user', user);
           renderUserStrip(user);
           updateCloudUserXP(user);
+          if (newTier > oldTier) {
+            var tData = sigilTiers[newTier];
+            triggerRankUpCinematic(tData.name, tData.svg, user.alias);
+          }
         }
         loadInteractions(itemId);
       } catch (err) { console.error("Like error:", err); }
@@ -781,11 +1035,17 @@
           comment_text: text
         });
         input.value = '';
-        // زيادة نقاط XP للتعليق
+        var oldTier = calculateTier(user);
         user.xp = (user.xp || 0) + 5;
+        var newTier = calculateTier(user);
         setStorage('btv_user', user);
         renderUserStrip(user);
         updateCloudUserXP(user);
+
+        if (newTier > oldTier) {
+          var tData = sigilTiers[newTier];
+          triggerRankUpCinematic(tData.name, tData.svg, user.alias);
+        }
 
         loadInteractions(itemId);
       } catch (err) { console.error("Comment error:", err); }
@@ -793,12 +1053,10 @@
 
     async function loadInteractions(itemId) {
       try {
-        // جلب عدد اللايكات
         var { count: likesCount } = await _supabase.from('void_likes').select('*', { count: 'exact', head: true }).eq('item_id', itemId);
         var likeCountEl = document.getElementById('like-count-' + itemId);
         if (likeCountEl) likeCountEl.innerText = likesCount || 0;
 
-        // جلب التعليقات
         var { data: comments } = await _supabase.from('void_comments').select('*').eq('item_id', itemId).order('created_at', { ascending: false });
         var commentsBox = document.getElementById('comments-list-' + itemId);
         if (commentsBox && comments) {
@@ -829,7 +1087,185 @@
       }
     }
 
-    // محرك رذاذ الاحتكاك
+    // محرك رذاذ الاحتكاك والغبار عند الاصطدام
+    var impactCanvas = document.getElementById('impact-canvas');
+    var iCtx = impactCanvas.getContext('2d');
+    var dustParticles = [];
+    var isDustActive = false;
+
+    function resizeImpactCanvas() {
+      impactCanvas.width = window.innerWidth;
+      impactCanvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeImpactCanvas);
+    resizeImpactCanvas();
+
+    function triggerEdgeDustExplosion() {
+      dustParticles = [];
+      var cardEl = document.getElementById('rankCard');
+      var rect = cardEl.getBoundingClientRect(); 
+      var colors = ['#ffd700', '#ff0033', '#ff4500', '#ffffff', '#ff2a55'];
+
+      var perimeterPoints = [];
+      var steps = 15;
+      
+      for (var i = 0; i <= steps; i++) {
+        perimeterPoints.push({x: rect.left + (rect.width / steps) * i, y: rect.top}); 
+        perimeterPoints.push({x: rect.left + (rect.width / steps) * i, y: rect.bottom}); 
+        perimeterPoints.push({x: rect.left, y: rect.top + (rect.height / steps) * i}); 
+        perimeterPoints.push({x: rect.right, y: rect.top + (rect.height / steps) * i}); 
+      }
+
+      perimeterPoints.forEach(pt => {
+        var angle = Math.atan2(pt.y - (rect.top + rect.height/2), pt.x - (rect.left + rect.width/2)) + (Math.random() - 0.5) * 0.5;
+        var speed = Math.random() * 7 + 2;
+        dustParticles.push({
+          x: pt.x,
+          y: pt.y,
+          vx: Math.cos(angle) * speed,
+          vy: Math.sin(angle) * speed,
+          size: Math.random() * 3.5 + 1,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          alpha: 1,
+          decay: Math.random() * 0.012 + 0.006 
+        });
+      });
+
+      if (!isDustActive) {
+        isDustActive = true;
+        animateDust();
+      }
+    }
+
+    function animateDust() {
+      iCtx.clearRect(0, 0, impactCanvas.width, impactCanvas.height);
+      for (var i = dustParticles.length - 1; i >= 0; i--) {
+        var p = dustParticles[i];
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vx *= 0.94; 
+        p.vy *= 0.94;
+        p.alpha -= p.decay; 
+
+        if (p.alpha <= 0) {
+          dustParticles.splice(i, 1);
+          continue;
+        }
+
+        iCtx.save();
+        iCtx.globalAlpha = p.alpha;
+        iCtx.fillStyle = p.color;
+        iCtx.shadowColor = p.color;
+        iCtx.shadowBlur = 8;
+        iCtx.beginPath();
+        iCtx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        iCtx.fill();
+        iCtx.restore();
+      }
+
+      if (dustParticles.length > 0) {
+        requestAnimationFrame(animateDust);
+      } else {
+        isDustActive = false;
+        iCtx.clearRect(0, 0, impactCanvas.width, impactCanvas.height);
+      }
+    }
+
+    // تنزيل البطاقة الحصرية بدقة عالية وصافية 100% بدون شوائب
+    function downloadCleanCardCanvas() {
+      var user = getStorage('btv_user', { alias: "MR.B" });
+      var tData = sigilTiers[currentTier] || sigilTiers[1];
+
+      var canvas = document.createElement('canvas');
+      canvas.width = 1200;
+      canvas.height = 720;
+      var ctx = canvas.getContext('2d');
+
+      var bgGradient = ctx.createLinearGradient(0, 0, 1200, 720);
+      bgGradient.addColorStop(0, '#0e0d14');
+      bgGradient.addColorStop(0.5, '#050508');
+      bgGradient.addColorStop(1, '#0a090e');
+      ctx.fillStyle = bgGradient;
+      ctx.roundRect(0, 0, 1200, 720, 24);
+      ctx.fill();
+
+      ctx.strokeStyle = '#5c4f80';
+      ctx.lineWidth = 4;
+      ctx.roundRect(0, 0, 1200, 720, 24);
+      ctx.stroke();
+
+      // رسم الشعار في المنتصف
+      ctx.save();
+      ctx.translate(600, 150);
+      ctx.strokeStyle = '#ffd700';
+      ctx.fillStyle = '#ff0033';
+      ctx.lineWidth = 3.5;
+      
+      ctx.beginPath();
+      ctx.arc(0, 0, 60, 0, Math.PI * 2);
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.moveTo(0, -55);
+      ctx.lineTo(17, -15);
+      ctx.lineTo(55, 0);
+      ctx.lineTo(17, 15);
+      ctx.lineTo(0, 55);
+      ctx.lineTo(-17, 15);
+      ctx.lineTo(-55, 0);
+      ctx.lineTo(-17, -15);
+      ctx.closePath();
+      ctx.strokeStyle = '#ffd700';
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.arc(0, -42, 7, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+
+      // اسم المستخدم
+      ctx.fillStyle = '#ffffff';
+      ctx.font = '900 55px monospace';
+      ctx.textAlign = 'center';
+      ctx.fillText(user.alias, 600, 290);
+
+      // اسم الرتبة
+      ctx.fillStyle = '#ffd700';
+      ctx.font = '800 36px monospace';
+      ctx.fillText(tData.name, 600, 350);
+
+      // خط فاصل
+      ctx.strokeStyle = '#1a1724';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(80, 530);
+      ctx.lineTo(1120, 530);
+      ctx.stroke();
+
+      // التوقيعات النظامية (الـ Souls UI)
+      ctx.fillStyle = '#7c7599';
+      ctx.font = '20px monospace';
+      
+      ctx.textAlign = 'left';
+      ctx.fillText('BEYOND THE VOID', 80, 595);
+
+      ctx.textAlign = 'right';
+      ctx.fillText('ISSUED BY THE CREATOR', 1120, 580);
+      ctx.fillText('SALEM AL-MANSOORI', 1120, 610);
+
+      var link = document.createElement('a');
+      link.download = 'BTV-Rank-Card-HD.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    }
+
+    function closePreview() {
+      var overlay = document.getElementById('rankupOverlay');
+      overlay.classList.remove('active');
+      iCtx.clearRect(0, 0, impactCanvas.width, impactCanvas.height);
+    }
+
+    // محرك رذاذ الاحتكاك الخلفي البسيط
     var burstCanvas = document.getElementById('burst-canvas');
     var bCtx = burstCanvas.getContext('2d');
     var burstParticles = [];
@@ -1000,7 +1436,7 @@
       }
     }
 
-    // محرك الكانفاس لجزيئات الرماد الخلفية
+    // محرك الرماد الخلفي
     var canvas = document.getElementById('fx-canvas');
     var ctx = canvas.getContext('2d');
     var particles = [];
@@ -1027,7 +1463,7 @@
       requestAnimationFrame(animateParticles);
     }
 
-    // بدء الموقع
+    // بدء تشغيل الموقع
     fetch('data.json?v=' + Date.now())
       .then(function(res) { return res.json(); })
       .then(function(data) {
