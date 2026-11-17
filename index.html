@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BEYOND THE VOID</title>
-  <!-- مكتبة Supabase للاتصال بقاعدة البيانات -->
+  <!-- مكتبة Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <link rel="stylesheet" href="style.css">
   <style>
@@ -19,7 +19,7 @@
       z-index: 0;
     }
 
-    /* كانفاس رذاذ احتكاك الفولدرات الرملي */
+    /* كانفاس رذاذ الاحتكاك الرملي */
     #burst-canvas {
       position: fixed;
       top: 0;
@@ -192,7 +192,7 @@
       color: #ff0033;
     }
 
-    /* عناوين الأقسام الرئيسية المطورة */
+    /* عناوين الأقسام الرئيسية */
     .section-header-custom {
       display: flex;
       align-items: center;
@@ -246,7 +246,7 @@
       50% { transform: scale(1.1); opacity: 1; filter: drop-shadow(0 0 15px #ff0033); }
     }
 
-    /* كروت الفولدرات الرومانية المخصصة */
+    /* كروت الفولدرات */
     .btv-folder-card {
       width: 100%;
       background: #0d0c14;
@@ -261,7 +261,6 @@
       border-color: rgba(255, 0, 51, 0.45);
       box-shadow: 0 0 15px rgba(255, 0, 51, 0.15);
     }
-
     .btv-folder-header {
       width: 100%;
       background: transparent;
@@ -274,13 +273,11 @@
       color: #fff;
       text-align: left;
     }
-
     .folder-title-left {
       display: flex;
       align-items: center;
       gap: 14px;
     }
-
     .portal-sigil-icon {
       width: 38px;
       height: 38px;
@@ -302,7 +299,6 @@
       fill: #ff0033;
       transition: all 0.3s ease;
     }
-
     .folder-title-text {
       font-size: 1rem;
       font-weight: 700;
@@ -312,14 +308,12 @@
       display: flex;
       align-items: center;
     }
-
     .folder-chevron {
       font-size: 0.85rem;
       color: #64748b;
       font-family: monospace;
       transition: transform 0.3s ease, color 0.3s ease;
     }
-
     .btv-folder-card.open {
       border-color: #ff0033;
       box-shadow: 0 0 20px rgba(255, 0, 51, 0.25);
@@ -335,14 +329,12 @@
       transform: rotate(180deg);
       color: #ff0033;
     }
-
     .folder-content {
       display: none;
       background: #08070d;
       border-top: 1px solid #161520;
-      padding: 8px 12px;
+      padding: 12px;
     }
-
     .folder-item {
       padding: 11px 14px;
       border-bottom: 1px solid #14131f;
@@ -361,7 +353,90 @@
       background: #100f1c;
       padding-left: 18px;
     }
-    .folder-item:last-child { border-bottom: none; }
+
+    /* سكشن التفاعل (لايكات وتعليقات تحت الحلقة أو الفصل) */
+    .interaction-panel {
+      background: #100f1c;
+      border: 1px solid #201e30;
+      border-radius: 8px;
+      padding: 12px;
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+    .interaction-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    .like-btn {
+      background: transparent;
+      border: 1px solid rgba(255, 0, 51, 0.5);
+      color: #ff0033;
+      padding: 6px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: 0.2s;
+    }
+    .like-btn:hover, .like-btn.liked {
+      background: #ff0033;
+      color: #fff;
+      box-shadow: 0 0 10px rgba(255, 0, 51, 0.5);
+    }
+    .comments-list {
+      max-height: 150px;
+      overflow-y: auto;
+      margin-bottom: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .comment-bubble {
+      background: #07060a;
+      border: 1px solid #1c1a29;
+      padding: 8px 10px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+    }
+    .comment-header {
+      display: flex;
+      justify-content: space-between;
+      color: #888;
+      font-size: 0.7rem;
+      margin-bottom: 3px;
+    }
+    .comment-input-box {
+      display: flex;
+      gap: 8px;
+    }
+    .comment-input-box input {
+      flex: 1;
+      background: #08070d;
+      border: 1px solid #28283d;
+      border-radius: 6px;
+      padding: 6px 10px;
+      color: #fff;
+      font-size: 0.85rem;
+      outline: none;
+    }
+    .comment-input-box input:focus {
+      border-color: #ff0033;
+    }
+    .comment-send-btn {
+      background: #ff0033;
+      color: #fff;
+      border: none;
+      padding: 6px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 0.8rem;
+    }
 
     /* النقطة الحمراء النابضة للجديد */
     .new-dot {
@@ -423,7 +498,7 @@
     <p class="tagline" id="site-tagline">Dark Fantasy Universe</p>
   </header>
 
-  <!-- شريط الرتبة والختم الحي في أعلى الموقع -->
+  <!-- شريط الهوية والختم الحي -->
   <div class="id-strip-container" id="user-strip" style="display: none;">
     <div class="id-strip-left">
       <div class="id-sigil-icon" id="strip-sigil-slot"></div>
@@ -442,7 +517,7 @@
     </div>
   </div>
 
-  <!-- عنوان سكشن السينما -->
+  <!-- سكشن السينما -->
   <div class="section-header-custom">
     <div class="section-header-icon">
       <svg viewBox="0 0 24 24">
@@ -453,12 +528,11 @@
     </div>
     <div class="section-header-text">VIDEO CINEMA (9:16)</div>
   </div>
-
   <div class="cinema-wrapper">
     <div class="video-frame-container" id="video-container"></div>
   </div>
 
-  <!-- عنوان سكشن الأنيميشن المطور -->
+  <!-- سكشن الأنيميشن -->
   <div class="section-header-custom">
     <div class="section-header-icon">
       <svg viewBox="0 0 24 24">
@@ -474,7 +548,7 @@
   </div>
   <div style="width: 100%; max-width: 800px; margin: 0 auto;" id="seasons-container"></div>
 
-  <!-- عنوان سكشن الويبتون المطور -->
+  <!-- سكشن الويبتون -->
   <div class="section-header-custom">
     <div class="section-header-icon">
       <svg viewBox="0 0 24 24">
@@ -489,9 +563,8 @@
   </div>
   <div style="width: 100%; max-width: 800px; margin: 0 auto;" id="webtoon-container"></div>
 
-  <!-- سكشن الصوتيات والأوستات -->
+  <!-- سكشن الصوتيات -->
   <div class="audio-section" style="margin: 40px auto; max-width: 800px; text-align: center; padding: 0 15px;">
-    
     <div style="margin-bottom: 30px; background: rgba(20, 20, 31, 0.6); border: 1px solid rgba(255, 0, 51, 0.4); border-radius: 12px; padding: 16px; box-shadow: 0 0 15px rgba(255, 0, 51, 0.15);">
       <div style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 12px;">
         <span class="new-dot" style="margin-left: 0;"></span>
@@ -530,7 +603,6 @@
     var VETERAN_SECRET_CODE = "VOID-LEGACY-2026";
     var globalData = null;
 
-    // إعدادات الاتصال بقاعدة بيانات Supabase الخاصة بك
     var SUPABASE_URL = "https://jabmdhvyhtgtcypixygg.supabase.co";
     var SUPABASE_KEY = "sb_publishable_oMkm_pQ76xmfel1VQZ-AhA_QfdgmAVX";
     var _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -546,119 +618,22 @@
     `;
 
     var sigilTiers = {
-      1: {
-        name: "VOID VESSEL",
-        color: "#6b7280",
-        border: "rgba(107, 114, 128, 0.4)",
-        halo: "rgba(107, 114, 128, 0.2)",
-        emberColor: "rgba(120, 120, 140, 0.4)",
-        emberSpeed: 0.6,
-        svg: `<svg viewBox="0 0 100 100" style="width:100%; height:100%;">
-          <circle cx="50" cy="50" r="42" fill="none" stroke="#444" stroke-width="2" stroke-dasharray="6 6"/>
-          <polygon points="50,15 80,50 50,85 20,50" fill="none" stroke="#666" stroke-width="2"/>
-          <path d="M50,20 L48,45 L54,55 L50,80" stroke="#888" stroke-width="2" fill="none"/>
-        </svg>`
-      },
-      2: {
-        name: "AWAKENED PULSE",
-        color: "#ff2a55",
-        border: "rgba(255, 42, 85, 0.5)",
-        halo: "rgba(255, 42, 85, 0.25)",
-        emberColor: "rgba(255, 42, 85, 0.6)",
-        emberSpeed: 1,
-        svg: `<svg viewBox="0 0 100 100" style="width:100%; height:100%; animation: heartbeat 1.4s infinite ease-in-out;">
-          <circle cx="50" cy="50" r="42" fill="none" stroke="#aa1133" stroke-width="2.5"/>
-          <circle cx="50" cy="50" r="28" fill="rgba(255,0,51,0.1)" stroke="#ff2a55" stroke-width="1.5" stroke-dasharray="4 3"/>
-          <polygon points="50,10 88,50 50,90 12,50" fill="none" stroke="#ff2a55" stroke-width="2"/>
-          <circle cx="50" cy="50" r="10" fill="#ff0033" style="filter: drop-shadow(0 0 8px #ff0033);"/>
-        </svg>`
-      },
-      3: {
-        name: "CRIMSON ECLIPSE",
-        color: "#ff0033",
-        border: "rgba(255, 0, 51, 0.7)",
-        halo: "rgba(255, 0, 51, 0.35)",
-        emberColor: "rgba(255, 0, 51, 0.8)",
-        emberSpeed: 1.6,
-        svg: `<svg viewBox="0 0 100 100" style="width:100%; height:100%;">
-          <g style="transform-origin: 50px 50px; animation: rotate-sigil 22s linear infinite;">
-            <circle cx="50" cy="50" r="44" fill="none" stroke="#ff0033" stroke-width="2" stroke-dasharray="8 5 2 5"/>
-          </g>
-          <path d="M15,50 Q50,18 85,50 Q50,82 15,50 Z" fill="none" stroke="#ff0033" stroke-width="2.5" style="filter: drop-shadow(0 0 8px #ff0033);"/>
-          <circle cx="50" cy="50" r="14" fill="#660011" stroke="#ff0033" stroke-width="2"/>
-          <circle cx="50" cy="6" fill="#ff0033" style="animation: eye-flare 2s infinite ease-in-out;"/>
-        </svg>`
-      },
-      4: {
-        name: "ABYSSAL OVERLORD",
-        color: "#ff5500",
-        border: "rgba(255, 85, 0, 0.8)",
-        halo: "rgba(255, 85, 0, 0.4)",
-        emberColor: "rgba(255, 85, 0, 0.9)",
-        emberSpeed: 2.2,
-        svg: `<svg viewBox="0 0 100 100" style="width:100%; height:100%;">
-          <g style="transform-origin: 50px 50px; animation: rotate-sigil 15s linear infinite;">
-            <polygon points="50,4 96,50 50,96 4,50" fill="none" stroke="#ff3300" stroke-width="2"/>
-          </g>
-          <g style="transform-origin: 50px 50px; animation: counter-rotate 12s linear infinite;">
-            <polygon points="50,14 86,50 50,86 14,50" fill="none" stroke="#ff7700" stroke-width="1.5" stroke-dasharray="5 3"/>
-          </g>
-          <circle cx="50" cy="50" r="22" fill="rgba(255,60,0,0.15)" stroke="#ff4500" stroke-width="2.5"/>
-          <circle cx="50" cy="9" fill="#ff3300" style="filter: drop-shadow(0 0 12px #ff5500);"/>
-        </svg>`
-      },
-      5: {
-        name: "EYE OF ARTHOS",
-        color: "#ffd700",
-        border: "rgba(255, 215, 0, 0.9)",
-        halo: "rgba(255, 215, 0, 0.45)",
-        emberColor: "rgba(255, 215, 0, 0.9)",
-        emberSpeed: 3,
-        svg: `<svg viewBox="0 0 100 100" style="width:100%; height:100%;">
-          <g style="transform-origin: 50px 50px; animation: rotate-sigil 8s linear infinite;">
-            <circle cx="50" cy="50" r="45" fill="none" stroke="#ffd700" stroke-width="2.5" stroke-dasharray="10 4 2 4"/>
-            <polygon points="50,2 62,38 98,50 62,62 50,98 38,62 2,50 38,38" fill="none" stroke="#ffd700" stroke-width="1.5"/>
-          </g>
-          <g style="transform-origin: 50px 50px; animation: counter-rotate 14s linear infinite;">
-            <circle cx="50" cy="32" fill="none" stroke="#ff0033" stroke-width="2" stroke-dasharray="4 4"/>
-          </g>
-          <circle cx="50" cy="14" fill="#ff0033" stroke="#ffd700" stroke-width="2" style="filter: drop-shadow(0 0 18px #ff0033) drop-shadow(0 0 10px #ffd700); animation: eye-flare 1s infinite alternate;"/>
-        </svg>`
-      },
-      creator: {
-        name: "VOID ARCHITECT SUPREME (CREATOR)",
-        color: "#b026ff",
-        border: "rgba(176, 38, 255, 0.95)",
-        halo: "rgba(176, 38, 255, 0.5)",
-        emberColor: "rgba(176, 38, 255, 0.95)",
-        emberSpeed: 3.5,
-        svg: `<svg viewBox="0 0 100 100" style="width:100%; height:100%;">
-          <g style="transform-origin: 50px 50px; animation: rotate-sigil 5s linear infinite;">
-            <circle cx="50" cy="46" fill="none" stroke="#b026ff" stroke-width="3" stroke-dasharray="12 4 4 4"/>
-            <polygon points="50,0 64,36 100,50 64,64 50,100 36,64 0,50 36,36" fill="none" stroke="#ffd700" stroke-width="2"/>
-          </g>
-          <g style="transform-origin: 50px 50px; animation: counter-rotate 9s linear infinite;">
-            <polygon points="50,12 88,50 50,88 12,50" fill="none" stroke="#ff0033" stroke-width="2" stroke-dasharray="6 3"/>
-          </g>
-          <circle cx="50" cy="50" r="16" fill="#1b002c" stroke="#ffd700" stroke-width="2.5"/>
-          <circle cx="50" cy="8" r="8" fill="#b026ff" style="filter: drop-shadow(0 0 25px #b026ff) drop-shadow(0 0 12px #ffd700); animation: eye-flare 0.8s infinite alternate;"/>
-        </svg>`
-      }
+      1: { name: "VOID VESSEL", color: "#6b7280", border: "rgba(107, 114, 128, 0.4)", halo: "rgba(107, 114, 128, 0.2)", emberColor: "rgba(120, 120, 140, 0.4)", emberSpeed: 0.6, svg: `<svg viewBox="0 0 100 100" style="width:100%; height:100%;"><circle cx="50" cy="50" r="42" fill="none" stroke="#444" stroke-width="2" stroke-dasharray="6 6"/><polygon points="50,15 80,50 50,85 20,50" fill="none" stroke="#666" stroke-width="2"/><path d="M50,20 L48,45 L54,55 L50,80" stroke="#888" stroke-width="2" fill="none"/></svg>` },
+      2: { name: "AWAKENED PULSE", color: "#ff2a55", border: "rgba(255, 42, 85, 0.5)", halo: "rgba(255, 42, 85, 0.25)", emberColor: "rgba(255, 42, 85, 0.6)", emberSpeed: 1, svg: `<svg viewBox="0 0 100 100" style="width:100%; height:100%; animation: heartbeat 1.4s infinite ease-in-out;"><circle cx="50" cy="50" r="42" fill="none" stroke="#aa1133" stroke-width="2.5"/><circle cx="50" cy="50" r="28" fill="rgba(255,0,51,0.1)" stroke="#ff2a55" stroke-width="1.5" stroke-dasharray="4 3"/><polygon points="50,10 88,50 50,90 12,50" fill="none" stroke="#ff2a55" stroke-width="2"/><circle cx="50" cy="50" r="10" fill="#ff0033" style="filter: drop-shadow(0 0 8px #ff0033);"/></svg>` },
+      3: { name: "CRIMSON ECLIPSE", color: "#ff0033", border: "rgba(255, 0, 51, 0.7)", halo: "rgba(255, 0, 51, 0.35)", emberColor: "rgba(255, 0, 51, 0.8)", emberSpeed: 1.6, svg: `<svg viewBox="0 0 100 100" style="width:100%; height:100%;"><g style="transform-origin: 50px 50px; animation: rotate-sigil 22s linear infinite;"><circle cx="50" cy="50" r="44" fill="none" stroke="#ff0033" stroke-width="2" stroke-dasharray="8 5 2 5"/></g><path d="M15,50 Q50,18 85,50 Q50,82 15,50 Z" fill="none" stroke="#ff0033" stroke-width="2.5" style="filter: drop-shadow(0 0 8px #ff0033);"/><circle cx="50" cy="50" r="14" fill="#660011" stroke="#ff0033" stroke-width="2"/><circle cx="50" cy="6" fill="#ff0033" style="animation: eye-flare 2s infinite ease-in-out;"/></svg>` },
+      4: { name: "ABYSSAL OVERLORD", color: "#ff5500", border: "rgba(255, 85, 0, 0.8)", halo: "rgba(255, 85, 0, 0.4)", emberColor: "rgba(255, 85, 0, 0.9)", emberSpeed: 2.2, svg: `<svg viewBox="0 0 100 100" style="width:100%; height:100%;"><g style="transform-origin: 50px 50px; animation: rotate-sigil 15s linear infinite;"><polygon points="50,4 96,50 50,96 4,50" fill="none" stroke="#ff3300" stroke-width="2"/></g><g style="transform-origin: 50px 50px; animation: counter-rotate 12s linear infinite;"><polygon points="50,14 86,50 50,86 14,50" fill="none" stroke="#ff7700" stroke-width="1.5" stroke-dasharray="5 3"/></g><circle cx="50" cy="50" r="22" fill="rgba(255,60,0,0.15)" stroke="#ff4500" stroke-width="2.5"/><circle cx="50" cy="9" fill="#ff3300" style="filter: drop-shadow(0 0 12px #ff5500);"/></svg>` },
+      5: { name: "EYE OF ARTHOS", color: "#ffd700", border: "rgba(255, 215, 0, 0.9)", halo: "rgba(255, 215, 0, 0.45)", emberColor: "rgba(255, 215, 0, 0.9)", emberSpeed: 3, svg: `<svg viewBox="0 0 100 100" style="width:100%; height:100%;"><g style="transform-origin: 50px 50px; animation: rotate-sigil 8s linear infinite;"><circle cx="50" cy="50" r="45" fill="none" stroke="#ffd700" stroke-width="2.5" stroke-dasharray="10 4 2 4"/><polygon points="50,2 62,38 98,50 62,62 50,98 38,62 2,50 38,38" fill="none" stroke="#ffd700" stroke-width="1.5"/></g><g style="transform-origin: 50px 50px; animation: counter-rotate 14s linear infinite;"><circle cx="50" cy="32" fill="none" stroke="#ff0033" stroke-width="2" stroke-dasharray="4 4"/></g><circle cx="50" cy="14" fill="#ff0033" stroke="#ffd700" stroke-width="2" style="filter: drop-shadow(0 0 18px #ff0033) drop-shadow(0 0 10px #ffd700); animation: eye-flare 1s infinite alternate;"/></svg>` },
+      creator: { name: "VOID ARCHITECT SUPREME (CREATOR)", color: "#b026ff", border: "rgba(176, 38, 255, 0.95)", halo: "rgba(176, 38, 255, 0.5)", emberColor: "rgba(176, 38, 255, 0.95)", emberSpeed: 3.5, svg: `<svg viewBox="0 0 100 100" style="width:100%; height:100%;"><g style="transform-origin: 50px 50px; animation: rotate-sigil 5s linear infinite;"><circle cx="50" cy="46" fill="none" stroke="#b026ff" stroke-width="3" stroke-dasharray="12 4 4 4"/><polygon points="50,0 64,36 100,50 64,64 50,100 36,64 0,50 36,36" fill="none" stroke="#ffd700" stroke-width="2"/></g><g style="transform-origin: 50px 50px; animation: counter-rotate 9s linear infinite;"><polygon points="50,12 88,50 50,88 12,50" fill="none" stroke="#ff0033" stroke-width="2" stroke-dasharray="6 3"/></g><circle cx="50" cy="50" r="16" fill="#1b002c" stroke="#ffd700" stroke-width="2.5"/><circle cx="50" cy="8" r="8" fill="#b026ff" style="filter: drop-shadow(0 0 25px #b026ff) drop-shadow(0 0 12px #ffd700); animation: eye-flare 0.8s infinite alternate;"/></svg>` }
     };
 
     var currentTier = 1;
 
     function getStorage(key, def) {
-      try {
-        var v = localStorage.getItem(key);
-        return v ? JSON.parse(v) : def;
-      } catch (e) { return def; }
+      try { var v = localStorage.getItem(key); return v ? JSON.parse(v) : def; } catch (e) { return def; }
     }
-
     function setStorage(key, val) {
       try { localStorage.setItem(key, JSON.stringify(val)); } catch (e) {}
     }
-
     function calculateTier(user) {
       if (user.isCreator) return "creator";
       if (user.isVeteran) return 3;
@@ -669,7 +644,6 @@
       if (xp >= 20) return 2;
       return 1;
     }
-
     function checkUserIdentity() {
       var user = getStorage('btv_user', null);
       if (!user) {
@@ -678,13 +652,11 @@
         renderUserStrip(user);
       }
     }
-
     function resetUserIdentity() {
       try { localStorage.removeItem('btv_user'); } catch (e) {}
       location.reload();
     }
 
-    // حفظ المستخدم ورفع بياناته للسحابة مباشرة
     async function saveUserIdentity() {
       var aliasInput = document.getElementById('reg-alias').value.trim();
       var genderInput = document.getElementById('reg-gender').value;
@@ -694,73 +666,38 @@
       var isVeteran = (passcodeInput === VETERAN_SECRET_CODE || aliasInput === VETERAN_SECRET_CODE);
 
       var finalAlias = aliasInput;
-      if (isCreator) {
-        finalAlias = "MR.B";
-      } else if (isVeteran && (aliasInput === VETERAN_SECRET_CODE || !aliasInput)) {
-        finalAlias = "Void Veteran";
-      }
+      if (isCreator) { finalAlias = "MR.B"; } 
+      else if (isVeteran && (aliasInput === VETERAN_SECRET_CODE || !aliasInput)) { finalAlias = "Void Veteran"; }
 
-      if (!finalAlias) {
-        alert("Please enter a codename / alias.");
-        return;
-      }
+      if (!finalAlias) { alert("Please enter a codename / alias."); return; }
 
       var expId = isCreator ? 'AUTHORITY-000' : ('BTV-' + Math.floor(1000 + Math.random() * 9000));
       var initialXp = isCreator ? 9999 : (isVeteran ? 60 : 0);
-      
       var initialRank = sigilTiers[calculateTier({ isCreator: isCreator, isVeteran: isVeteran, xp: initialXp })].name;
 
-      var user = {
-        alias: finalAlias,
-        gender: genderInput,
-        isCreator: isCreator,
-        isVeteran: isVeteran,
-        expId: expId,
-        xp: initialXp,
-        readItems: (isCreator || isVeteran) ? ['all_authorized'] : []
-      };
-
+      var user = { alias: finalAlias, gender: genderInput, isCreator: isCreator, isVeteran: isVeteran, expId: expId, xp: initialXp, readItems: (isCreator || isVeteran) ? ['all_authorized'] : [] };
       setStorage('btv_user', user);
 
-      // رفع البيانات للسحابة في Supabase
       try {
-        await _supabase.from('void_users').upsert({
-          alias: finalAlias,
-          gender: genderInput,
-          exp_id: expId,
-          xp: initialXp,
-          rank_name: initialRank,
-          last_seen: new Date()
-        }, { onConflict: 'alias' });
-      } catch (err) {
-        console.error("Cloud sync error:", err);
-      }
+        await _supabase.from('void_users').upsert({ alias: finalAlias, gender: genderInput, exp_id: expId, xp: initialXp, rank_name: initialRank, last_seen: new Date() }, { onConflict: 'alias' });
+      } catch (err) { console.error("Cloud sync error:", err); }
 
       document.getElementById('registration-modal').style.display = 'none';
       renderUserStrip(user);
       if (globalData) renderContent(globalData);
     }
 
-    // دالة تحديث النقاط في السحابة
     async function updateCloudUserXP(user) {
       try {
         var currentRankName = sigilTiers[calculateTier(user)].name;
-        await _supabase.from('void_users').upsert({
-          alias: user.alias,
-          xp: user.xp,
-          rank_name: currentRankName,
-          last_seen: new Date()
-        }, { onConflict: 'alias' });
-      } catch (err) {
-        console.error("XP sync error:", err);
-      }
+        await _supabase.from('void_users').upsert({ alias: user.alias, xp: user.xp, rank_name: currentRankName, last_seen: new Date() }, { onConflict: 'alias' });
+      } catch (err) { console.error("XP sync error:", err); }
     }
 
     function renderUserStrip(user) {
       var strip = document.getElementById('user-strip');
       if (!strip) return;
       strip.style.display = 'flex';
-
       var tierKey = calculateTier(user);
       currentTier = tierKey;
       var tData = sigilTiers[tierKey];
@@ -768,18 +705,14 @@
       document.getElementById('strip-alias-text').innerText = user.alias;
       document.getElementById('strip-gender-badge').innerText = user.isCreator ? 'CREATOR' : user.gender;
       document.getElementById('strip-code').innerText = user.expId;
-      
       var rankEl = document.getElementById('strip-rank-text');
       rankEl.innerText = tData.name;
       rankEl.style.color = tData.color;
       rankEl.style.textShadow = '0 0 12px ' + tData.color;
-
       document.getElementById('strip-xp-text').innerText = (user.xp || 0) + ' XP';
       document.getElementById('strip-xp-text').style.color = tData.color;
-
       strip.style.borderColor = tData.border;
       strip.style.boxShadow = '0 0 30px ' + tData.halo;
-
       document.getElementById('strip-sigil-slot').innerHTML = tData.svg;
     }
 
@@ -792,7 +725,7 @@
         user.xp = (user.xp || 0) + (xpPoints || 5);
         setStorage('btv_user', user);
         renderUserStrip(user);
-        updateCloudUserXP(user); // تحديث النقاط في السحابة تلقائياً
+        updateCloudUserXP(user);
       }
       var dot = document.getElementById('dot-' + itemId);
       if (dot) dot.style.display = 'none';
@@ -807,16 +740,101 @@
       }
     }
 
-    // محرك رذاذ الاحتكاك الرملي
+    // دوال التفاعل (اللايكات والتعليقات)
+    async function toggleLike(itemId) {
+      var user = getStorage('btv_user', null);
+      if (!user) { alert("Please synchronize identity first."); return; }
+
+      try {
+        // تحقق هل معجب من قبل
+        var { data: existing } = await _supabase.from('void_likes').select('*').eq('item_id', itemId).eq('alias', user.alias).single();
+        if (existing) {
+          // إلغاء اللايك
+          await _supabase.from('void_likes').delete().eq('item_id', itemId).eq('alias', user.alias);
+        } else {
+          // إضافة لايك وإعطاء نقاط XP للزائر
+          await _supabase.from('void_likes').insert({ item_id: itemId, alias: user.alias });
+          user.xp = (user.xp || 0) + 3;
+          setStorage('btv_user', user);
+          renderUserStrip(user);
+          updateCloudUserXP(user);
+        }
+        loadInteractions(itemId);
+      } catch (err) { console.error("Like error:", err); }
+    }
+
+    async function addComment(itemId) {
+      var user = getStorage('btv_user', null);
+      if (!user) { alert("Please synchronize identity first."); return; }
+
+      var input = document.getElementById('input-' + itemId);
+      var text = input.value.trim();
+      if (!text) return;
+
+      var currentRank = sigilTiers[calculateTier(user)].name;
+
+      try {
+        await _supabase.from('void_comments').insert({
+          item_id: itemId,
+          alias: user.alias,
+          rank_name: currentRank,
+          comment_text: text
+        });
+        input.value = '';
+        // زيادة نقاط XP للتعليق
+        user.xp = (user.xp || 0) + 5;
+        setStorage('btv_user', user);
+        renderUserStrip(user);
+        updateCloudUserXP(user);
+
+        loadInteractions(itemId);
+      } catch (err) { console.error("Comment error:", err); }
+    }
+
+    async function loadInteractions(itemId) {
+      try {
+        // جلب عدد اللايكات
+        var { count: likesCount } = await _supabase.from('void_likes').select('*', { count: 'exact', head: true }).eq('item_id', itemId);
+        var likeCountEl = document.getElementById('like-count-' + itemId);
+        if (likeCountEl) likeCountEl.innerText = likesCount || 0;
+
+        // جلب التعليقات
+        var { data: comments } = await _supabase.from('void_comments').select('*').eq('item_id', itemId).order('created_at', { ascending: false });
+        var commentsBox = document.getElementById('comments-list-' + itemId);
+        if (commentsBox && comments) {
+          if (comments.length === 0) {
+            commentsBox.innerHTML = '<div style="color: #666; font-size: 0.75rem; text-align: center;">No transmissions yet. Be the first to speak into the void.</div>';
+          } else {
+            commentsBox.innerHTML = comments.map(c => `
+              <div class="comment-bubble">
+                <div class="comment-header">
+                  <span style="color: #ff0033; font-weight: bold;">${c.alias} <span style="color: #666; font-size: 0.65rem;">(${c.rank_name || 'VOID VESSEL'})</span></span>
+                  <span>${new Date(c.created_at).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
+                </div>
+                <div>${c.comment_text}</div>
+              </div>
+            `).join('');
+          }
+        }
+      } catch (err) { console.error("Load interaction error:", err); }
+    }
+
+    function toggleInteractionPanel(panelId, itemId) {
+      var panel = document.getElementById(panelId);
+      if (panel.style.display === 'block') {
+        panel.style.display = 'none';
+      } else {
+        panel.style.display = 'block';
+        loadInteractions(itemId);
+      }
+    }
+
+    // محرك رذاذ الاحتكاك
     var burstCanvas = document.getElementById('burst-canvas');
     var bCtx = burstCanvas.getContext('2d');
     var burstParticles = [];
     var isBurstActive = false;
-
-    function resizeBurstCanvas() {
-      burstCanvas.width = window.innerWidth;
-      burstCanvas.height = window.innerHeight;
-    }
+    function resizeBurstCanvas() { burstCanvas.width = window.innerWidth; burstCanvas.height = window.innerHeight; }
     window.addEventListener('resize', resizeBurstCanvas);
     resizeBurstCanvas();
 
@@ -825,72 +843,33 @@
       for (var i = 0; i < 28; i++) {
         var angle = Math.random() * Math.PI * 2;
         var speed = Math.random() * 4.2 + 1.2;
-        burstParticles.push({
-          x: x,
-          y: y,
-          vx: Math.cos(angle) * speed,
-          vy: Math.sin(angle) * speed - 0.4,
-          size: Math.random() * 2 + 0.8,
-          color: colors[Math.floor(Math.random() * colors.length)],
-          alpha: 1,
-          decay: Math.random() * 0.035 + 0.02
-        });
+        burstParticles.push({ x: x, y: y, vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed - 0.4, size: Math.random() * 2 + 0.8, color: colors[Math.floor(Math.random() * colors.length)], alpha: 1, decay: Math.random() * 0.035 + 0.02 });
       }
-      if (!isBurstActive) {
-        isBurstActive = true;
-        animateBurst();
-      }
+      if (!isBurstActive) { isBurstActive = true; animateBurst(); }
     }
-
     function animateBurst() {
       bCtx.clearRect(0, 0, burstCanvas.width, burstCanvas.height);
       for (var i = burstParticles.length - 1; i >= 0; i--) {
         var p = burstParticles[i];
-        p.x += p.vx;
-        p.y += p.vy;
-        p.alpha -= p.decay;
-
-        if (p.alpha <= 0) {
-          burstParticles.splice(i, 1);
-          continue;
-        }
-
-        bCtx.save();
-        bCtx.globalAlpha = p.alpha;
-        bCtx.fillStyle = p.color;
-        bCtx.shadowColor = p.color;
-        bCtx.shadowBlur = 4;
-        bCtx.beginPath();
-        bCtx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        bCtx.fill();
-        bCtx.restore();
+        p.x += p.vx; p.y += p.vy; p.alpha -= p.decay;
+        if (p.alpha <= 0) { burstParticles.splice(i, 1); continue; }
+        bCtx.save(); bCtx.globalAlpha = p.alpha; bCtx.fillStyle = p.color; bCtx.shadowColor = p.color; bCtx.shadowBlur = 4;
+        bCtx.beginPath(); bCtx.arc(p.x, p.y, p.size, 0, Math.PI * 2); bCtx.fill(); bCtx.restore();
       }
-
-      if (burstParticles.length > 0) {
-        requestAnimationFrame(animateBurst);
-      } else {
-        isBurstActive = false;
-      }
+      if (burstParticles.length > 0) requestAnimationFrame(animateBurst); else isBurstActive = false;
     }
 
     function toggleBtvFolder(cardId, contentId, event) {
       var card = document.getElementById(cardId);
       var content = document.getElementById(contentId);
       var isOpen = card.classList.contains('open');
-
       var sparkPoint = card.querySelector('.core-spark-point');
       if (sparkPoint) {
         var rect = sparkPoint.getBoundingClientRect();
         triggerStoneFrictionBurst(rect.left + rect.width / 2, rect.top + rect.height / 2);
       }
-
-      if (isOpen) {
-        card.classList.remove('open');
-        content.style.display = 'none';
-      } else {
-        card.classList.add('open');
-        content.style.display = 'block';
-      }
+      if (isOpen) { card.classList.remove('open'); content.style.display = 'none'; } 
+      else { card.classList.add('open'); content.style.display = 'block'; }
     }
 
     function renderContent(data) {
@@ -903,10 +882,7 @@
       if (data.seasons) {
         var activeSeasonIdx = -1;
         for (var i = data.seasons.length - 1; i >= 0; i--) {
-          if (data.seasons[i].episodes && data.seasons[i].episodes.length > 0) {
-            activeSeasonIdx = i;
-            break;
-          }
+          if (data.seasons[i].episodes && data.seasons[i].episodes.length > 0) { activeSeasonIdx = i; break; }
         }
 
         data.seasons.forEach(function(s, idx) {
@@ -915,18 +891,35 @@
 
           if (s.episodes && s.episodes.length > 0) {
             var lastEpIdx = s.episodes.length - 1;
-
             epsHtml = s.episodes.map(function(ep, epIdx) {
               var isLatestEp = (isLatestSeason && epIdx === lastEpIdx);
               var epId = 'ep_' + ep.youtube_id;
               var isRead = isAuthorized || (user.readItems && user.readItems.includes(epId));
               var showDot = isLatestEp && !isRead;
-
               var dotHtml = showDot ? '<span class="new-dot" id="dot-' + epId + '"></span>' : '';
-              return '<div class="folder-item" onclick="changeVideo(\'' + ep.youtube_id + '\', \'' + epId + '\')">' +
-                '<span>▶ ' + ep.title + ' ' + dotHtml + '</span>' +
-                '<span style="font-size: 0.8rem; color: #888;">' + ep.duration + ' ↗</span>' +
-                '</div>';
+              
+              return `
+                <div style="border-bottom: 1px solid #14131f;">
+                  <div class="folder-item" onclick="changeVideo('${ep.youtube_id}', '${epId}')">
+                    <span>▶ ${ep.title} ${dotHtml}</span>
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                      <span style="font-size: 0.8rem; color: #888;">${ep.duration}</span>
+                      <button onclick="event.stopPropagation(); toggleInteractionPanel('panel-${epId}', '${epId}')" style="background: #181726; border: 1px solid #28283d; color: #ff0033; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; cursor: pointer;">💬 Engage</button>
+                    </div>
+                  </div>
+                  <div class="interaction-panel" id="panel-${epId}" style="display: none;">
+                    <div class="interaction-bar">
+                      <button class="like-btn" onclick="toggleLike('${epId}')">🔥 Like (<span id="like-count-${epId}">0</span>)</button>
+                      <span style="font-size: 0.7rem; color: #666; font-family: monospace;">SECURE CHANNEL</span>
+                    </div>
+                    <div class="comments-list" id="comments-list-${epId}"></div>
+                    <div class="comment-input-box">
+                      <input type="text" id="input-${epId}" placeholder="Transmit a thought into the void...">
+                      <button class="comment-send-btn" onclick="addComment('${epId}')">Send</button>
+                    </div>
+                  </div>
+                </div>
+              `;
             }).join('');
           }
 
@@ -963,12 +956,30 @@
               var chId = 'ch_' + idx + '_' + chIdx;
               var isRead = isAuthorized || (user.readItems && user.readItems.includes(chId));
               var showDot = isLatestChapter && !isRead;
-
               var dotHtml = showDot ? '<span class="new-dot" id="dot-' + chId + '"></span>' : '';
-              return '<a href="' + ch.url + '" target="_blank" class="folder-item" onclick="markAsRead(\'' + chId + '\', 5)">' +
-                '<span>📖 ' + ch.chapter_num + ': ' + ch.title + ' ' + dotHtml + '</span>' +
-                '<span style="font-size: 0.8rem; color: var(--crimson-glow, #ff0033);">Read ↗</span>' +
-                '</a>';
+
+              return `
+                <div style="border-bottom: 1px solid #14131f;">
+                  <div class="folder-item">
+                    <a href="${ch.url}" target="_blank" onclick="markAsRead('${chId}', 5)" style="color: inherit; text-decoration: none; flex: 1; display: flex; justify-content: space-between; align-items: center;">
+                      <span>📖 ${ch.chapter_num}: ${ch.title} ${dotHtml}</span>
+                      <span style="font-size: 0.8rem; color: #ff0033;">Read ↗</span>
+                    </a>
+                    <button onclick="toggleInteractionPanel('panel-${chId}', '${chId}')" style="background: #181726; border: 1px solid #28283d; color: #ff0033; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; cursor: pointer; margin-left: 10px;">💬 Engage</button>
+                  </div>
+                  <div class="interaction-panel" id="panel-${chId}" style="display: none;">
+                    <div class="interaction-bar">
+                      <button class="like-btn" onclick="toggleLike('${chId}')">🔥 Like (<span id="like-count-${chId}">0</span>)</button>
+                      <span style="font-size: 0.7rem; color: #666; font-family: monospace;">CHRONICLE CHANNEL</span>
+                    </div>
+                    <div class="comments-list" id="comments-list-${chId}"></div>
+                    <div class="comment-input-box">
+                      <input type="text" id="input-${chId}" placeholder="Leave a record in the archive...">
+                      <button class="comment-send-btn" onclick="addComment('${chId}')">Send</button>
+                    </div>
+                  </div>
+                </div>
+              `;
             }).join('');
           }
 
@@ -993,75 +1004,44 @@
     var canvas = document.getElementById('fx-canvas');
     var ctx = canvas.getContext('2d');
     var particles = [];
-
-    function resizeCanvas() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    }
+    function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
     window.addEventListener('resize', resizeCanvas);
     resizeCanvas();
 
     function createParticle() {
       var t = sigilTiers[currentTier] || sigilTiers[1];
-      return {
-        x: Math.random() * canvas.width,
-        y: canvas.height + Math.random() * 20,
-        size: Math.random() * 2 + 0.8,
-        speedY: (Math.random() * 1.2 + 0.4) * t.emberSpeed,
-        speedX: (Math.random() - 0.5) * 0.8,
-        opacity: Math.random() * 0.6 + 0.2,
-        life: 0,
-        maxLife: Math.random() * 140 + 80
-      };
+      return { x: Math.random() * canvas.width, y: canvas.height + Math.random() * 20, size: Math.random() * 2 + 0.8, speedY: (Math.random() * 1.2 + 0.4) * t.emberSpeed, speedX: (Math.random() - 0.5) * 0.8, opacity: Math.random() * 0.6 + 0.2, life: 0, maxLife: Math.random() * 140 + 80 };
     }
-
-    for (var i = 0; i < 45; i++) {
-      particles.push(createParticle());
-    }
+    for (var i = 0; i < 45; i++) { particles.push(createParticle()); }
 
     function animateParticles() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       var t = sigilTiers[currentTier] || sigilTiers[1];
-
       for (var i = 0; i < particles.length; i++) {
         var p = particles[i];
-        p.y -= p.speedY;
-        p.x += p.speedX;
-        p.life++;
-
-        ctx.fillStyle = t.emberColor;
-        ctx.shadowColor = t.color;
-        ctx.shadowBlur = 6;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fill();
-
-        if (p.life >= p.maxLife || p.y < -10) {
-          particles[i] = createParticle();
-        }
+        p.y -= p.speedY; p.x += p.speedX; p.life++;
+        ctx.fillStyle = t.emberColor; ctx.shadowColor = t.color; ctx.shadowBlur = 6;
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2); ctx.fill();
+        if (p.life >= p.maxLife || p.y < -10) { particles[i] = createParticle(); }
       }
       requestAnimationFrame(animateParticles);
     }
 
-    // جلب البيانات وبدء الموقع
+    // بدء الموقع
     fetch('data.json?v=' + Date.now())
       .then(function(res) { return res.json(); })
       .then(function(data) {
         globalData = data;
         if (data.project) document.getElementById('site-title').innerText = data.project;
         if (data.tagline) document.getElementById('site-tagline').innerText = data.tagline;
-
         if (data.seasons && data.seasons[0] && data.seasons[0].episodes && data.seasons[0].episodes[0]) {
           changeVideo(data.seasons[0].episodes[0].youtube_id, null);
         }
-
         checkUserIdentity();
         renderContent(data);
         animateParticles();
       })
-      .catch(function(err) {
-        console.error("Error loading data:", err);
-      });
+      .catch(function(err) { console.error("Error loading data:", err); });
   </script>
 </body>
 </html>
