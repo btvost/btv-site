@@ -197,8 +197,8 @@
 
   <div style="text-align: center;">
     <h1 style="color: #ff0033; letter-spacing: 2px; margin-bottom: 10px;">RANK-UP CINEMATIC PREVIEW</h1>
-    <p style="color: #888; margin-bottom: 30px;">Click below to preview with synced audio timing.</p>
-    <button class="test-btn" onclick="triggerRankUpPreview()">[ TEST SYNCED AUDIO ]</button>
+    <p style="color: #888; margin-bottom: 30px;">Click below to preview with perfectly synced custom audio.</p>
+    <button class="test-btn" onclick="triggerRankUpPreview()">[ TEST PERFECT SYNC ]</button>
   </div>
 
   <!-- شاشة الترفيع السينمائية -->
@@ -329,21 +329,21 @@
         titleBox.classList.add('show-text');
       }, 100);
 
-      // 2. تشغيل الصوت مبكراً قليلاً (عند الثانية 3.3) عشان الضربة الفعلية تلحق الثانية 4.0 بالضبط
+      // 2. تشغيل الصوت مبكراً عند الثانية 1.8 عشان تاخذ الفراغ اللي في بداية المقطع وتضرب الضربة القوية بالضبط عند الثانية 4.0
       setTimeout(function() {
         try {
           var impactAudio = new Audio('alex_kizenkov-huge-scary-hit-logo-145509.mp3');
           impactAudio.volume = 0.9;
           impactAudio.play();
         } catch(e) { console.error("Audio play error:", e); }
-      }, 3300);
+      }, 1800);
 
       // 3. عند الثانية 3.0: تبدأ البطاقة بالتحرك
       setTimeout(function() {
         card.classList.add('impact');
       }, 3000);
 
-      // 4. عند الثانية 4.0: تصدم البطاقة الشاشة وانفجار الرذاذ
+      // 4. عند الثانية 4.0: تصدم البطاقة الشاشة تماماً مع انفجار الرذاذ ووصول ضربة الصوت الفعلية
       setTimeout(function() {
         triggerEdgeDustExplosion(); 
       }, 4000); 
