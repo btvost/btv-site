@@ -777,18 +777,10 @@
       <div style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 12px;">
         <span class="new-dot" style="margin-left: 0;"></span>
         <span style="color: #ff0033; font-family: sans-serif; font-weight: bold; font-size: 13px; letter-spacing: 2px; text-transform: uppercase;">
-          LATEST OST RELEASE • ARTHOS THEME
+          LATEST OST RELEASE • PART 9: PRIMORDIA
         </span>
       </div>
-      <iframe 
-        src="https://audiomack.com/embed/xmrboymanx/song/the-call-of-makai-no-tamashii" 
-        scrolling="no" 
-        width="100%" 
-        height="252" 
-        frameborder="0" 
-        title="THE CALL OF MAKAI NO TAMASHII"
-        style="border-radius: 8px; border: 1px solid #28283d;">
-      </iframe>
+      <iframe src="https://audiomack.com/embed/xmrboymanx/song/primordia" scrolling="no" width="100%" height="252" frameborder="0" title="PRIMORDIA" style="border-radius: 8px; border: 1px solid #28283d;"></iframe>
     </div>
 
     <h2 style="color: #ff0033; font-family: sans-serif; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 5px;">
@@ -941,24 +933,20 @@
       card.classList.remove('impact');
       actionBtns.classList.remove('show');
 
-      // تشغيل الصوت الحقيقي عند الضغط
       try {
         var impactAudio = new Audio('alex_kizenkov-huge-scary-hit-logo-145509.mp3');
         impactAudio.volume = 0.9;
         impactAudio.play();
       } catch(e) { console.error("Audio play error:", e); }
 
-      // 1. بدء ظهور الكلمة من البداية (0 ثانية)
       setTimeout(function() {
         titleBox.classList.add('show-text');
       }, 100);
 
-      // 2. عند الثانية 3.0: تهجم البطاقة وتتحرك نحو الشاشة
       setTimeout(function() {
         card.classList.add('impact');
       }, 3000);
 
-      // 3. عند الثانية 4.0: تصدم البطاقة الشاشة تماماً مع انفجار الرذاذ وإظهار زر التحميل
       setTimeout(function() {
         triggerEdgeDustExplosion();
         actionBtns.classList.add('show');
@@ -1176,7 +1164,7 @@
       }
     }
 
-    // تنزيل البطاقة برمجياً مباشرة على الكانفاس (نقاء مطلق 100%، بدون مربعات وبشعار الرتبة الأصلي)
+    // تنزيل البطاقة برمجياً مباشرة على الكانفاس
     function downloadCleanCardCanvas() {
       var user = getStorage('btv_user', { alias: "MR.B" });
       var tierKey = calculateTier(user);
@@ -1187,66 +1175,60 @@
       canvas.height = 720;
       var ctx = canvas.getContext('2d');
 
-      // 1. خلفية سوداء داكنة أصلية 100%
       ctx.fillStyle = '#0a090e';
       ctx.beginPath();
       ctx.roundRect(0, 0, 1200, 720, 24);
       ctx.fill();
 
-      // 2. إطار البطاقة بلون الرتبة الحقيقي
       ctx.strokeStyle = tData.color || '#5c4f80';
       ctx.lineWidth = 4;
       ctx.beginPath();
       ctx.roundRect(0, 0, 1200, 720, 24);
       ctx.stroke();
 
-      // 3. رسم شعار الرتبة الحقيقي برمجياً في المنتصف
       ctx.save();
       ctx.translate(600, 150);
       ctx.strokeStyle = tData.color || '#ffd700';
       ctx.fillStyle = tData.color || '#ffd700';
       ctx.lineWidth = 4;
 
-      if (tierKey === 5) { // EYE OF ARTHOS
+      if (tierKey === 5) {
         ctx.beginPath(); ctx.arc(0, 0, 55, 0, Math.PI * 2); ctx.stroke();
         ctx.beginPath();
         ctx.moveTo(0, -55); ctx.lineTo(17, -15); ctx.lineTo(55, 0); ctx.lineTo(17, 15);
         ctx.lineTo(0, 55); ctx.lineTo(-17, 15); ctx.lineTo(-55, 0); ctx.lineTo(-17, -15);
         ctx.closePath(); ctx.stroke();
         ctx.beginPath(); ctx.arc(0, -42, 8, 0, Math.PI * 2); ctx.fillStyle = '#ff0033'; ctx.fill();
-      } else if (tierKey === 2 || tierKey === 3) { // AWAKENED PULSE / CRIMSON ECLIPSE
+      } else if (tierKey === 2 || tierKey === 3) {
         ctx.beginPath(); ctx.arc(0, 0, 52, 0, Math.PI * 2); ctx.stroke();
         ctx.beginPath(); ctx.arc(0, 0, 36, 0, Math.PI * 2); ctx.stroke();
         ctx.beginPath();
         ctx.moveTo(0, -48); ctx.lineTo(42, 0); ctx.lineTo(0, 48); ctx.lineTo(-42, 0);
         ctx.closePath(); ctx.stroke();
         ctx.beginPath(); ctx.arc(0, 0, 10, 0, Math.PI * 2); ctx.fillStyle = '#ff0033'; ctx.fill();
-      } else if (tierKey === 4) { // ABYSSAL OVERLORD
+      } else if (tierKey === 4) {
         ctx.beginPath(); ctx.rect(-45, -45, 90, 90); ctx.stroke();
         ctx.rotate(Math.PI / 4);
         ctx.beginPath(); ctx.rect(-35, -35, 70, 70); ctx.stroke();
-      } else if (tierKey === 'creator') { // CREATOR SUPREME
+      } else if (tierKey === 'creator') {
         ctx.beginPath(); ctx.arc(0, 0, 55, 0, Math.PI * 2); ctx.stroke();
         ctx.beginPath(); ctx.moveTo(0, -58); ctx.lineTo(58, 0); ctx.lineTo(0, 58); ctx.lineTo(-58, 0); ctx.closePath(); ctx.stroke();
         ctx.beginPath(); ctx.arc(0, 0, 15, 0, Math.PI * 2); ctx.fillStyle = '#b026ff'; ctx.fill();
-      } else { // VOID VESSEL
+      } else {
         ctx.beginPath(); ctx.arc(0, 0, 48, 0, Math.PI * 2); ctx.stroke();
         ctx.beginPath(); ctx.moveTo(-28, -28); ctx.lineTo(28, 28); ctx.moveTo(28, -28); ctx.lineTo(-28, 28); ctx.stroke();
       }
       ctx.restore();
 
-      // 4. اسم المستخدم
       ctx.fillStyle = '#ffffff';
       ctx.font = '900 55px monospace';
       ctx.textAlign = 'center';
       ctx.fillText(user.alias, 600, 290);
 
-      // 5. اسم الرتبة الفعلي بلونها الحقيقي
       ctx.fillStyle = tData.color || '#ffd700';
       ctx.font = '800 36px monospace';
       ctx.fillText(tData.name, 600, 350);
 
-      // 6. خط فاصل
       ctx.strokeStyle = '#1a1724';
       ctx.lineWidth = 2;
       ctx.beginPath();
@@ -1254,7 +1236,6 @@
       ctx.lineTo(1120, 530);
       ctx.stroke();
 
-      // 7. التوقيعات النظامية (الـ Souls UI)
       ctx.fillStyle = '#7c7599';
       ctx.font = '20px monospace';
       
@@ -1387,13 +1368,42 @@
         });
       }
 
-      // بناء فصول الويبتون
+      // بناء فصول الويبتون + إضافة البارت 9: PRIMORDIA تلقائياً إن لم يكن مضافاً
       var webtoonContainer = document.getElementById('webtoon-container');
       webtoonContainer.innerHTML = '';
-      if (data.webtoon_arcs) {
-        var lastArcIdx = data.webtoon_arcs.length - 1;
+      var arcsList = (data.webtoon_arcs && Array.isArray(data.webtoon_arcs)) ? JSON.parse(JSON.stringify(data.webtoon_arcs)) : [];
 
-        data.webtoon_arcs.forEach(function(arc, idx) {
+      var primordiaUrl = "https://www.webtoons.com/en/canvas/beyond-the-void-arthos/primordia/viewer?title_no=1167067&episode_no=9";
+      var hasPrimordia = arcsList.some(function(arc) {
+        return arc.chapters && arc.chapters.some(function(ch) {
+          return ch.url === primordiaUrl || (ch.title && ch.title.toUpperCase().includes("PRIMORDIA"));
+        });
+      });
+
+      if (!hasPrimordia) {
+        var arthosIdx = arcsList.findIndex(function(arc) {
+          return arc.arc_title && arc.arc_title.toUpperCase().includes("ARTHOS");
+        });
+        var primordiaChapter = {
+          chapter_num: "Part 9",
+          title: "PRIMORDIA",
+          url: primordiaUrl
+        };
+        if (arthosIdx !== -1) {
+          if (!arcsList[arthosIdx].chapters) arcsList[arthosIdx].chapters = [];
+          arcsList[arthosIdx].chapters.push(primordiaChapter);
+        } else {
+          arcsList.push({
+            arc_title: "ARTHOS",
+            chapters: [primordiaChapter]
+          });
+        }
+      }
+
+      if (arcsList.length > 0) {
+        var lastArcIdx = arcsList.length - 1;
+
+        arcsList.forEach(function(arc, idx) {
           var isLatestArc = (idx === lastArcIdx);
           var chsHtml = '';
 
